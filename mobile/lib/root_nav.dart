@@ -4,8 +4,8 @@ import 'theme.dart';
 import 'features/home/home_screen.dart';
 import 'features/twin/twin_screen.dart';
 import 'features/connectors/connectors_screen.dart';
+import 'features/catalogue/catalogue_screen.dart';
 import 'features/cities/cities_screen.dart';
-import 'features/futures/futures_screen.dart';
 import 'features/profile/profile_screen.dart';
 
 /// App shell with bottom navigation. Screens are built lazily and kept alive
@@ -26,11 +26,11 @@ class _RootNavState extends State<RootNav> {
     final repo = widget.repo;
     final screens = [
       HomeScreen(repo: repo),
+      CatalogueScreen(repo: repo),
       ConnectorsScreen(repo: repo),
       TwinScreen(repo: repo),
       CitiesScreen(repo: repo),
-      FuturesScreen(repo: repo),
-      const ProfileScreen(),
+      ProfileScreen(repo: repo),
     ];
 
     return Scaffold(
@@ -51,9 +51,13 @@ class _RootNavState extends State<RootNav> {
                 selectedIcon: Icon(Icons.dashboard),
                 label: 'Home'),
             NavigationDestination(
+                icon: Icon(Icons.dataset_outlined),
+                selectedIcon: Icon(Icons.dataset),
+                label: 'Catalogue'),
+            NavigationDestination(
                 icon: Icon(Icons.hub_outlined),
                 selectedIcon: Icon(Icons.hub),
-                label: 'Data'),
+                label: 'Connectors'),
             NavigationDestination(
                 icon: Icon(Icons.view_in_ar_outlined),
                 selectedIcon: Icon(Icons.view_in_ar),
@@ -62,10 +66,6 @@ class _RootNavState extends State<RootNav> {
                 icon: Icon(Icons.location_city_outlined),
                 selectedIcon: Icon(Icons.location_city),
                 label: 'Cities'),
-            NavigationDestination(
-                icon: Icon(Icons.rocket_launch_outlined),
-                selectedIcon: Icon(Icons.rocket_launch),
-                label: 'Futures'),
             NavigationDestination(
                 icon: Icon(Icons.person_outline),
                 selectedIcon: Icon(Icons.person),

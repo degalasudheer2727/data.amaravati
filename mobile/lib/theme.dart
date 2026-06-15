@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// AMARATWIN brand system — India tricolour-derived, govt-credible, enterprise-grade.
+/// data.amaravati brand system — India tricolour-derived, govt-credible, enterprise-grade.
 /// Mirrors the 3D website palette so the hybrid app and site feel like one product.
 class AppColors {
   static const bg = Color(0xFF05070E);

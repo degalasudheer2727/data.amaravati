@@ -20,7 +20,7 @@ class FuturesScreen extends StatelessWidget {
             kicker: 'Futures · the city of 2040',
             title: 'Designed for what comes next',
             subtitle:
-                'A sequenced roadmap of the digital capabilities AMARATWIN is built to grow into.',
+                'A sequenced roadmap of the digital capabilities data.amaravati is built to grow into.',
           ),
         ),
       ),
