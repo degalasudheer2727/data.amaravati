@@ -481,6 +481,41 @@
   .jrn-body .sec-head:first-of-type{margin-top:0}
   .jrn-foot{max-width:var(--maxw);margin:44px auto 0;padding:0 clamp(18px,5vw,56px);text-align:center}
   .jrn-note{margin-top:30px;font-size:11.5px;color:var(--muted-2);text-align:center;padding:0 clamp(18px,5vw,56px)}
+
+  /* ---------- stakeholder KPI scorecard ---------- */
+  .kpi-wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(18px,5vw,56px)}
+  .kpi-lock{border:1px dashed var(--line);border-radius:16px;background:var(--surface);padding:42px 28px;text-align:center;max-width:580px;margin:0 auto}
+  .kpi-lock .lk{font-size:30px;margin-bottom:12px}
+  .kpi-lock h4{font-family:var(--display);font-weight:400;font-size:1.5rem;margin-bottom:10px}
+  .kpi-lock p{color:var(--muted);font-size:.92rem;max-width:46ch;margin:0 auto 22px;line-height:1.6}
+  .kpi-card{border:1px solid var(--line-soft);border-radius:18px;background:var(--surface-solid);overflow:hidden;box-shadow:0 24px 60px -34px rgba(14,19,32,.35)}
+  .kpi-top{display:flex;flex-wrap:wrap;gap:24px;align-items:center;padding:26px;border-bottom:1px solid var(--line-soft);background:linear-gradient(120deg,rgba(10,125,99,.07),rgba(37,99,235,.06))}
+  .kpi-id{flex:1;min-width:230px}
+  .kpi-id .who{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2);margin-bottom:9px}
+  .kpi-id select{font:inherit;font-family:var(--display);font-size:1.32rem;color:var(--text);background:transparent;border:none;border-bottom:2px solid var(--saffron);padding:4px 24px 5px 0;cursor:pointer;max-width:100%}
+  .kpi-id .wk{margin-top:9px;font-size:12px;color:var(--muted)}
+  .score-ring{--p:0;--sc:var(--saffron);width:112px;height:112px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--sc) calc(var(--p)*1%),var(--line-soft) 0);position:relative;flex:0 0 auto}
+  .score-ring::before{content:"";position:absolute;inset:9px;border-radius:50%;background:var(--surface-solid)}
+  .score-ring .sv{position:relative;font-family:var(--display);font-size:2.1rem;line-height:1;color:var(--sc)}
+  .score-ring .sg{position:relative;font-size:10.5px;letter-spacing:.06em;color:var(--muted);margin-top:3px}
+  .kpi-grade{display:flex;flex-direction:column;gap:5px;min-width:130px}
+  .kpi-grade .gd{font-family:var(--display);font-size:2.3rem;line-height:1;color:var(--sc)}
+  .kpi-grade .gl{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2)}
+  .kpi-grade .tr{font-size:12.5px;font-weight:600;margin-top:2px}
+  .tr.up{color:#0a7d63}.tr.down{color:#e0556a}
+  .kpi-rows{padding:6px 26px 24px}
+  .kpi-row{display:grid;grid-template-columns:1fr auto;gap:9px 16px;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line-soft)}
+  .kpi-row:last-child{border-bottom:none}
+  .kpi-row .kn{font-weight:600;font-size:.94rem}
+  .kpi-row .kt{font-size:11.5px;color:var(--muted-2);margin-top:2px}
+  .kpi-row .kv{text-align:right;font-family:var(--display);font-size:1.18rem;white-space:nowrap}
+  .kpi-row .bar{grid-column:1/-1;height:7px;border-radius:5px;background:var(--line-soft);overflow:hidden;margin-top:2px}
+  .kpi-row .bar i{display:block;height:100%;border-radius:5px;background:var(--bc,var(--saffron));transition:width .6s ease}
+  .kpi-chip{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;letter-spacing:.05em;padding:3px 9px;border-radius:20px;margin-left:10px;vertical-align:middle}
+  .kpi-chip.met{color:#0a7d63;background:rgba(10,125,99,.12)}
+  .kpi-chip.miss{color:#c96a12;background:rgba(255,159,67,.16)}
+  .kpi-foot{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:16px 26px;border-top:1px solid var(--line-soft);background:var(--surface);font-size:11.5px;color:var(--muted-2)}
+  @media(max-width:560px){.kpi-top{gap:18px}.score-ring{width:96px;height:96px}.kpi-grade{min-width:0}}
 </style>
 </head>
 <body>
@@ -798,6 +833,13 @@
     </div>
     <div class="ledger-wrap reveal"><table class="ledger" id="ledger"></table></div>
 
+    <div class="sec-head reveal" style="margin-top:72px">
+      <span class="kicker">Stakeholder performance · weekly KPIs</span>
+      <h2>Every entity, <em>scored on its KPIs.</em></h2>
+      <p>Each participating entity is measured weekly against its data-exchange KPIs — on-time publishing, exchange-SLA fulfilment, feed freshness, response time and governance compliance — and given an overall score and grade. KPI performance is restricted: sign in as an entity stakeholder to see your own entity's weekly scorecard.</p>
+    </div>
+    <div class="kpi-wrap reveal" id="kpiPanel"></div>
+
     <div class="jrn-foot reveal">
       <a href="#" class="btn btn-primary" id="proposeBtn">Propose an exchange ↗</a>
     </div>
@@ -995,6 +1037,81 @@ ENTITY_DATA.forEach(e=>$("#entities-grid").insertAdjacentHTML("beforeend",
   $("#ledger").innerHTML=head+body;
 })();
 
+/* ---- stakeholder KPI scorecard (persona-gated, own-entity weekly scoring) ---- */
+const KPI_STAKEHOLDERS=["agency","partner","steward"];
+const KPI_DEFS=[
+  {key:"pub",t:"On-time publishing",unit:"%",target:95,better:"high",w:.22},
+  {key:"sla",t:"Exchange-SLA fulfilment",unit:"%",target:90,better:"high",w:.26},
+  {key:"fresh",t:"Feed freshness & uptime",unit:"%",target:99,better:"high",w:.2},
+  {key:"resp",t:"Avg request response",unit:"h",target:24,better:"low",w:.16},
+  {key:"gov",t:"Governance compliance",unit:"%",target:100,better:"high",w:.16},
+];
+const KPI_GRADES=[[96,"A","#0a7d63"],[92,"A-","#0a8f63"],[88,"B+","#2563eb"],[84,"B","#2f6bf0"],[80,"B-","#6a5cff"],[72,"C","#c96a12"],[0,"D","#e0556a"]];
+function kpiHash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619);}return h>>>0;}
+function kpiRng(seed){let x=(seed||1)>>>0||123456789;return()=>{x^=x<<13;x>>>=0;x^=x>>>17;x^=x<<5;x>>>=0;return x/4294967296;};}
+function isoWeek(d){const t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));const day=(t.getUTCDay()+6)%7;t.setUTCDate(t.getUTCDate()-day+3);const f=new Date(Date.UTC(t.getUTCFullYear(),0,4));return 1+Math.round(((t-f)/86400000-3+((f.getUTCDay()+6)%7))/7);}
+function kpiGrade(s){for(const[m,g,c]of KPI_GRADES)if(s>=m)return{g,c};return{g:"D",c:"#e0556a"};}
+const KPI_STAT={met:{l:"Met",c:"#0a7d63"},track:{l:"On track",c:"#2563eb"},below:{l:"Below target",c:"#c96a12"}};
+function entityScore(abbr,wk){
+  const comp=.80+(kpiHash(abbr)%18)/100;            // stable per-entity competence 0.80–0.97
+  const r=kpiRng(kpiHash(abbr+"|w"+wk));            // weekly variation
+  let total=0,wsum=0;
+  const rows=KPI_DEFS.map(d=>{
+    const a=Math.max(.6,Math.min(1.05,comp+(r()-.4)*.14));    // attainment ratio vs target
+    const status=a>=1?"met":a>=.9?"track":"below";
+    const actual=d.better==="high"?Math.min(100,Math.round(d.target*a)):Math.round((d.target/a)*10)/10;
+    total+=Math.max(0,Math.min(1,a))*d.w; wsum+=d.w;
+    return {t:d.t,unit:d.unit,target:d.target,better:d.better,actual,status,fill:Math.round(Math.min(1,a)*100)};
+  });
+  return {score:Math.round(total/wsum*100),rows};
+}
+function kpiEligible(){return SESSION&&KPI_STAKEHOLDERS.includes(SESSION.persona);}
+function kpiLock(icon,head,body,btn){
+  return `<div class="kpi-lock"><div class="lk">${icon}</div><h4>${head}</h4><p>${body}</p>`+
+         `<a href="#" class="btn btn-primary" id="kpiSignIn" style="justify-content:center">${btn} ↗</a></div>`;
+}
+function renderKpiPanel(){
+  const el=document.getElementById("kpiPanel"); if(!el) return;
+  if(!SESSION){
+    el.innerHTML=kpiLock("🔐","Stakeholder sign-in required",
+      "Weekly KPI scorecards are restricted to entity stakeholders. Sign in as a Government Agency, Infrastructure Partner or Data Steward to view your entity's performance.","Stakeholder sign-in");
+  }else if(!kpiEligible()){
+    el.innerHTML=kpiLock("🔏","Stakeholder access only",
+      `Your current persona (<b>${(PERSONAS[SESSION.persona]||{t:"—"}).t}</b>) can't view KPI performance. Switch to a Government Agency, Infrastructure Partner or Data Steward persona to continue.`,"Switch persona");
+  }else{
+    const ents=ENTITY_DATA.filter(e=>!e.gov);
+    if(!SESSION.entity||!ents.some(e=>e.abbr===SESSION.entity)){SESSION.entity=ents[0].abbr;}
+    const ent=ENTITY_DATA.find(e=>e.abbr===SESSION.entity);
+    const wk=isoWeek(new Date());
+    const cur=entityScore(SESSION.entity,wk), prev=entityScore(SESSION.entity,wk-1);
+    const g=kpiGrade(cur.score), delta=cur.score-prev.score;
+    const opts=ents.map(e=>`<option value="${e.abbr}" ${e.abbr===SESSION.entity?"selected":""}>${e.name} (${e.abbr})</option>`).join("");
+    const rows=cur.rows.map(r=>{const s=KPI_STAT[r.status];return `<div class="kpi-row" style="--bc:${s.c}">
+        <div><div class="kn">${r.t}</div><div class="kt">Target ${r.better==='high'?'≥':'≤'} ${r.target}${r.unit}</div></div>
+        <div class="kv">${r.actual}${r.unit}<span class="kpi-chip" style="color:${s.c};background:${s.c}22">${s.l}</span></div>
+        <div class="bar"><i style="width:${r.fill}%"></i></div>
+      </div>`}).join("");
+    const nMet=cur.rows.filter(r=>r.status==="met").length, nTrack=cur.rows.filter(r=>r.status==="track").length, nBelow=cur.rows.filter(r=>r.status==="below").length;
+    el.innerHTML=`<div class="kpi-card">
+      <div class="kpi-top">
+        <div class="kpi-id">
+          <div class="who">Signed in as ${(PERSONAS[SESSION.persona]||{t:""}).t} · your entity</div>
+          <select id="kpiEntity" aria-label="Select your entity">${opts}</select>
+          <div class="wk">Week ${wk} · ${ent.role}</div>
+        </div>
+        <div class="score-ring" style="--p:${cur.score};--sc:${g.c}"><span class="sv">${cur.score}</span><span class="sg">/ 100</span></div>
+        <div class="kpi-grade"><span class="gl">Weekly grade</span><span class="gd" style="--sc:${g.c}">${g.g}</span><span class="tr ${delta>=0?'up':'down'}">${delta>=0?'▲ +'+delta:'▼ '+delta} pts vs last week</span></div>
+      </div>
+      <div class="kpi-rows">${rows}</div>
+      <div class="kpi-foot"><span>${nMet} met · ${nTrack} on track · ${nBelow} below target</span><span>Composite weekly score · weighted KPI attainment · governed by CRDA</span></div>
+    </div>`;
+    const sel=document.getElementById("kpiEntity");
+    if(sel)sel.onchange=()=>{SESSION.entity=sel.value;persistSession();};
+  }
+  const b=document.getElementById("kpiSignIn");
+  if(b)b.onclick=e=>{e.preventDefault();openFlow(null);};
+}
+
 /* ============== ONBOARDING · GOOGLE SSO ============== */
 /* Production Google OAuth 2.0 Web Client ID (Google Cloud → APIs & Services →
    Credentials → OAuth client → Web). Add your deployment origins under
@@ -1007,7 +1124,7 @@ let pendingDataset = null;
 let exchangeMode = false;
 
 const ov=$("#ov"), modalBody=$("#modalBody");
-function persistSession(){SESSION?localStorage.setItem("dav_session",JSON.stringify(SESSION)):localStorage.removeItem("dav_session");renderAuth();buildCatalogue(activeFilter);}
+function persistSession(){SESSION?localStorage.setItem("dav_session",JSON.stringify(SESSION)):localStorage.removeItem("dav_session");renderAuth();buildCatalogue(activeFilter);if(typeof renderKpiPanel==="function")renderKpiPanel();}
 function signOut(){SESSION=null;persistSession();renderModal("signin");}
 
 function renderAuth(){
@@ -1191,6 +1308,7 @@ chips.forEach((c,i)=>$("#catbar").insertAdjacentHTML("beforeend",`<button class=
 $("#catbar").querySelectorAll(".chip").forEach(ch=>ch.onclick=()=>{$("#catbar").querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));ch.classList.add("on");buildCatalogue(ch.dataset.f);});
 buildCatalogue("all");
 renderAuth();
+renderKpiPanel();
 
 /* wire entry points */
 $("#signInBtn").addEventListener("click",e=>{e.preventDefault();openFlow(null);});
@@ -1240,6 +1358,7 @@ addEventListener("scroll",()=>{
     if(navEx) navEx.classList.toggle("active",on);
     document.body.classList.toggle("routed",on);
     if(on){
+      if(typeof renderKpiPanel==="function")renderKpiPanel();
       view.querySelectorAll(".reveal").forEach(e=>e.classList.add("in"));
       window.scrollTo(0,0);
     }else if(!location.hash||location.hash==="#"||location.hash==="#top"){
