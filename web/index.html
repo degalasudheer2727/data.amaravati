@@ -143,7 +143,7 @@
   @media(max-width:430px){.kpis{grid-template-columns:1fr}}
 
   /* pillars */
-  .pillars{max-width:var(--maxw);margin:0 auto;padding:0 clamp(18px,5vw,56px);display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .pillars{max-width:var(--maxw);margin:0 auto;padding:0 clamp(18px,5vw,56px);display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:16px}
   @media(max-width:980px){.pillars{grid-template-columns:repeat(2,1fr)}}
   @media(max-width:520px){.pillars{grid-template-columns:1fr}}
   .pillar{position:relative;background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius);padding:28px 24px 30px;overflow:hidden;transition:transform .25s,border-color .25s}
@@ -464,6 +464,10 @@
   .nav-route.active{box-shadow:0 0 0 2px var(--gold),0 10px 26px -12px rgba(37,99,235,.5)}
   @media(max-width:920px){.navlinks a.nav-route{display:inline-flex}}
   .route-view{position:relative;z-index:5;background:var(--bg)}
+  .navlinks a.active{color:var(--text)}
+  a.pillar{text-decoration:none;color:inherit;display:block;transition:transform .2s,border-color .2s}
+  a.pillar:hover{transform:translateY(-4px)}
+  .pillar-cta{display:inline-block;margin-top:14px;color:var(--saffron);font-size:12.5px;font-weight:700;letter-spacing:.03em}
   /* keep the fixed nav legible over the gradient journey hero */
   body.routed nav.top{background:rgba(255,255,255,.9);backdrop-filter:blur(14px);border-color:var(--line-soft)}
   body.routed.hc nav.top{background:#000}
@@ -576,10 +580,9 @@
     <span><b>data<i>.amaravati</i></b><small>Governed Data Platform · Amaravati</small></span>
   </a>
   <div class="navlinks">
-    <a href="#catalogue">Catalogue</a>
-    <a href="#access">Access &amp; Roles</a>
-    <a href="#cities">Theme Cities</a>
-    <a href="#exchange" class="nav-route" id="navExchange" role="button" aria-label="Open the Data Exchange Hub journey">Exchange Hub →</a>
+    <a href="#catalogue" data-nav="catalogue">Catalogue</a>
+    <a href="#access" data-nav="access">Access &amp; Trust</a>
+    <a href="#exchange" class="nav-route" id="navExchange" data-nav="exchange" role="button" aria-label="Open the Data Exchange Hub journey">Exchange Hub →</a>
     <div class="auth">
       <button class="user-chip" id="userChip" aria-label="Your account">
         <span class="av" id="userAv">U</span>
@@ -627,96 +630,15 @@
 <!-- PILLARS -->
 <section class="content alt" id="pillars">
   <div class="sec-head reveal">
-    <span class="kicker">The four pillars</span>
-    <h2>A national-grade governed data platform, <em>localised for Amaravati.</em></h2>
-    <p>Modelled conceptually on proven national data platforms — adapted into four pillars that turn a master plan into a public, governed, intelligent data utility.</p>
+    <span class="kicker">The five pillars of digital transformation</span>
+    <h2>Built on the <em>fundamentals of digital transformation.</em></h2>
+    <p>data.amaravati is organised around the five pillars that turn a master plan into a public, governed, intelligent data utility — infrastructure, data, services, trust and innovation. Each pillar opens its own focused journey.</p>
   </div>
   <div class="pillars reveal" id="pillars-grid"></div>
 </section>
 
-<!-- CONNECTORS -->
-<section class="content" id="connectors">
-  <div class="sec-head reveal">
-    <span class="kicker">The data layer · 13 connectors</span>
-    <h2>Every domain of the city, <em>as a live connector.</em></h2>
-    <p>Each connector publishes governed, refreshable feeds with a defined schema, owner and cadence — the API surface of the digital twin, from land-use zoning to the Krishna riverfront.</p>
-  </div>
-  <div class="grid reveal" id="connectors-grid"></div>
-</section>
-
-<!-- CATALOGUE -->
-<section class="content alt" id="catalogue">
-  <div class="sec-head reveal">
-    <span class="kicker">The governed data catalogue</span>
-    <h2>What each entity can <em>actually request.</em></h2>
-    <p>A pre-loaded sample of the governed datasets published across the city's connectors. Every dataset carries a format, an update cadence, an owning department and a confidentiality class that decides who may request it. Pick a class or a domain to filter.</p>
-  </div>
-  <div class="catbar reveal" id="catbar" role="group" aria-label="Filter datasets"></div>
-  <div class="catalogue reveal" id="catalogue-grid"></div>
-</section>
-
-<!-- ACCESS & ROLES -->
-<section class="content" id="access">
-  <div class="sec-head reveal">
-    <span class="kicker">Data classification &amp; clearance</span>
-    <h2>Right data, <em>right authority.</em></h2>
-    <p>Not everything is open — and that's the point. Every dataset is graded across four tiers, from Open to Confidential. Your <b>authority</b>, not your team, decides what you can reach, the controls applied, the consent required, and the audit trail kept.</p>
-  </div>
-  <div class="legend reveal" id="legend-grid"></div>
-  <div class="reveal" style="max-width:var(--maxw);margin:24px auto 0;padding:0 clamp(18px,5vw,56px);display:flex;flex-wrap:wrap;gap:10px">
-    <span class="cls" style="color:var(--saffron)"><i></i>Consent-bound · DPDP-aligned</span>
-    <span class="cls" style="color:var(--saffron)"><i></i>Encrypted in transit &amp; at rest</span>
-    <span class="cls" style="color:var(--saffron)"><i></i>Every request audit-logged</span>
-    <span class="cls" style="color:var(--saffron)"><i></i>CRDA-governed · steward &amp; DPO oversight</span>
-  </div>
-
-  <div class="sec-head reveal" style="margin-top:72px">
-    <span class="kicker">Personas · who the nexus serves</span>
-    <h2>One catalogue, <em>many entities.</em></h2>
-    <p>Sign-in maps every user to a persona. Your persona sets a default access envelope — what you can request instantly, what needs an agreement, and what is closed.</p>
-  </div>
-  <div class="personas reveal" id="personas-grid"></div>
-
-  <div class="sec-head reveal">
-    <span class="kicker">The access matrix</span>
-    <h2>Persona <em>×</em> confidentiality.</h2>
-    <p>How each persona meets each tier — instant, on agreement, or closed. The same matrix governs the catalogue above and the request flow.</p>
-  </div>
-  <div class="matrix-wrap reveal"><table class="matrix" id="matrix"></table></div>
-</section>
-
 <!-- DATA EXCHANGE HUB -->
 <!-- Data Exchange Hub is its own routed journey (#exchange) — see #exchangeRoute after </main> -->
-
-<!-- CITIES -->
-<section class="content alt" id="cities">
-  <div class="sec-head reveal">
-    <span class="kicker">The spatial layer · 9 theme cities + Quantum Valley</span>
-    <h2>A polycentric capital, <em>zone by zone.</em></h2>
-    <p>Anchored by the ~1,575-acre <b>Amaravati Government Complex</b> and organised, in the Detailed Master Plan, across the R·C·I·P·S·U land-use zones along the Krishna riverfront and Inner Ring Road. In data.amaravati each theme city is a 3D zone with its connectors filtered in.</p>
-  </div>
-  <div class="cities reveal" id="cities-grid"></div>
-</section>
-
-<!-- ARCHITECTURE -->
-<section class="content" id="architecture">
-  <div class="sec-head reveal">
-    <span class="kicker">The platform layer</span>
-    <h2>From raw signal to <em>citizen experience.</em></h2>
-    <p>A four-stage reference architecture moves data from source systems to governed, public-facing experiences.</p>
-  </div>
-  <div class="arch reveal" id="arch-grid"></div>
-</section>
-
-<!-- ROLES -->
-<section class="content alt" id="roles">
-  <div class="sec-head reveal">
-    <span class="kicker">Outcomes · what people do with it</span>
-    <h2>One platform, <em>many outcomes.</em></h2>
-    <p>Beyond the six access roles, here is what the governed data unlocks in practice — the same platform, serving very different jobs.</p>
-  </div>
-  <div class="roles reveal" id="roles-grid"></div>
-</section>
 
 <!-- APP CTA -->
 <section class="appcta" id="app">
@@ -724,7 +646,7 @@
     <div class="reveal">
       <span class="kicker" style="color:var(--gold)">The hybrid mobile app</span>
       <h2>Carry the capital <em>in your pocket.</em></h2>
-      <p>The data.amaravati companion app — built with Flutter — puts the live twin, every connector and your neighbourhood's data on iOS and Android. Bilingual, offline-aware, accessible by default.</p>
+      <p>The data.amaravati companion app — built with Flutter — puts the live twin, every connector and your neighbourhood's data on iOS and Android. Offline-aware and accessible by default.</p>
       <div class="stores">
         <a class="store" href="#app" aria-label="Download on the App Store (concept)"><span class="em">⌘</span><span><small>Download on the</small><b>App Store</b></span></a>
         <a class="store" href="#app" aria-label="Get it on Google Play (concept)"><span class="em">▶</span><span><small>Get it on</small><b>Google Play</b></span></a>
@@ -762,16 +684,16 @@
       <p>The concept governed data platform and living digital twin of Amaravati, the People's Capital.</p>
     </div>
     <div>
-      <h5>Data</h5>
-      <a href="#catalogue">Catalogue</a><a href="#connectors">Connectors</a><a href="#access">Classification</a><a href="#architecture">Architecture</a>
+      <h5>Platform</h5>
+      <a href="#catalogue" data-nav="catalogue">Catalogue</a><a href="#exchange" data-nav="exchange">Exchange Hub</a><a href="#access" data-nav="access">Access &amp; Trust</a>
     </div>
     <div>
-      <h5>Access</h5>
-      <a href="#access">Personas &amp; roles</a><a href="#access">Access matrix</a><a href="#" data-open-auth>Sign in</a>
+      <h5>Pillars</h5>
+      <a href="#pillars">Digital transformation</a><a href="#overview">At a glance</a><a href="#app">Mobile app</a>
     </div>
     <div>
-      <h5>Explore</h5>
-      <a href="#cities">Theme cities</a><a href="#overview">At a glance</a><a href="#app">Mobile app</a>
+      <h5>Account</h5>
+      <a href="#" data-open-auth>Sign in</a><a href="#access" data-nav="access">Personas &amp; roles</a><a href="#accessibility">Accessibility</a>
     </div>
   </div>
   <nav class="foot-policies" aria-label="Website policies">
@@ -800,6 +722,55 @@
   </div>
 </div>
 </main>
+
+<!-- ============ GOVERNED DATA CATALOGUE · ROUTE ============ -->
+<div id="catalogueRoute" class="route-view" role="region" aria-label="Governed Data Catalogue" hidden aria-hidden="true">
+  <div class="jrn-hero">
+    <div class="jrn-in">
+      <a href="#top" class="jrn-back">← Back to platform</a>
+      <div class="jrn-badge"><i></i>Data &amp; Interoperability · governed catalogue</div>
+      <h1>The governed <em>data catalogue.</em></h1>
+      <p>A pre-loaded sample of the datasets published across the city's domains. Every dataset carries a format, an update cadence, an owning department and a confidentiality class that decides who may request it.</p>
+    </div>
+  </div>
+  <div class="jrn-body">
+    <div class="catbar reveal" id="catbar" role="group" aria-label="Filter datasets"></div>
+    <div class="catalogue reveal" id="catalogue-grid"></div>
+  </div>
+</div>
+
+<!-- ============ ACCESS, TRUST & GOVERNANCE · ROUTE ============ -->
+<div id="accessRoute" class="route-view" role="region" aria-label="Access, Trust and Governance" hidden aria-hidden="true">
+  <div class="jrn-hero">
+    <div class="jrn-in">
+      <a href="#top" class="jrn-back">← Back to platform</a>
+      <div class="jrn-badge"><i></i>Trust, Security &amp; Governance</div>
+      <h1>Right data, <em>right authority.</em></h1>
+      <p>Every dataset is graded across four tiers, from Open to Confidential. Your authority — not your team — decides what you can reach, the controls applied, the consent required and the audit trail kept.</p>
+    </div>
+  </div>
+  <div class="jrn-body">
+    <div class="legend reveal" id="legend-grid"></div>
+    <div class="reveal" style="max-width:var(--maxw);margin:24px auto 0;padding:0 clamp(18px,5vw,56px);display:flex;flex-wrap:wrap;gap:10px">
+      <span class="cls" style="color:var(--saffron)"><i></i>Consent-bound · DPDP-aligned</span>
+      <span class="cls" style="color:var(--saffron)"><i></i>Encrypted in transit &amp; at rest</span>
+      <span class="cls" style="color:var(--saffron)"><i></i>Every request audit-logged</span>
+      <span class="cls" style="color:var(--saffron)"><i></i>CRDA-governed · steward &amp; DPO oversight</span>
+    </div>
+    <div class="sec-head reveal" style="margin-top:72px">
+      <span class="kicker">Personas · who the nexus serves</span>
+      <h2>One catalogue, <em>many entities.</em></h2>
+      <p>Sign-in maps every user to a persona. Your persona sets a default access envelope — what you can request instantly, what needs an agreement, and what is closed.</p>
+    </div>
+    <div class="personas reveal" id="personas-grid"></div>
+    <div class="sec-head reveal">
+      <span class="kicker">The access matrix</span>
+      <h2>Persona <em>×</em> confidentiality.</h2>
+      <p>How each persona meets each tier — instant, on agreement, or closed. The same matrix governs the catalogue and the request flow.</p>
+    </div>
+    <div class="matrix-wrap reveal"><table class="matrix" id="matrix"></table></div>
+  </div>
+</div>
 
 <!-- ============ DATA EXCHANGE HUB · SEPARATE JOURNEY ============ -->
 <div id="exchangeRoute" class="route-view" role="region" aria-label="Data Exchange Hub" hidden aria-hidden="true">
@@ -850,7 +821,8 @@
 <!-- Google Identity Services (real Gmail SSO; activates once GOOGLE_CLIENT_ID is set) -->
 <script src="https://accounts.google.com/gsi/client" async></script>
 <!-- Three.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- Pinned (r128) + CORS-isolated. For prod, add SRI integrity or self-host under web/assets/ to drop the CDN from script-src. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" defer></script>
 <script>
 /* ============== DATA ============== */
 const KPI_DATA=[
@@ -860,10 +832,11 @@ const KPI_DATA=[
   {num:"1.2",unit:"k+",lbl:"Governed datasets · all tiers"},
 ];
 const PILLAR_DATA=[
-  {n:"01",t:"Statistical Reference",d:"The single source of truth — population, land, economy and infrastructure baselines for the capital region.",c:"var(--saffron)"},
-  {n:"02",t:"Governed Catalogue",d:"Open, internal, sensitive and confidential datasets — each with a licence, schema, owner and a defined access path.",c:"var(--green)"},
-  {n:"03",t:"Secure Data Exchange",d:"Governed sharing between agencies, utilities and partners with consent and audit trails.",c:"var(--pulse)"},
-  {n:"04",t:"Analytics & Foresight",d:"Dashboards, scenario models and AI forecasts that turn the twin into decisions.",c:"var(--gold)"},
+  {n:"01",t:"Digital Infrastructure",d:"A navigable 3D digital twin on secure, scalable cloud foundations — the live spatial backbone of the capital.",href:"#top",cta:"Explore the twin"},
+  {n:"02",t:"Data & Interoperability",d:"One governed catalogue of open, internal, sensitive and confidential datasets — each with a schema, owner, licence and open API.",href:"#catalogue",cta:"Open the catalogue"},
+  {n:"03",t:"Citizen-Centric Services",d:"Insight and services delivered to the right authority — personas, consent and one sign-on across every entity.",href:"#access",cta:"See the access model"},
+  {n:"04",t:"Trust, Security & Governance",d:"Classification, consent, encryption and audit — with CRDA as the governing authority over every exchange.",href:"#access",cta:"Governance & trust"},
+  {n:"05",t:"Innovation & Analytics",d:"Dashboards, foresight and the CRDA-governed Data Exchange Hub with weekly KPI scorecards for every entity.",href:"#exchange",cta:"Data Exchange Hub"},
 ];
 const CONNECTOR_DATA=[
   {e:"Land & Zoning",t:"Plan & Parcels",d:"The Detailed Master Plan's land-use zones — R·C·I·P·S·U — parcels, layouts and pooling.",ic:"🗺️",feeds:["Zoning","Layouts","LPS"],c:"#7ad0ff"},
@@ -993,18 +966,11 @@ const EXCHANGE_DATA=[
 
 /* ============== BUILD UI ============== */
 const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 KPI_DATA.forEach(k=>$("#kpis").insertAdjacentHTML("beforeend",
   `<div class="kpi"><div class="num">${k.num}<small>${k.unit}</small></div><div class="lbl">${k.lbl}</div></div>`));
 PILLAR_DATA.forEach(p=>$("#pillars-grid").insertAdjacentHTML("beforeend",
-  `<div class="pillar" style="--accent:var(--saffron)"><div class="pn">${p.n}</div><h3>${p.t}</h3><p>${p.d}</p></div>`));
-CONNECTOR_DATA.forEach(c=>$("#connectors-grid").insertAdjacentHTML("beforeend",
-  `<article class="card" style="--accent:var(--saffron)"><div class="status"><i></i>Live</div><div class="ico">${c.ic}</div><div class="ent">${c.e}</div><h3>${c.t}</h3><p>${c.d}</p><div class="feeds">${c.feeds.map(f=>`<span>${f}</span>`).join("")}</div></article>`));
-CITY_DATA.forEach(c=>$("#cities-grid").insertAdjacentHTML("beforeend",
-  `<div class="city" style="--c:var(--saffron)"><span class="dot"></span><div><h4>${c.t}</h4><span class="d">${c.d}</span></div></div>`));
-ARCH_DATA.forEach((s,i)=>$("#arch-grid").insertAdjacentHTML("beforeend",
-  `<div class="stage"><div class="sn">${s.n}</div><h4>${s.t}</h4><ul>${s.items.map(x=>`<li>${x}</li>`).join("")}</ul>${i<ARCH_DATA.length-1?'<div class="arrow">→</div>':''}</div>`));
-ROLE_DATA.forEach(r=>$("#roles-grid").insertAdjacentHTML("beforeend",
-  `<div class="role"><div class="ri">${r.i}</div><h3>${r.t}</h3><p>${r.d}</p><ul>${r.items.map(x=>`<li>${x}</li>`).join("")}</ul></div>`));
+  `<a class="pillar" href="${p.href}" style="--accent:var(--saffron)"><div class="pn">${p.n}</div><h3>${p.t}</h3><p>${p.d}</p><span class="pillar-cta">${p.cta} →</span></a>`));
 const tHTML=TICKER_DATA.map(t=>{const[a,b]=t.split("·");return `<span class="it"><span class="pu"></span>${a}<b>${b||""}</b></span>`}).join("");
 $("#track").innerHTML=tHTML+tHTML;
 
@@ -1135,7 +1101,7 @@ function renderAuth(){
     $("#userName").textContent=(SESSION.name||"You").split(" ")[0];
     $("#userRole").textContent=p.t;
     const av=$("#userAv");
-    if(SESSION.picture){av.outerHTML=`<img class="av" id="userAv" src="${SESSION.picture}" alt="" referrerpolicy="no-referrer">`;}
+    if(SESSION.picture){av.outerHTML=`<img class="av" id="userAv" src="${esc(SESSION.picture)}" alt="" referrerpolicy="no-referrer">`;}
     else{av.textContent=(SESSION.name||"U").charAt(0).toUpperCase();}
   }else{chip.classList.remove("on"); btn.classList.remove("hide");}
 }
@@ -1202,7 +1168,7 @@ function renderModal(step){
   }
   else if(step==="persona"){
     const opts=PERSONA_DATA.map(p=>`<option value="${p.key}" ${SESSION.persona===p.key?"selected":""}>${p.t}</option>`).join("");
-    modalBody.innerHTML=`${seal}<div class="mk">Welcome, ${(SESSION.name||"there").split(" ")[0]}</div>
+    modalBody.innerHTML=`${seal}<div class="mk">Welcome, ${esc((SESSION.name||"there").split(" ")[0])}</div>
       <h3>Choose your <em>persona</em></h3>
       <p>Your persona sets a default access envelope across the four confidentiality tiers. A Data Steward can change it later.</p>
       ${dsCtx()}${steps(2)}
@@ -1262,7 +1228,7 @@ function renderModal(step){
     const reqLine=pendingDataset?`<li>Request for <b>${pendingDataset.t}</b> logged with an audit reference</li>`:"";
     modalBody.innerHTML=`<div class="ok-screen"><div class="tick">✓</div>
       <h3>You're in${pendingDataset?" — request received":""}.</h3>
-      <p>Signed in as <b>${SESSION.email}</b> · ${p.t}</p>
+      <p>Signed in as <b>${esc(SESSION.email)}</b> · ${p.t}</p>
       <ul>${reqLine}<li>Public datasets are ready to download or call now</li><li>Internal & restricted tiers route through governance per the access matrix</li><li>Every request is consent-bound and audit-logged</li></ul>
       <div class="mfoot" style="margin-top:22px"><button class="btn btn-ghost" id="doneBrowse">Browse catalogue</button><button class="btn btn-primary" id="doneClose" style="flex:2">Done</button></div></div>`;
     $("#doneClose").onclick=closeModal;
@@ -1347,25 +1313,26 @@ addEventListener("scroll",()=>{
   prog.style.width=(h>0?(sc/h*100):0)+"%";
 },{passive:true});
 
-/* ---------- Data Exchange Hub: its own routed journey ---------- */
+/* ---------- multi-route journeys (catalogue · access · exchange) ---------- */
 (function(){
-  const main=$("#main"), view=$("#exchangeRoute"), navEx=$("#navExchange");
-  if(!view) return;
+  const main=$("#main"), ROUTES=["catalogue","access","exchange"];
   function render(){
-    const on=location.hash==="#exchange";
-    view.hidden=!on; view.setAttribute("aria-hidden",String(!on));
-    if(main) main.style.display=on?"none":"";
-    if(navEx) navEx.classList.toggle("active",on);
-    document.body.classList.toggle("routed",on);
-    if(on){
-      if(typeof renderKpiPanel==="function")renderKpiPanel();
-      view.querySelectorAll(".reveal").forEach(e=>e.classList.add("in"));
+    const hash=(location.hash||"").replace(/^#\/?/,"");
+    const name=ROUTES.includes(hash)?hash:null;
+    ROUTES.forEach(r=>{const v=document.getElementById(r+"Route"); if(!v)return; const on=(r===name);
+      v.hidden=!on; v.setAttribute("aria-hidden",String(!on));
+      if(on)v.querySelectorAll(".reveal").forEach(e=>e.classList.add("in"));});
+    if(main)main.style.display=name?"none":"";
+    document.body.classList.toggle("routed",!!name);
+    document.querySelectorAll("[data-nav]").forEach(a=>a.classList.toggle("active",a.getAttribute("data-nav")===name));
+    if(name){
+      if(name==="exchange"&&typeof renderKpiPanel==="function")renderKpiPanel();
       window.scrollTo(0,0);
     }else if(!location.hash||location.hash==="#"||location.hash==="#top"){
       window.scrollTo(0,0);
     }else{
       const t=document.querySelector(location.hash);
-      if(t) requestAnimationFrame(()=>t.scrollIntoView({behavior:"smooth",block:"start"}));
+      if(t)requestAnimationFrame(()=>t.scrollIntoView({behavior:"smooth",block:"start"}));
     }
   }
   addEventListener("hashchange",render);
@@ -1374,7 +1341,7 @@ addEventListener("scroll",()=>{
 
 /* loader */
 let lp=0;const lbar=$("#lbar");
-const lt=setInterval(()=>{lp=Math.min(100,lp+Math.random()*22);lbar.style.width=lp+"%";if(lp>=100){clearInterval(lt);setTimeout(()=>$("#loader").classList.add("gone"),350)}},170);
+const lt=setInterval(()=>{lp=Math.min(100,lp+Math.random()*22);if(lbar)lbar.style.width=lp+"%";if(lp>=100){clearInterval(lt);setTimeout(()=>{const l=$("#loader");if(l)l.classList.add("gone")},350)}},170);
 
 /* ============== SLEEK MINIMAL 3D TWIN ============== */
 function initTwin(){
