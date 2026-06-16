@@ -26,6 +26,19 @@ void main() {
     }
   });
 
+  test('data exchange hub is wired with a governing authority', () {
+    final entities = repo.exchangeEntities();
+    expect(entities, isNotEmpty);
+    expect(entities.where((e) => e.governs).length, 1); // CRDA governs
+    expect(repo.exchangeFlow().any((s) => s.crda), isTrue);
+    expect(repo.exchanges(), isNotEmpty);
+    // every exchange has a valid status and classification
+    for (final x in repo.exchanges()) {
+      expect(ExchangeStatus.values, contains(x.status));
+      expect(Classification.values, contains(x.classification));
+    }
+  });
+
   test('access matrix gates each persona correctly', () {
     final citizen = repo.personaByKey('citizen');
     final steward = repo.personaByKey('steward');

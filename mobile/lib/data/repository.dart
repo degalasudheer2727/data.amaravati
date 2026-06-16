@@ -20,6 +20,11 @@ abstract class AmaraverseRepository {
   List<Dataset> datasets();
   Persona personaByKey(String key);
 
+  /// The CRDA-governed Data Exchange Hub.
+  List<GovEntity> exchangeEntities();
+  List<ExchangeStep> exchangeFlow();
+  List<ExchangeRecord> exchanges();
+
   /// The live 3D digital-twin web experience embedded by the Twin screen.
   /// Hosted on Vercel in production; falls back to the bundled asset offline.
   String get twinUrl;
@@ -577,5 +582,192 @@ class MockRepository implements AmaraverseRepository {
             cadence: '—',
             owner: 'Police',
             classification: Classification.confidential),
+      ];
+
+  @override
+  List<GovEntity> exchangeEntities() => const [
+        GovEntity(
+            abbr: 'APCRDA',
+            name: 'Capital Region Dev. Authority',
+            role: 'Governing authority',
+            icon: Icons.account_balance,
+            published: 9,
+            consumed: 5,
+            color: AppColors.gold,
+            governs: true),
+        GovEntity(
+            abbr: 'DTCP',
+            name: 'Town & Country Planning',
+            role: 'Provider · Consumer',
+            icon: Icons.architecture,
+            published: 3,
+            consumed: 2,
+            color: AppColors.saffron),
+        GovEntity(
+            abbr: 'Irrigation',
+            name: 'Water Resources Dept',
+            role: 'Provider',
+            icon: Icons.water_drop,
+            published: 2,
+            consumed: 1,
+            color: Color(0xFF3AA0FF)),
+        GovEntity(
+            abbr: 'APSRTC',
+            name: 'Road Transport Corp.',
+            role: 'Provider · Consumer',
+            icon: Icons.directions_bus,
+            published: 2,
+            consumed: 2,
+            color: AppColors.pulse),
+        GovEntity(
+            abbr: 'APPCB',
+            name: 'Pollution Control Board',
+            role: 'Provider',
+            icon: Icons.eco,
+            published: 2,
+            consumed: 1,
+            color: Color(0xFF5AD17A)),
+        GovEntity(
+            abbr: 'AP Police',
+            name: 'Police & Command Centre',
+            role: 'Provider · Consumer',
+            icon: Icons.shield,
+            published: 2,
+            consumed: 3,
+            color: Color(0xFFFF5F6D)),
+        GovEntity(
+            abbr: 'Reg. & Stamps',
+            name: 'Registration & Stamps',
+            role: 'Provider',
+            icon: Icons.receipt_long,
+            published: 1,
+            consumed: 1,
+            color: Color(0xFFC98BFF)),
+        GovEntity(
+            abbr: 'AP EDB',
+            name: 'Economic Development Board',
+            role: 'Consumer',
+            icon: Icons.trending_up,
+            published: 1,
+            consumed: 4,
+            color: AppColors.green),
+        GovEntity(
+            abbr: 'DES',
+            name: 'Economics & Statistics',
+            role: 'Provider · Consumer',
+            icon: Icons.bar_chart,
+            published: 3,
+            consumed: 3,
+            color: Color(0xFFFFB347)),
+        GovEntity(
+            abbr: 'Transport',
+            name: 'Transport Department',
+            role: 'Provider · Consumer',
+            icon: Icons.traffic,
+            published: 2,
+            consumed: 2,
+            color: AppColors.pulse),
+        GovEntity(
+            abbr: 'Water Utility',
+            name: 'City Water Utility',
+            role: 'Provider',
+            icon: Icons.water,
+            published: 1,
+            consumed: 2,
+            color: AppColors.cyan),
+        GovEntity(
+            abbr: 'ULBs',
+            name: 'Urban Local Bodies',
+            role: 'Consumer',
+            icon: Icons.location_city,
+            published: 1,
+            consumed: 5,
+            color: AppColors.saffron),
+      ];
+
+  @override
+  List<ExchangeStep> exchangeFlow() => const [
+        ExchangeStep('01', 'Request',
+            'A consumer entity requests a dataset from a provider through the hub.'),
+        ExchangeStep('02', 'Classify & route',
+            'The hub tags the data\'s confidentiality tier and routes it by policy.'),
+        ExchangeStep('03', 'CRDA review',
+            'CRDA verifies purpose, legal basis and DPDP / consent compliance.',
+            crda: true),
+        ExchangeStep('04', 'Agreement',
+            'A signed, time-boxed, consent-bound data-sharing agreement is registered.',
+            crda: true),
+        ExchangeStep('05', 'Provision',
+            'A secure API / exchange channel is opened between the two entities.'),
+        ExchangeStep('06', 'Audit',
+            'Every transaction is logged; CRDA monitors and can revoke access.',
+            crda: true),
+      ];
+
+  @override
+  List<ExchangeRecord> exchanges() => const [
+        ExchangeRecord(
+            provider: 'DTCP',
+            consumer: 'APCRDA',
+            dataset: 'Layout & Plot Sanctions',
+            classification: Classification.internal,
+            status: ExchangeStatus.active,
+            purpose: 'Master-plan compliance'),
+        ExchangeRecord(
+            provider: 'Irrigation',
+            consumer: 'APCRDA',
+            dataset: 'Krishna Riverfront Levels',
+            classification: Classification.public,
+            status: ExchangeStatus.active,
+            purpose: 'Flood resilience'),
+        ExchangeRecord(
+            provider: 'AP Police',
+            consumer: 'Transport',
+            dataset: 'ANPR Vehicle Movements',
+            classification: Classification.restricted,
+            status: ExchangeStatus.review,
+            purpose: 'Corridor congestion modelling'),
+        ExchangeRecord(
+            provider: 'Reg. & Stamps',
+            consumer: 'AP EDB',
+            dataset: 'Property Registration Prices',
+            classification: Classification.restricted,
+            status: ExchangeStatus.agreement,
+            purpose: 'Land-value baselining'),
+        ExchangeRecord(
+            provider: 'APPCB',
+            consumer: 'ULBs',
+            dataset: 'Air Quality Index',
+            classification: Classification.public,
+            status: ExchangeStatus.active,
+            purpose: 'Ward health dashboards'),
+        ExchangeRecord(
+            provider: 'DES',
+            consumer: 'APCRDA',
+            dataset: 'Ward Population & Density',
+            classification: Classification.public,
+            status: ExchangeStatus.active,
+            purpose: 'Service planning'),
+        ExchangeRecord(
+            provider: 'APCRDA',
+            consumer: 'AP Police',
+            dataset: 'Individual Land-Loser Records',
+            classification: Classification.confidential,
+            status: ExchangeStatus.declined,
+            purpose: 'Identity verification'),
+        ExchangeRecord(
+            provider: 'Water Utility',
+            consumer: 'APCRDA',
+            dataset: 'Reservoir & Supply (SCADA)',
+            classification: Classification.restricted,
+            status: ExchangeStatus.agreement,
+            purpose: 'Demand forecasting'),
+        ExchangeRecord(
+            provider: 'APSRTC',
+            consumer: 'Transport',
+            dataset: 'Public Transit Positions',
+            classification: Classification.public,
+            status: ExchangeStatus.active,
+            purpose: 'Multimodal routing'),
       ];
 }

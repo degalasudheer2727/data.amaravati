@@ -838,11 +838,11 @@ ENTITY_DATA.forEach(e=>$("#entities-grid").insertAdjacentHTML("beforeend",
 })();
 
 /* ============== ONBOARDING · GOOGLE SSO ============== */
-/* Drop your Google Cloud OAuth 2.0 Client ID here to switch real Gmail sign-in on.
-   Create one at console.cloud.google.com → APIs & Services → Credentials → OAuth client (Web),
-   add your domain(s) to "Authorised JavaScript origins". Until then a demo identity is used. */
+/* Production Google OAuth 2.0 Web Client ID (Google Cloud → APIs & Services →
+   Credentials → OAuth client → Web). Add your deployment origins under
+   "Authorised JavaScript origins". */
 const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_OAUTH_CLIENT_ID.apps.googleusercontent.com";
-const realClientId = () => GOOGLE_CLIENT_ID && !/^YOUR_/.test(GOOGLE_CLIENT_ID);
+const clientConfigured = () => GOOGLE_CLIENT_ID && !/^YOUR_/.test(GOOGLE_CLIENT_ID);
 
 let SESSION = (()=>{try{return JSON.parse(localStorage.getItem("dav_session"))||null}catch(e){return null}})();
 let pendingDataset = null;
@@ -868,7 +868,19 @@ function renderAuth(){
 /* JWT decode (Google ID token → profile) */
 function decodeJwt(tok){try{const b=tok.split(".")[1].replace(/-/g,"+").replace(/_/g,"/");return JSON.parse(decodeURIComponent(escape(atob(b))));}catch(e){return null;}}
 function onGoogleCredential(resp){const p=decodeJwt(resp.credential);if(!p)return;afterSignIn({name:p.name||p.email,email:p.email,picture:p.picture||""});}
-function initGSI(){if(realClientId()&&window.google&&google.accounts&&google.accounts.id){try{google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:onGoogleCredential,auto_select:false});return true;}catch(e){}}return false;}
+function gsiReady(){return window.google&&google.accounts&&google.accounts.id;}
+function initGSI(){if(clientConfigured()&&gsiReady()){try{google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:onGoogleCredential,auto_select:false,itp_support:true});return true;}catch(e){}}return false;}
+/* Render the official Google sign-in button (and One Tap) once GSI has loaded. */
+function mountGoogle(){
+  const el=$("#gsiMount"); if(!el) return;
+  if(!gsiReady()){return void setTimeout(mountGoogle,150);}
+  if(!initGSI()) return;
+  try{
+    el.innerHTML="";
+    google.accounts.id.renderButton(el,{theme:"filled_blue",size:"large",shape:"pill",text:"continue_with",logo_alignment:"center",width:340});
+    google.accounts.id.prompt();
+  }catch(e){}
+}
 
 function afterSignIn(profile){
   SESSION={...profile, persona: (SESSION&&SESSION.persona)||"citizen"};
@@ -890,13 +902,11 @@ function renderModal(step){
     modalBody.innerHTML=`${seal}<div class="mk">data.amaravati · Single sign-on</div>
       <h3 id="ovTitle">Sign in to <em>request data</em></h3>
       <div class="tel">అమరావతి డేటా · ప్రవేశం</div>
-      <p>One Google account unlocks the open catalogue, your persona's access envelope and your request history.</p>
+      <p>Sign in with your Google account to reach the catalogue, your role's data envelope and your request history.</p>
       ${dsCtx()}${steps(1)}
-      ${realClientId()?'<div id="gsiMount"></div>':`<div class="ssoflag">⚙︎ Real Gmail SSO is wired and ready — set <code>GOOGLE_CLIENT_ID</code> in <code>web/index.html</code> to activate it. Meanwhile, continue with a demo identity.</div>`}
-      <button class="gbtn" id="demoG"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.5 2.6 30.1 0 24 0 14.6 0 6.4 5.4 2.5 13.3l7.8 6c1.9-5.6 7.1-9.8 13.7-9.8z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.4 5.7C43.9 38 46.5 31.8 46.5 24.5z"/><path fill="#FBBC05" d="M10.3 28.7c-.5-1.4-.7-2.9-.7-4.7s.3-3.3.7-4.7l-7.8-6C.9 16.5 0 20.1 0 24s.9 7.5 2.5 10.7l7.8-6z"/><path fill="#34A853" d="M24 48c6.1 0 11.3-2 15-5.5l-7.4-5.7c-2 1.4-4.7 2.3-7.6 2.3-6.6 0-11.8-4.2-13.7-9.8l-7.8 6C6.4 42.6 14.6 48 24 48z"/></svg>${realClientId()?'Sign in with Google':'Continue with Google (demo)'}</button>
-      <p class="note">By continuing you accept the concept Terms &amp; the data-sharing code of conduct. data.amaravati is a concept — not an official government service.</p>`;
-    if(realClientId()&&initGSI()){try{google.accounts.id.renderButton($("#gsiMount"),{theme:"filled_blue",size:"large",width:360,text:"continue_with"});}catch(e){}}
-    $("#demoG").onclick=()=>afterSignIn({name:"Demo Citizen",email:"demo@data.amaravati",picture:""});
+      <div id="gsiMount"></div>
+      <p class="note">By continuing you agree to the Terms of Use and Privacy Policy and the inter-agency data-sharing code of conduct. Access is consent-bound and every request is audit-logged.</p>`;
+    mountGoogle();
   }
   else if(step==="persona"){
     const opts=PERSONA_DATA.map(p=>`<option value="${p.key}" ${SESSION.persona===p.key?"selected":""}>${p.t}</option>`).join("");

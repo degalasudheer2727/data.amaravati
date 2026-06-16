@@ -87,6 +87,77 @@ class Dataset {
   });
 }
 
+/// Status of an inter-agency exchange agreement in CRDA governance.
+enum ExchangeStatus { active, review, agreement, declined }
+
+extension ExchangeStatusMeta on ExchangeStatus {
+  String get label => switch (this) {
+        ExchangeStatus.active => 'Active',
+        ExchangeStatus.review => 'CRDA review',
+        ExchangeStatus.agreement => 'Agreement',
+        ExchangeStatus.declined => 'Declined',
+      };
+  Color get color => switch (this) {
+        ExchangeStatus.active => const Color(0xFF5AD17A),
+        ExchangeStatus.review => const Color(0xFFE7C46B),
+        ExchangeStatus.agreement => const Color(0xFF3B7BFF),
+        ExchangeStatus.declined => const Color(0xFFFF7A7A),
+      };
+}
+
+/// A government entity participating in the Data Exchange Hub.
+@immutable
+class GovEntity {
+  final String abbr;
+  final String name;
+  final String role;
+  final IconData icon;
+  final int published;
+  final int consumed;
+  final Color color;
+  final bool governs; // true for CRDA, the governing authority
+  const GovEntity({
+    required this.abbr,
+    required this.name,
+    required this.role,
+    required this.icon,
+    required this.published,
+    required this.consumed,
+    required this.color,
+    this.governs = false,
+  });
+}
+
+/// A step in the CRDA-governed exchange workflow.
+@immutable
+class ExchangeStep {
+  final String number;
+  final String title;
+  final String description;
+  final bool crda; // governed/controlled by CRDA
+  const ExchangeStep(this.number, this.title, this.description,
+      {this.crda = false});
+}
+
+/// A government-to-government exchange agreement in the register.
+@immutable
+class ExchangeRecord {
+  final String provider;
+  final String consumer;
+  final String dataset;
+  final Classification classification;
+  final ExchangeStatus status;
+  final String purpose;
+  const ExchangeRecord({
+    required this.provider,
+    required this.consumer,
+    required this.dataset,
+    required this.classification,
+    required this.status,
+    required this.purpose,
+  });
+}
+
 /// A signed-in user mapped to a persona. `null` persona until chosen.
 @immutable
 class AppUser {
@@ -94,13 +165,11 @@ class AppUser {
   final String email;
   final String? photoUrl;
   final String personaKey;
-  final bool demo;
   const AppUser({
     required this.name,
     required this.email,
     this.photoUrl,
     this.personaKey = 'citizen',
-    this.demo = false,
   });
 
   AppUser copyWith({String? personaKey}) => AppUser(
@@ -108,7 +177,6 @@ class AppUser {
         email: email,
         photoUrl: photoUrl,
         personaKey: personaKey ?? this.personaKey,
-        demo: demo,
       );
 }
 

@@ -4,9 +4,9 @@ import '../../data/repository.dart';
 import '../../models/models.dart';
 import '../../theme.dart';
 
-/// Onboarding / single sign-on. Real Gmail SSO with a demo fallback, then a
-/// persona choice that sets the user's access envelope. Optionally carries a
-/// [requesting] dataset so sign-in flows straight into a data request.
+/// Onboarding / single sign-on. Real Gmail SSO, then a persona choice that sets
+/// the user's access envelope. Optionally carries a [requesting] dataset so
+/// sign-in flows straight into a data request.
 class OnboardingScreen extends StatefulWidget {
   final AmaraverseRepository repo;
   final Dataset? requesting;
@@ -21,15 +21,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   Future<void> _google(AuthController auth) async {
     setState(() => _busy = true);
-    final ok = await auth.signInWithGoogle();
-    if (!mounted) return;
-    setState(() => _busy = false);
-    if (!ok) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text(
-            'Google sign-in isn’t configured for this build yet — continuing with a demo identity.'),
-      ));
-      auth.signInDemo();
+    try {
+      await auth
+          .signInWithGoogle(); // false = user cancelled; no message needed
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Couldn’t sign in with Google. Please try again.'),
+        ));
+      }
+    } finally {
+      if (mounted) setState(() => _busy = false);
     }
   }
 
@@ -71,10 +73,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   if (ds != null) _DatasetContext(ds),
                   const SizedBox(height: 18),
                   if (!auth.isSignedIn)
-                    _SignIn(
-                        busy: _busy,
-                        onGoogle: () => _google(auth),
-                        onDemo: auth.signInDemo)
+                    _SignIn(busy: _busy, onGoogle: () => _google(auth))
                   else
                     _PersonaPicker(
                         repo: widget.repo, auth: auth, requesting: ds),
@@ -122,9 +121,7 @@ class _DatasetContext extends StatelessWidget {
 class _SignIn extends StatelessWidget {
   final bool busy;
   final VoidCallback onGoogle;
-  final VoidCallback onDemo;
-  const _SignIn(
-      {required this.busy, required this.onGoogle, required this.onDemo});
+  const _SignIn({required this.busy, required this.onGoogle});
 
   @override
   Widget build(BuildContext context) {
@@ -153,19 +150,9 @@ class _SignIn extends StatelessWidget {
           label: Text(busy ? 'Signing in…' : 'Continue with Google',
               style: const TextStyle(fontWeight: FontWeight.w600)),
         ),
-        const SizedBox(height: 12),
-        OutlinedButton(
-          onPressed: busy ? null : onDemo,
-          style: OutlinedButton.styleFrom(
-            padding: const EdgeInsets.symmetric(vertical: 14),
-            side: const BorderSide(color: AppColors.line),
-            foregroundColor: AppColors.text,
-          ),
-          child: const Text('Continue with a demo identity'),
-        ),
         const SizedBox(height: 16),
         const Text(
-            'data.amaravati is a concept — not an official government service. By continuing you accept the concept terms and the data-sharing code of conduct.',
+            'By continuing you agree to the Terms of Use and Privacy Policy and the inter-agency data-sharing code of conduct. Access is consent-bound and audit-logged.',
             style: TextStyle(
                 color: AppColors.muted2, fontSize: 11.5, height: 1.6)),
       ],

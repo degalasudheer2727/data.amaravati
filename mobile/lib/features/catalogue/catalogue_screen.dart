@@ -4,6 +4,7 @@ import '../../data/repository.dart';
 import '../../models/models.dart';
 import '../../theme.dart';
 import '../../widgets/common.dart';
+import '../exchange/exchange_screen.dart';
 import '../onboarding/onboarding_screen.dart';
 
 /// The pre-loaded open-data catalogue: governed sample datasets, each with a
@@ -70,6 +71,12 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
             ),
             actions: [
               IconButton(
+                tooltip: 'Data Exchange Hub',
+                icon: const Icon(Icons.swap_horiz),
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => ExchangeScreen(repo: repo))),
+              ),
+              IconButton(
                 tooltip: persona == null ? 'Sign in' : 'Account',
                 icon: Icon(persona == null
                     ? Icons.login
@@ -81,6 +88,38 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
           ),
           body: CustomScrollView(
             slivers: [
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                  child: GlassCard(
+                    accent: AppColors.gold,
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) => ExchangeScreen(repo: repo))),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 14),
+                    child: const Row(children: [
+                      Icon(Icons.swap_horiz, color: AppColors.gold, size: 22),
+                      SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Data Exchange Hub',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14)),
+                              SizedBox(height: 2),
+                              Text('Govt-to-govt exchange · governed by CRDA',
+                                  style: TextStyle(
+                                      color: AppColors.muted2, fontSize: 11)),
+                            ]),
+                      ),
+                      Icon(Icons.chevron_right,
+                          size: 18, color: AppColors.muted2),
+                    ]),
+                  ),
+                ),
+              ),
               SliverToBoxAdapter(
                 child: SizedBox(
                   height: 52,
