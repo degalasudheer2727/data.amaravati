@@ -7,7 +7,7 @@ import '../../widgets/common.dart';
 import '../exchange/exchange_screen.dart';
 import '../onboarding/onboarding_screen.dart';
 
-/// The pre-loaded open-data catalogue: governed sample datasets, each with a
+/// The pre-loaded governed data catalogue: governed sample datasets, each with a
 /// confidentiality class. What a signed-in persona may request is gated by the
 /// persona × classification access matrix.
 class CatalogueScreen extends StatefulWidget {
@@ -60,7 +60,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Open Data Catalogue', style: AppTheme.display(20)),
+                Text('Data Catalogue', style: AppTheme.display(20)),
                 Text(
                     persona == null
                         ? 'Sign in to request · ${all.length} datasets'
@@ -291,7 +291,7 @@ class _DatasetCard extends StatelessWidget {
         null => 'Request access',
         Access.instant => 'Request · instant',
         Access.agreement => 'Request · agreement',
-        Access.closed => 'Closed for you',
+        Access.closed => 'Requires clearance',
       };
 }
 
@@ -315,8 +315,8 @@ class _RequestSheet extends StatelessWidget {
         ),
       Access.closed => (
           const Color(0x73EEF2F8),
-          'Closed tier',
-          'This dataset is confidential and not available to your persona. You can request a steward review, but approval is unlikely.'
+          'Requires clearance',
+          'This tier is above your current authority. Submit a clearance request — routed to the Data Steward and DPO for need-to-know review before any release.'
         ),
     };
     return Padding(

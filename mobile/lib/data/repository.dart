@@ -14,7 +14,7 @@ abstract class AmaraverseRepository {
   List<FutureFeature> futures();
   List<Signal> liveSignals();
 
-  /// The open-data catalogue + governance model.
+  /// The governed data catalogue + governance model.
   List<ClassTier> classes();
   List<Persona> personas();
   List<Dataset> datasets();
@@ -41,7 +41,7 @@ class MockRepository implements AmaraverseRepository {
         Kpi('217', ' km²', 'Amaravati capital city'),
         Kpi('1,575', ' ac', 'Government Complex · AGC'),
         Kpi('21', '', 'Land-use zones · R·C·I·P·S·U'),
-        Kpi('1.2', 'k+', 'Indicative open datasets'),
+        Kpi('1.2', 'k+', 'Governed datasets · all tiers'),
       ];
 
   @override
@@ -53,8 +53,8 @@ class MockRepository implements AmaraverseRepository {
             AppColors.saffron),
         Pillar(
             '02',
-            'Open Data Portal',
-            'Public, machine-readable datasets with licences, schemas and APIs anyone can build on.',
+            'Governed Catalogue',
+            'Open, internal, sensitive and confidential datasets — each with a licence, schema, owner and access path.',
             AppColors.green),
         Pillar(
             '03',

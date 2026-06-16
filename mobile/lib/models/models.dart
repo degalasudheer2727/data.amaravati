@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /// Immutable domain models for data.amaravati. Pure data — no UI, no IO.
 /// Keeping these decoupled lets the repository swap mock data for a real
-/// open-data API later without touching the feature screens.
+/// live data API later without touching the feature screens.
 
 /// Confidentiality tier a dataset is classified under. The tier — not the
 /// team — decides the path to access and the controls applied.
@@ -17,16 +17,16 @@ enum Access {
 
 extension ClassificationMeta on Classification {
   String get label => switch (this) {
-        Classification.public => 'Public',
+        Classification.public => 'Open',
         Classification.internal => 'Internal',
-        Classification.restricted => 'Restricted',
+        Classification.restricted => 'Sensitive',
         Classification.confidential => 'Confidential',
       };
   String get level => switch (this) {
-        Classification.public => 'P0 · Open',
-        Classification.internal => 'P1 · Internal',
-        Classification.restricted => 'P2 · Restricted',
-        Classification.confidential => 'P3 · Confidential',
+        Classification.public => 'L0 · Open',
+        Classification.internal => 'L1 · Internal',
+        Classification.restricted => 'L2 · Sensitive',
+        Classification.confidential => 'L3 · Confidential',
       };
   // 3-colour system: saffron / snow / muted-snow, differentiated by weight.
   Color get color => switch (this) {

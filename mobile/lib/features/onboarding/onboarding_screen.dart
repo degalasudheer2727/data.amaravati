@@ -129,7 +129,7 @@ class _SignIn extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const Text(
-            'One Google account unlocks the open catalogue, your persona’s access envelope and your request history.',
+            'One Google account unlocks the catalogue, your access envelope across Open to Confidential, and your request history.',
             style: TextStyle(color: AppColors.muted, height: 1.5)),
         const SizedBox(height: 22),
         FilledButton.icon(
@@ -179,7 +179,7 @@ class _PersonaPicker extends StatelessWidget {
         Access.agreement =>
           'Request for “${ds.title}” routed to the data steward (agreement needed).',
         Access.closed =>
-          '“${ds.title}” is closed for your persona; a steward review was logged.',
+          '“${ds.title}” needs clearance — a request was routed to the Data Steward and DPO.',
       };
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
     } else {
