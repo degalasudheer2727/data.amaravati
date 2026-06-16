@@ -1112,8 +1112,14 @@ function initTwin(){
      Krishna riverfront to the north · a central government spine · the Inner
      Ring Road loop · the orthogonal capital grid with a CBD density gradient.
      Deliberately NOT Foster + Partners' proposed design or any official artwork. */
-  const SLATE=[0x8089a0,0x99a1b2], EM=0x10b981, AZ=0x2563eb;
-  const towerMat=c=>new THREE.MeshStandardMaterial({color:c,emissive:0x000000,roughness:0.82,metalness:0.08});
+  const EM=0x10b981, AZ=0x2563eb, GLASS=0xc3d6ea;
+  // translucent glass body + glowing accent edges (mullions) per building
+  const glassMat=()=>new THREE.MeshStandardMaterial({color:GLASS,transparent:true,opacity:0.40,roughness:0.10,metalness:0.10,emissive:GLASS,emissiveIntensity:0.06,depthWrite:false});
+  const addGlass=(geo,x,y,z,edgeCol)=>{
+    const m=new THREE.Mesh(geo,glassMat());m.position.set(x,y,z);city.add(m);
+    const e=new THREE.LineSegments(new THREE.EdgesGeometry(geo),new THREE.LineBasicMaterial({color:edgeCol,transparent:true,opacity:0.5}));
+    e.position.set(x,y,z);city.add(e);
+  };
   const RIVER_Z=-58, SPINE_HALF=4, IRR_R=40, IRR_BAND=3.6;
   const nodes=[];
 
@@ -1129,8 +1135,7 @@ function initTwin(){
     const core=1-Math.min(1,dist/72);              // density gradient → CBD core
     const tall=Math.max(2, core*28*(0.5+Math.random()*0.7));
     const w=3.8+Math.random()*2.2;
-    const m=new THREE.Mesh(new THREE.BoxGeometry(w,tall,w),towerMat(SLATE[(x+z)%2]));
-    m.position.set(cx,tall/2,cz);city.add(m);
+    addGlass(new THREE.BoxGeometry(w,tall,w),cx,tall/2,cz,(x+z)%2?EM:AZ);
     if(core>0.5 && tall>15 && Math.random()>0.62){
       const nd=new THREE.Mesh(new THREE.SphereGeometry(0.7,12,12),new THREE.MeshBasicMaterial({color:EM}));
       nd.position.set(cx,tall+2.4,cz);city.add(nd);
@@ -1141,8 +1146,7 @@ function initTwin(){
   // Government Complex — an ordered, terraced anchor at the river head of the spine
   for(let i=0;i<5;i++){
     const gx=(i-2)*5.2, gz=RIVER_Z+22, gh=22+(2-Math.abs(i-2))*7;
-    const gm=new THREE.Mesh(new THREE.BoxGeometry(6,gh,8),towerMat(i===2?AZ:0x8089a0));
-    gm.position.set(gx,gh/2,gz);city.add(gm);
+    addGlass(new THREE.BoxGeometry(6,gh,8),gx,gh/2,gz,i===2?EM:AZ);
   }
   const capitol=new THREE.Mesh(new THREE.SphereGeometry(1.0,16,16),new THREE.MeshBasicMaterial({color:EM}));
   capitol.position.set(0,22+2*7+3,RIVER_Z+22);city.add(capitol);
