@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="description" content="AMARATWIN — the living digital twin & open-data nexus of Amaravati, the People's Capital. A concept cinematic 3D experience and open-data platform for the Amaravati master plan.">
+<meta name="description" content="data.amaravati — the open-data nexus and living digital twin of Amaravati, the People's Capital. Browse a governed catalogue of city datasets across nine theme cities, classified by confidentiality and requestable by role. Concept platform.">
 <meta name="theme-color" content="#05070e">
-<meta property="og:title" content="AMARATWIN — Digital Twin of the People's Capital">
-<meta property="og:description" content="A sleek 3D digital twin and open-data nexus for Amaravati. Concept prototype.">
-<title>AMARATWIN — Digital Twin & Open-Data Nexus of Amaravati</title>
+<meta property="og:title" content="data.amaravati — Open-Data Nexus of the People's Capital">
+<meta property="og:description" content="A governed open-data catalogue and 3D digital twin for Amaravati. Datasets classified by confidentiality, requestable by role, with single sign-on. Concept prototype.">
+<title>data.amaravati — Open-Data Nexus & Digital Twin of Amaravati</title>
 <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+<link rel="preconnect" href="https://accounts.google.com">
 <link rel="preload" as="script" href="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" crossorigin>
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -226,6 +227,116 @@
   .disclaimer{max-width:var(--maxw);margin:38px auto 0;padding:22px clamp(18px,5vw,56px) 0;border-top:1px solid var(--line-soft);font-size:11.5px;color:var(--muted-2);line-height:1.7}
   .disclaimer b{color:var(--muted)}
 
+  /* ---------- auth (nav) ---------- */
+  .auth{display:flex;align-items:center;gap:12px}
+  .user-chip{display:none;align-items:center;gap:9px;padding:5px 12px 5px 6px;border:1px solid var(--line);border-radius:30px;background:var(--surface);cursor:pointer}
+  .user-chip.on{display:inline-flex}
+  .user-chip img,.user-chip .av{width:26px;height:26px;border-radius:50%;object-fit:cover;background:linear-gradient(120deg,var(--saffron),var(--gold));display:grid;place-items:center;color:#1a1205;font-weight:700;font-size:12px}
+  .user-chip .un{font-size:12.5px;line-height:1.1}
+  .user-chip .ur{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-2)}
+  #signInBtn.hide{display:none}
+
+  /* ---------- classification badges ---------- */
+  .cls{display:inline-flex;align-items:center;gap:6px;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;padding:3px 9px;border-radius:20px;border:1px solid currentColor;white-space:nowrap}
+  .cls i{width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 7px currentColor}
+  .cls.public{color:#5ad17a}
+  .cls.internal{color:var(--pulse)}
+  .cls.restricted{color:var(--gold)}
+  .cls.confidential{color:#ff7a7a}
+
+  /* classification legend */
+  .legend{max-width:var(--maxw);margin:0 auto;padding:0 clamp(18px,5vw,56px);display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  @media(max-width:880px){.legend{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:460px){.legend{grid-template-columns:1fr}}
+  .tier{border:1px solid var(--line-soft);border-left:3px solid var(--tc);border-radius:12px;padding:22px 22px 24px;background:var(--surface)}
+  .tier h4{font-size:1.05rem;margin:10px 0 6px;display:flex;align-items:center;gap:8px}
+  .tier .lvl{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--tc);font-weight:600}
+  .tier p{font-size:.85rem;color:var(--muted);margin-bottom:10px}
+  .tier .ex{font-size:11px;color:var(--muted-2);border-top:1px solid var(--line-soft);padding-top:10px}
+
+  /* ---------- dataset catalogue ---------- */
+  .catbar{max-width:var(--maxw);margin:0 auto 26px;padding:0 clamp(18px,5vw,56px);display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+  .chip{font-size:12px;letter-spacing:.02em;padding:8px 15px;border-radius:24px;border:1px solid var(--line-soft);background:var(--surface);color:var(--muted);cursor:pointer;transition:border-color .2s,color .2s,background .2s}
+  .chip:hover{color:var(--text);border-color:var(--gold)}
+  .chip.on{color:#1a1205;background:linear-gradient(120deg,var(--saffron),var(--gold));border-color:transparent;font-weight:600}
+  .catalogue{max-width:var(--maxw);margin:0 auto;padding:0 clamp(18px,5vw,56px);display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+  .ds{position:relative;display:flex;flex-direction:column;border:1px solid var(--line-soft);border-radius:var(--radius);background:var(--surface);padding:20px 20px 18px;transition:border-color .2s,transform .2s}
+  .ds:hover{transform:translateY(-4px);border-color:var(--gd,var(--gold))}
+  .ds .ds-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:10px}
+  .ds .ent{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted-2)}
+  .ds h4{font-size:1.02rem;font-weight:600;margin:2px 0 8px;line-height:1.25}
+  .ds p{font-size:.84rem;color:var(--muted);margin-bottom:14px;flex:1}
+  .ds .meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+  .ds .meta span{font-size:10px;padding:3px 9px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid var(--line-soft);color:var(--muted);font-family:var(--display)}
+  .ds .ds-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid var(--line-soft);padding-top:13px}
+  .ds .req{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;padding:8px 14px;border-radius:22px;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--text);cursor:pointer;transition:border-color .2s,background .2s}
+  .ds .req:hover{border-color:var(--gold);background:rgba(231,196,107,.1)}
+  .ds .req .lock{font-size:11px;opacity:.8}
+  .ds.locked{opacity:.92}
+  .ds.locked .req{border-style:dashed;color:var(--muted)}
+
+  /* ---------- access matrix ---------- */
+  .matrix-wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(18px,5vw,56px);overflow-x:auto}
+  table.matrix{width:100%;border-collapse:collapse;min-width:620px;font-size:13px}
+  table.matrix th,table.matrix td{padding:14px 14px;text-align:center;border-bottom:1px solid var(--line-soft)}
+  table.matrix thead th{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;vertical-align:bottom}
+  table.matrix tbody th{text-align:left;font-weight:600;color:var(--text);white-space:nowrap}
+  table.matrix tbody th small{display:block;font-weight:400;font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted-2);margin-top:2px}
+  table.matrix .y{color:#5ad17a;font-size:15px}
+  table.matrix .n{color:var(--muted-2);opacity:.5}
+  table.matrix .c{color:var(--gold);font-size:11px;letter-spacing:.04em}
+  table.matrix tbody tr:hover{background:rgba(255,255,255,.02)}
+
+  /* personas */
+  .personas{max-width:var(--maxw);margin:0 auto 46px;padding:0 clamp(18px,5vw,56px);display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:900px){.personas{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.personas{grid-template-columns:1fr}}
+  .persona{border:1px solid var(--line-soft);border-radius:var(--radius);padding:22px 22px 24px;background:var(--surface);transition:border-color .2s,transform .2s}
+  .persona:hover{border-color:var(--pc,var(--gold));transform:translateY(-3px)}
+  .persona .pi{font-size:26px;margin-bottom:12px}
+  .persona h4{font-size:1.06rem;margin-bottom:4px}
+  .persona .te{font-family:var(--tel);font-size:.78rem;color:var(--saffron);opacity:.85;margin-bottom:9px}
+  .persona p{font-size:.84rem;color:var(--muted);margin-bottom:12px}
+  .persona .clr{display:flex;flex-wrap:wrap;gap:6px}
+
+  /* ---------- onboarding modal ---------- */
+  .ov{position:fixed;inset:0;z-index:300;background:rgba(3,5,12,.74);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px}
+  .ov.on{display:flex}
+  .modal{position:relative;width:min(560px,96vw);max-height:92vh;overflow-y:auto;background:linear-gradient(180deg,var(--bg-3),var(--surface-solid));border:1px solid var(--line);border-radius:20px;padding:34px clamp(22px,4vw,40px) 30px;box-shadow:0 40px 100px -30px rgba(0,0,0,.9)}
+  .modal .x{position:absolute;top:16px;right:16px;width:34px;height:34px;border-radius:50%;border:1px solid var(--line-soft);background:transparent;color:var(--muted);font-size:18px;cursor:pointer;line-height:1}
+  .modal .x:hover{color:var(--text);border-color:var(--gold)}
+  .modal .seal{width:44px;height:44px;margin-bottom:16px}
+  .modal .mk{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--saffron);font-weight:600;margin-bottom:10px}
+  .modal h3{font-family:var(--display);font-weight:400;font-size:clamp(1.5rem,3vw,2rem);line-height:1.1;margin-bottom:8px}
+  .modal h3 em{font-style:italic;color:var(--gold)}
+  .modal .tel{font-family:var(--tel);font-size:.92rem;color:var(--saffron);opacity:.9;margin-bottom:14px}
+  .modal>p{font-size:.92rem;color:var(--muted);margin-bottom:22px}
+  .modal .ds-ctx{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--muted);background:rgba(255,255,255,.03);border:1px solid var(--line-soft);border-radius:12px;padding:12px 14px;margin-bottom:22px}
+  .modal .ds-ctx b{color:var(--text);font-weight:600}
+  .steps{display:flex;gap:8px;margin-bottom:24px}
+  .steps .st{flex:1;height:3px;border-radius:3px;background:var(--line-soft)}
+  .steps .st.on{background:linear-gradient(90deg,var(--saffron),var(--gold))}
+  .gbtn{width:100%;display:flex;align-items:center;justify-content:center;gap:12px;padding:14px;border-radius:12px;border:1px solid var(--line);background:#fff;color:#1f2329;font-size:14.5px;font-weight:600;cursor:pointer;transition:transform .15s,box-shadow .2s}
+  .gbtn:hover{transform:translateY(-1px);box-shadow:0 14px 30px -16px rgba(0,0,0,.8)}
+  #gsiMount{display:flex;justify-content:center;min-height:44px;margin-bottom:6px}
+  .or{display:flex;align-items:center;gap:12px;margin:18px 0;color:var(--muted-2);font-size:11px;letter-spacing:.1em;text-transform:uppercase}
+  .or::before,.or::after{content:"";flex:1;height:1px;background:var(--line-soft)}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+  .field select,.field input{width:100%;padding:12px 14px;border-radius:11px;border:1px solid var(--line-soft);background:var(--surface);color:var(--text);font-size:14px;font-family:inherit}
+  .field select:focus,.field input:focus{outline:none;border-color:var(--gold)}
+  .note{font-size:11px;color:var(--muted-2);line-height:1.6;margin-top:6px}
+  .note code{font-family:var(--display);color:var(--gold);background:rgba(231,196,107,.08);padding:1px 6px;border-radius:5px}
+  .mfoot{display:flex;gap:12px;margin-top:8px}
+  .mfoot .btn{flex:1;justify-content:center}
+  .ok-screen{text-align:center;padding:8px 0}
+  .ok-screen .tick{width:66px;height:66px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;background:rgba(90,209,122,.12);border:1px solid #5ad17a;color:#5ad17a;font-size:30px}
+  .ok-screen ul{list-style:none;text-align:left;max-width:380px;margin:18px auto 0;font-size:13px}
+  .ok-screen li{padding:8px 0 8px 24px;position:relative;color:var(--muted);border-bottom:1px solid var(--line-soft)}
+  .ok-screen li:last-child{border:none}
+  .ok-screen li::before{content:"✓";position:absolute;left:0;color:#5ad17a}
+  .ssoflag{font-size:10.5px;color:var(--gold);background:rgba(231,196,107,.08);border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin-bottom:16px;line-height:1.5}
+
   /* reveal anim */
   .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
   .reveal.in{opacity:1;transform:none}
@@ -244,26 +355,32 @@
   <div class="l-mark">
     <svg class="chakra" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" fill="none" stroke="#3b7bff" stroke-width="3"/><circle cx="50" cy="50" r="7" fill="#e7c46b"/><g stroke="#9fb0cc" stroke-width="2">
     <line x1="50" y1="9" x2="50" y2="91"/><line x1="9" y1="50" x2="91" y2="50"/><line x1="20" y1="20" x2="80" y2="80"/><line x1="80" y1="20" x2="20" y2="80"/><line x1="33" y1="11" x2="67" y2="89"/><line x1="67" y1="11" x2="33" y2="89"/><line x1="11" y1="33" x2="89" y2="67"/><line x1="11" y1="67" x2="89" y2="33"/></g></svg>
-    AMARA<span>VERSE</span>
+    data<span>.amaravati</span>
   </div>
   <div class="l-bar"><i id="lbar"></i></div>
-  <div class="l-sub">Compiling the digital twin…</div>
+  <div class="l-sub">Opening the open-data nexus…</div>
 </div>
 
 <div class="prog" id="prog"></div>
 
 <!-- nav -->
 <nav class="top" id="nav">
-  <a class="brand" href="#top" aria-label="AMARATWIN home">
+  <a class="brand" href="#top" aria-label="data.amaravati home">
     <svg class="seal" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="#e7c46b" stroke-width="2.5"/><circle cx="50" cy="50" r="6" fill="#ff9933"/><g stroke="#3b7bff" stroke-width="2"><line x1="50" y1="8" x2="50" y2="92"/><line x1="8" y1="50" x2="92" y2="50"/><line x1="21" y1="21" x2="79" y2="79"/><line x1="79" y1="21" x2="21" y2="79"/></g></svg>
-    <span><b>AMARA<i>VERSE</i></b><small>Digital Twin · Open Data</small></span>
+    <span><b>data<i>.amaravati</i></b><small>Open-Data Nexus · Amaravati</small></span>
   </a>
   <div class="navlinks">
-    <a href="#pillars">Platform</a>
+    <a href="#catalogue">Catalogue</a>
     <a href="#connectors">Connectors</a>
+    <a href="#access">Access &amp; Roles</a>
     <a href="#cities">Theme Cities</a>
-    <a href="#roles">For Citizens</a>
-    <a href="#app" class="nav-cta">Get the App</a>
+    <div class="auth">
+      <button class="user-chip" id="userChip" aria-label="Your account">
+        <span class="av" id="userAv">U</span>
+        <span><span class="un" id="userName">You</span><span class="ur" id="userRole">Citizen</span></span>
+      </button>
+      <a href="#" class="nav-cta" id="signInBtn" role="button">Sign in</a>
+    </div>
   </div>
 </nav>
 
@@ -275,13 +392,13 @@
 <!-- HERO -->
 <header class="hero">
   <div class="hero-inner">
-    <span class="eyebrow">Amaravati · The People's Capital <span class="live"><i></i>Live Twin</span></span>
-    <h1>The living <em>digital twin</em> of a capital being born.</h1>
-    <div class="tel">అమరావతి — ప్రజల రాజధాని</div>
-    <p class="lead">AMARATWIN renders the Amaravati master plan as a navigable 3D twin and an open-data nexus — every domain of the city, from governance to the river, exposed as a live, queryable data connector.</p>
+    <span class="eyebrow">Amaravati · The People's Capital <span class="live"><i></i>Live Nexus</span></span>
+    <h1>The open-data nexus of a <em>capital being born.</em></h1>
+    <div class="tel">అమరావతి — ప్రజల రాజధాని డేటా</div>
+    <p class="lead"><b>data.amaravati</b> turns the Amaravati master plan into a governed open-data catalogue and a navigable 3D twin — hundreds of city datasets, classified by confidentiality and requestable by role, from a single sign-on.</p>
     <div class="hero-cta">
-      <a class="btn btn-primary" href="#connectors">Explore the data ↗</a>
-      <a class="btn btn-ghost" href="#app">Get the mobile app</a>
+      <a class="btn btn-primary" href="#catalogue">Browse the catalogue ↗</a>
+      <a class="btn btn-ghost" href="#" id="heroRequest">Request access</a>
     </div>
   </div>
   <div class="hero-foot"><span class="ln"></span> Scroll to explore <span class="ln"></span></div>
@@ -297,7 +414,7 @@
   <div class="sec-head reveal">
     <span class="kicker">The capital at a glance</span>
     <h2>One plan. <em>Nine cities.</em> Endless data.</h2>
-    <p>Indicative headline figures drawn from public reporting on the Amaravati master plan. Every number in AMARATWIN is sourced and framed as indicative until verified against official APCRDA data.</p>
+    <p>Indicative headline figures drawn from public reporting on the Amaravati master plan. Every number in data.amaravati is sourced and framed as indicative until verified against official APCRDA data.</p>
   </div>
   <div class="kpis reveal" id="kpis"></div>
 </section>
@@ -315,11 +432,46 @@
 <!-- CONNECTORS -->
 <section class="content" id="connectors">
   <div class="sec-head reveal">
-    <span class="kicker">The data layer · 12 connectors</span>
+    <span class="kicker">The data layer · 13 connectors</span>
     <h2>Every domain of the city, <em>as a live connector.</em></h2>
-    <p>Each connector publishes governed, refreshable feeds with a defined schema, owner and cadence — the API surface of the digital twin.</p>
+    <p>Each connector publishes governed, refreshable feeds with a defined schema, owner and cadence — the API surface of the digital twin, from land-use zoning to the Krishna riverfront.</p>
   </div>
   <div class="grid reveal" id="connectors-grid"></div>
+</section>
+
+<!-- CATALOGUE -->
+<section class="content alt" id="catalogue">
+  <div class="sec-head reveal">
+    <span class="kicker">The open-data catalogue</span>
+    <h2>What each entity can <em>actually request.</em></h2>
+    <p>A pre-loaded sample of the governed datasets published across the city's connectors. Every dataset carries a format, an update cadence, an owning department and a confidentiality class that decides who may request it. Pick a class or a domain to filter.</p>
+  </div>
+  <div class="catbar reveal" id="catbar" role="group" aria-label="Filter datasets"></div>
+  <div class="catalogue reveal" id="catalogue-grid"></div>
+</section>
+
+<!-- ACCESS & ROLES -->
+<section class="content" id="access">
+  <div class="sec-head reveal">
+    <span class="kicker">Data classification &amp; confidentiality</span>
+    <h2>Open by default, <em>governed by design.</em></h2>
+    <p>Every dataset is graded on a four-tier confidentiality scale. The tier — not the team — decides the path to access, the controls applied, and the audit trail kept.</p>
+  </div>
+  <div class="legend reveal" id="legend-grid"></div>
+
+  <div class="sec-head reveal" style="margin-top:72px">
+    <span class="kicker">Personas · who the nexus serves</span>
+    <h2>One catalogue, <em>many entities.</em></h2>
+    <p>Sign-in maps every user to a persona. Your persona sets a default access envelope — what you can request instantly, what needs an agreement, and what is closed.</p>
+  </div>
+  <div class="personas reveal" id="personas-grid"></div>
+
+  <div class="sec-head reveal">
+    <span class="kicker">The access matrix</span>
+    <h2>Persona <em>×</em> confidentiality.</h2>
+    <p>How each persona meets each tier — instant, on agreement, or closed. The same matrix governs the catalogue above and the request flow.</p>
+  </div>
+  <div class="matrix-wrap reveal"><table class="matrix" id="matrix"></table></div>
 </section>
 
 <!-- CITIES -->
@@ -327,7 +479,7 @@
   <div class="sec-head reveal">
     <span class="kicker">The spatial layer · 9 theme cities + Quantum Valley</span>
     <h2>A polycentric capital, <em>zone by zone.</em></h2>
-    <p>The master plan is organised into specialised theme cities. In AMARATWIN each is a 3D zone with its own connectors filtered in.</p>
+    <p>Anchored by the ~1,575-acre <b>Amaravati Government Complex</b> and organised, in the Detailed Master Plan, across the R·C·I·P·S·U land-use zones along the Krishna riverfront and Inner Ring Road. In data.amaravati each theme city is a 3D zone with its connectors filtered in.</p>
   </div>
   <div class="cities reveal" id="cities-grid"></div>
 </section>
@@ -358,7 +510,7 @@
     <div class="reveal">
       <span class="kicker" style="color:var(--gold)">The hybrid mobile app</span>
       <h2>Carry the capital <em>in your pocket.</em></h2>
-      <p>The AMARATWIN companion app — built with Flutter — puts the live twin, every connector and your neighbourhood's data on iOS and Android. Bilingual, offline-aware, accessible by default.</p>
+      <p>The data.amaravati companion app — built with Flutter — puts the live twin, every connector and your neighbourhood's data on iOS and Android. Bilingual, offline-aware, accessible by default.</p>
       <div class="stores">
         <a class="store" href="#app" aria-label="Download on the App Store (concept)"><span class="em">⌘</span><span><small>Download on the</small><b>App Store</b></span></a>
         <a class="store" href="#app" aria-label="Get it on Google Play (concept)"><span class="em">▶</span><span><small>Get it on</small><b>Google Play</b></span></a>
@@ -392,37 +544,47 @@
 <footer>
   <div class="foot-grid">
     <div class="foot-brand">
-      <b>AMARA<i>VERSE</i></b>
-      <p>The concept digital-twin universe and open-data nexus of Amaravati, the People's Capital.</p>
+      <b>data<i>.amaravati</i></b>
+      <p>The concept open-data nexus and living digital twin of Amaravati, the People's Capital.</p>
     </div>
     <div>
-      <h5>Platform</h5>
-      <a href="#pillars">Four pillars</a><a href="#connectors">Connectors</a><a href="#architecture">Architecture</a><a href="#roles">Roles</a>
+      <h5>Data</h5>
+      <a href="#catalogue">Catalogue</a><a href="#connectors">Connectors</a><a href="#access">Classification</a><a href="#architecture">Architecture</a>
+    </div>
+    <div>
+      <h5>Access</h5>
+      <a href="#access">Personas &amp; roles</a><a href="#access">Access matrix</a><a href="#" data-open-auth>Sign in</a>
     </div>
     <div>
       <h5>Explore</h5>
-      <a href="#cities">Theme cities</a><a href="#overview">City at a glance</a><a href="#app">Mobile app</a>
-    </div>
-    <div>
-      <h5>About</h5>
-      <a href="#top">The vision</a><a href="#app">Get involved</a><a href="#main">Data dictionary</a>
+      <a href="#cities">Theme cities</a><a href="#overview">At a glance</a><a href="#app">Mobile app</a>
     </div>
   </div>
   <div class="disclaimer">
-    <b>Concept prototype — not an official product.</b> AMARATWIN is not a Government of Andhra Pradesh or APCRDA product and is not endorsed by either. It deliberately does not use the official State Emblem (whose use is legally restricted) or any copyrighted master-plan artwork. The 3D model is an original interpretation of the publicly documented city layout. All headline figures are indicative and drawn from public reporting. © 2026 AMARATWIN concept. Bilingual Telugu + English throughout.
+    <b>Concept prototype — not an official product.</b> data.amaravati is an independent concept inspired by the public Amaravati master plan and the spirit of CRDA's open-data vision. It is <b>not</b> a Government of Andhra Pradesh or APCRDA product and is not endorsed by either. It deliberately does not use the official State Emblem (whose use is legally restricted) or any copyrighted master-plan artwork. The 3D model is an original interpretation of the publicly documented city layout. All datasets shown are illustrative samples and all headline figures are indicative, drawn from public reporting. © 2026 data.amaravati concept. Bilingual Telugu + English throughout.
   </div>
 </footer>
+
+<!-- ONBOARDING / SSO MODAL -->
+<div class="ov" id="ov" role="dialog" aria-modal="true" aria-labelledby="ovTitle" aria-hidden="true">
+  <div class="modal" id="modal">
+    <button class="x" id="ovClose" aria-label="Close dialog">×</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
 </main>
 
+<!-- Google Identity Services (real Gmail SSO; activates once GOOGLE_CLIENT_ID is set) -->
+<script src="https://accounts.google.com/gsi/client" async></script>
 <!-- Three.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 /* ============== DATA ============== */
 const KPI_DATA=[
-  {num:"217",unit:" km²",lbl:"Master-plan capital region"},
-  {num:"9",unit:"",lbl:"Specialised theme cities"},
+  {num:"217",unit:" km²",lbl:"Amaravati capital city"},
+  {num:"1,575",unit:" ac",lbl:"Government Complex · AGC"},
+  {num:"21",unit:"",lbl:"Land-use zones · R·C·I·P·S·U"},
   {num:"1.2",unit:"k+",lbl:"Indicative open datasets"},
-  {num:"3.5",unit:"M",lbl:"Projected residents by 2050"},
 ];
 const PILLAR_DATA=[
   {n:"01",t:"Statistical Reference",d:"The single source of truth — population, land, economy and infrastructure baselines for the capital region.",c:"var(--saffron)"},
@@ -431,6 +593,7 @@ const PILLAR_DATA=[
   {n:"04",t:"Analytics & Foresight",d:"Dashboards, scenario models and AI forecasts that turn the twin into decisions.",c:"var(--gold)"},
 ];
 const CONNECTOR_DATA=[
+  {e:"Land & Zoning",t:"Plan & Parcels",d:"The Detailed Master Plan's land-use zones — R·C·I·P·S·U — parcels, layouts and pooling.",ic:"🗺️",feeds:["Zoning","Layouts","LPS"],c:"#7ad0ff"},
   {e:"Governance",t:"Civic Pulse",d:"Service requests, permits and citizen sentiment across the capital.",ic:"⚖️",feeds:["Grievances","Permits","e-Services"],c:"var(--saffron)"},
   {e:"Quantum",t:"Quantum Valley",d:"Compute capacity, research output and deep-tech enterprise activity.",ic:"⚛️",feeds:["Compute","R&D","Startups"],c:"var(--cyan)"},
   {e:"Mobility",t:"Move Amaravati",d:"Transit, traffic flow, EV charging and the seed-access road network.",ic:"🚇",feeds:["Transit","Traffic","EV"],c:"var(--pulse)"},
@@ -468,9 +631,55 @@ const ROLE_DATA=[
   {i:"💼",t:"For Investors",d:"The capital's opportunity, quantified.",items:["Sectoral growth & GVA feeds","Land & infrastructure readiness","Theme-city investment maps"]},
 ];
 const TICKER_DATA=[
-  "Krishna riverfront level · 12.4 m","Quantum Valley compute · 38% utilised","Government spine works · 64% complete",
-  "Capital-region AQI · 217 (Good)","Solar generation today · 1.9 GWh","Open datasets published · 1,240",
-  "Transit ridership · +6.2% w/w","Green canopy cover · 31%","New permits this week · 482",
+  "Krishna riverfront level · 12.4 m","Government Complex works · 64% complete","Inner Ring Road flow · free",
+  "Capital-city AQI · 71 (Good)","Solar generation today · 1.9 GWh","Open datasets published · 1,240",
+  "Transit ridership · +6.2% w/w","Green canopy cover · 31%","New building permits · 482",
+];
+
+/* ---- data classification (4-tier confidentiality) ---- */
+const CLASS_DATA=[
+  {key:"public",lvl:"P0 · Open",t:"Public",te:"బహిరంగ",d:"Open data anyone can use, share and build on under an open licence.",ex:"Path → instant download / open API · no sign-in needed",c:"#5ad17a"},
+  {key:"internal",lvl:"P1 · Internal",t:"Internal",te:"అంతర్గత",d:"Operational data shared across agencies and verified partners.",ex:"Path → signed-in request, API key issued · access logged",c:"var(--pulse)"},
+  {key:"restricted",lvl:"P2 · Restricted",t:"Restricted",te:"పరిమిత",d:"Sensitive or commercially valuable data needing a data-sharing agreement.",ex:"Path → agreement + purpose review · time-boxed, consent-bound",c:"var(--gold)"},
+  {key:"confidential",lvl:"P3 · Confidential",t:"Confidential",te:"గోప్యం",d:"Personal, security or individually-identifying records — strict need-to-know.",ex:"Path → closed · DPO approval, need-to-know, full audit",c:"#ff7a7a"},
+];
+const CLS=Object.fromEntries(CLASS_DATA.map(c=>[c.key,c]));
+
+/* ---- personas (who the nexus serves) + access envelope (y=instant, c=on agreement, n=closed) ---- */
+const PERSONA_DATA=[
+  {key:"citizen",i:"🧑",t:"Citizen",te:"పౌరుడు",d:"Residents exploring their ward — services, air, water and build progress.",access:{public:"y",internal:"n",restricted:"n",confidential:"n"}},
+  {key:"researcher",i:"🎓",t:"Researcher · Academia",te:"పరిశోధకుడు",d:"Universities & analysts working on aggregate, de-identified data.",access:{public:"y",internal:"c",restricted:"c",confidential:"n"}},
+  {key:"startup",i:"🚀",t:"Startup · Enterprise",te:"సంస్థ",d:"Builders shipping products on governed commercial feeds and APIs.",access:{public:"y",internal:"y",restricted:"n",confidential:"n"}},
+  {key:"agency",i:"🏛️",t:"Government Agency",te:"ప్రభుత్వ సంస్థ",d:"Departments exchanging operational data under governed agreements.",access:{public:"y",internal:"y",restricted:"y",confidential:"c"}},
+  {key:"partner",i:"🤝",t:"Infrastructure Partner",te:"భాగస్వామి",d:"Utilities & concessionaires operating city systems at scale.",access:{public:"y",internal:"y",restricted:"y",confidential:"n"}},
+  {key:"steward",i:"🛡️",t:"Data Steward",te:"డేటా స్టీవార్డ్",d:"Custodians who publish, classify and govern the catalogue.",access:{public:"y",internal:"y",restricted:"y",confidential:"y"}},
+];
+const PERSONAS=Object.fromEntries(PERSONA_DATA.map(p=>[p.key,p]));
+
+/* ---- pre-loaded sample dataset catalogue (illustrative, grounded in the public plan) ---- */
+const DATASET_DATA=[
+  {ent:"Land & Zoning",cls:"public",t:"Land-Use Zoning Parcels",d:"Every parcel by zone family — R·C·I·P·S·U — from the Detailed Master Plan.",fmt:"GeoJSON",cad:"On revision",owner:"APCRDA Planning"},
+  {ent:"Land & Zoning",cls:"internal",t:"Layout & Plot Sanctions",d:"Approved layouts, sub-division and plot-level sanction status.",fmt:"REST API",cad:"Daily",owner:"DTCP · APCRDA"},
+  {ent:"Land & Zoning",cls:"restricted",t:"Land-Pooling (LPS) Returns",d:"Returnable-plot allotments against pooled survey numbers across 29 villages.",fmt:"API",cad:"Weekly",owner:"APCRDA"},
+  {ent:"Governance",cls:"public",t:"Citizen Grievances (PGRS)",d:"Service requests and resolution times across the capital city.",fmt:"CSV · API",cad:"Daily",owner:"Citizen Services"},
+  {ent:"Governance",cls:"internal",t:"Building Permits & Occupancy",d:"Permit pipeline, approvals and occupancy certificates.",fmt:"REST API",cad:"Hourly",owner:"APCRDA Planning"},
+  {ent:"Governance",cls:"confidential",t:"Official Action & Approval Logs",d:"Identifiable officer decision and file-movement audit trail.",fmt:"—",cad:"—",owner:"APCRDA"},
+  {ent:"Mobility",cls:"public",t:"Inner Ring Road Traffic Flow",d:"Speed and volume across the IRR and arterial 60/50/25 m network.",fmt:"GeoJSON",cad:"5 min",owner:"Transport Dept"},
+  {ent:"Mobility",cls:"public",t:"Public Transit Positions",d:"Live bus/metro vehicle positions for the capital region.",fmt:"GTFS-RT",cad:"15 sec",owner:"APSRTC"},
+  {ent:"Mobility",cls:"restricted",t:"ANPR Vehicle Movements",d:"Number-plate transit records at key junctions.",fmt:"API",cad:"Real-time",owner:"Traffic Police"},
+  {ent:"Water",cls:"public",t:"Krishna Riverfront & Bund Levels",d:"River stage and bund-road levels along the northern edge.",fmt:"REST API",cad:"10 min",owner:"Irrigation"},
+  {ent:"Water",cls:"restricted",t:"Reservoir & Supply (SCADA)",d:"Pump-house pressure, storage and distribution telemetry.",fmt:"—",cad:"Real-time",owner:"Water Utility"},
+  {ent:"Environment",cls:"public",t:"Air Quality Index (CAAQMS)",d:"Continuous ambient air-quality monitoring across stations.",fmt:"REST API",cad:"Hourly",owner:"APPCB"},
+  {ent:"Environment",cls:"public",t:"Green & Blue Network Cover",d:"Canopy, parks (P1/P2/P3) and the blue-green water network.",fmt:"GeoTIFF",cad:"Seasonal",owner:"APCRDA"},
+  {ent:"Economy",cls:"public",t:"Sectoral GVA, Jobs & Output",d:"Headline economic indicators by sector for the capital.",fmt:"CSV",cad:"Quarterly",owner:"Economic Dev"},
+  {ent:"Economy",cls:"internal",t:"FDI & Investment Pipeline",d:"Committed and in-pipeline investment by zone and sector.",fmt:"API",cad:"Weekly",owner:"AP EDB"},
+  {ent:"Housing",cls:"internal",t:"Affordable Housing Allotments",d:"Stock, allotment and occupancy of public housing.",fmt:"CSV",cad:"Weekly",owner:"APCRDA"},
+  {ent:"Housing",cls:"restricted",t:"Property Registration Prices",d:"Plot-level registered transaction values.",fmt:"—",cad:"Daily",owner:"Registration & Stamps"},
+  {ent:"Demographics",cls:"public",t:"Ward Population & Density",d:"Population, households and density by ward and zone.",fmt:"CSV",cad:"Annual",owner:"DES"},
+  {ent:"Demographics",cls:"confidential",t:"Individual Land-Loser Records",d:"Identifiable farmer/land-loser records under land pooling.",fmt:"—",cad:"—",owner:"APCRDA"},
+  {ent:"Construction",cls:"public",t:"Government Complex (AGC) Progress",d:"Works progress across the ~1,575-acre Government Complex.",fmt:"REST API",cad:"Daily",owner:"APCRDA"},
+  {ent:"Safety",cls:"public",t:"Emergency Response (112) Times",d:"Aggregate response times for police, fire and medical.",fmt:"API",cad:"Daily",owner:"Police · DM"},
+  {ent:"Safety",cls:"confidential",t:"Command Centre Incident Feeds",d:"Live CCTV-linked incident and surveillance feeds.",fmt:"—",cad:"—",owner:"Police"},
 ];
 
 /* ============== BUILD UI ============== */
@@ -489,6 +698,160 @@ ROLE_DATA.forEach(r=>$("#roles-grid").insertAdjacentHTML("beforeend",
   `<div class="role"><div class="ri">${r.i}</div><h3>${r.t}</h3><p>${r.d}</p><ul>${r.items.map(x=>`<li>${x}</li>`).join("")}</ul></div>`));
 const tHTML=TICKER_DATA.map(t=>{const[a,b]=t.split("·");return `<span class="it"><span class="pu"></span>${a}<b>${b||""}</b></span>`}).join("");
 $("#track").innerHTML=tHTML+tHTML;
+
+/* ---- classification legend ---- */
+CLASS_DATA.forEach(c=>$("#legend-grid").insertAdjacentHTML("beforeend",
+  `<div class="tier" style="--tc:${c.c}"><span class="lvl">${c.lvl}</span><h4><span class="cls ${c.key}"><i></i>${c.t}</span></h4><div class="te" style="font-family:var(--tel);color:var(--saffron);font-size:.8rem;opacity:.85;margin-bottom:8px">${c.te}</div><p>${c.d}</p><div class="ex">${c.ex}</div></div>`));
+
+/* ---- personas ---- */
+PERSONA_DATA.forEach(p=>{
+  const chips=CLASS_DATA.map(c=>{const a=p.access[c.key];return a==="n"?"":`<span class="cls ${c.key}"><i></i>${c.t}${a==="c"?" ·agreement":""}</span>`}).join("");
+  $("#personas-grid").insertAdjacentHTML("beforeend",
+    `<div class="persona" style="--pc:${CLS.public.c}"><div class="pi">${p.i}</div><h4>${p.t}</h4><div class="te">${p.te}</div><p>${p.d}</p><div class="clr">${chips||'<span class="cls" style="color:var(--muted-2)">No access</span>'}</div></div>`);
+});
+
+/* ---- access matrix ---- */
+(function(){
+  const head=`<thead><tr><th>Persona</th>${CLASS_DATA.map(c=>`<th><span class="cls ${c.key}" style="border:none;padding:0"><i></i>${c.t}</span></th>`).join("")}</tr></thead>`;
+  const body=`<tbody>${PERSONA_DATA.map(p=>`<tr><th>${p.t}<small>${p.te}</small></th>${CLASS_DATA.map(c=>{const a=p.access[c.key];return `<td>${a==="y"?'<span class="y">●</span>':a==="c"?'<span class="c">agreement</span>':'<span class="n">—</span>'}</td>`}).join("")}</tr>`).join("")}</tbody>`;
+  $("#matrix").innerHTML=head+body;
+})();
+
+/* ============== ONBOARDING · GOOGLE SSO ============== */
+/* Drop your Google Cloud OAuth 2.0 Client ID here to switch real Gmail sign-in on.
+   Create one at console.cloud.google.com → APIs & Services → Credentials → OAuth client (Web),
+   add your domain(s) to "Authorised JavaScript origins". Until then a demo identity is used. */
+const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_OAUTH_CLIENT_ID.apps.googleusercontent.com";
+const realClientId = () => GOOGLE_CLIENT_ID && !/^YOUR_/.test(GOOGLE_CLIENT_ID);
+
+let SESSION = (()=>{try{return JSON.parse(localStorage.getItem("dav_session"))||null}catch(e){return null}})();
+let pendingDataset = null;
+
+const ov=$("#ov"), modalBody=$("#modalBody");
+function persistSession(){SESSION?localStorage.setItem("dav_session",JSON.stringify(SESSION)):localStorage.removeItem("dav_session");renderAuth();buildCatalogue(activeFilter);}
+function signOut(){SESSION=null;persistSession();renderModal("signin");}
+
+function renderAuth(){
+  const chip=$("#userChip"), btn=$("#signInBtn");
+  if(SESSION){
+    chip.classList.add("on"); btn.classList.add("hide");
+    const p=PERSONAS[SESSION.persona]||PERSONAS.citizen;
+    $("#userName").textContent=(SESSION.name||"You").split(" ")[0];
+    $("#userRole").textContent=p.t;
+    const av=$("#userAv");
+    if(SESSION.picture){av.outerHTML=`<img class="av" id="userAv" src="${SESSION.picture}" alt="" referrerpolicy="no-referrer">`;}
+    else{av.textContent=(SESSION.name||"U").charAt(0).toUpperCase();}
+  }else{chip.classList.remove("on"); btn.classList.remove("hide");}
+}
+
+/* JWT decode (Google ID token → profile) */
+function decodeJwt(tok){try{const b=tok.split(".")[1].replace(/-/g,"+").replace(/_/g,"/");return JSON.parse(decodeURIComponent(escape(atob(b))));}catch(e){return null;}}
+function onGoogleCredential(resp){const p=decodeJwt(resp.credential);if(!p)return;afterSignIn({name:p.name||p.email,email:p.email,picture:p.picture||""});}
+function initGSI(){if(realClientId()&&window.google&&google.accounts&&google.accounts.id){try{google.accounts.id.initialize({client_id:GOOGLE_CLIENT_ID,callback:onGoogleCredential,auto_select:false});return true;}catch(e){}}return false;}
+
+function afterSignIn(profile){
+  SESSION={...profile, persona: (SESSION&&SESSION.persona)||"citizen"};
+  persistSession();
+  renderModal("persona");
+}
+
+/* ---- modal flow ---- */
+function openFlow(dataset){pendingDataset=dataset||null; ov.classList.add("on"); ov.setAttribute("aria-hidden","false"); renderModal(SESSION? (dataset?"request":"persona") : "signin");}
+function closeModal(){ov.classList.remove("on");ov.setAttribute("aria-hidden","true");pendingDataset=null;}
+
+const seal=`<svg class="seal" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="#e7c46b" stroke-width="2.5"/><circle cx="50" cy="50" r="6" fill="#ff9933"/><g stroke="#3b7bff" stroke-width="2"><line x1="50" y1="8" x2="50" y2="92"/><line x1="8" y1="50" x2="92" y2="50"/><line x1="21" y1="21" x2="79" y2="79"/><line x1="79" y1="21" x2="21" y2="79"/></g></svg>`;
+const steps=(n)=>`<div class="steps">${[1,2,3].map(i=>`<span class="st ${i<=n?'on':''}"></span>`).join("")}</div>`;
+function dsCtx(){return pendingDataset?`<div class="ds-ctx"><span class="cls ${pendingDataset.cls}"><i></i>${CLS[pendingDataset.cls].t}</span><span>Requesting <b>${pendingDataset.t}</b> · ${pendingDataset.ent}</span></div>`:"";}
+
+function renderModal(step){
+  if(step==="signin"){
+    modalBody.innerHTML=`${seal}<div class="mk">data.amaravati · Single sign-on</div>
+      <h3 id="ovTitle">Sign in to <em>request data</em></h3>
+      <div class="tel">అమరావతి డేటా · ప్రవేశం</div>
+      <p>One Google account unlocks the open catalogue, your persona's access envelope and your request history.</p>
+      ${dsCtx()}${steps(1)}
+      ${realClientId()?'<div id="gsiMount"></div>':`<div class="ssoflag">⚙︎ Real Gmail SSO is wired and ready — set <code>GOOGLE_CLIENT_ID</code> in <code>web/index.html</code> to activate it. Meanwhile, continue with a demo identity.</div>`}
+      <button class="gbtn" id="demoG"><svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9 3.6l6.7-6.7C35.5 2.6 30.1 0 24 0 14.6 0 6.4 5.4 2.5 13.3l7.8 6c1.9-5.6 7.1-9.8 13.7-9.8z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 3-2.3 5.5-4.8 7.2l7.4 5.7C43.9 38 46.5 31.8 46.5 24.5z"/><path fill="#FBBC05" d="M10.3 28.7c-.5-1.4-.7-2.9-.7-4.7s.3-3.3.7-4.7l-7.8-6C.9 16.5 0 20.1 0 24s.9 7.5 2.5 10.7l7.8-6z"/><path fill="#34A853" d="M24 48c6.1 0 11.3-2 15-5.5l-7.4-5.7c-2 1.4-4.7 2.3-7.6 2.3-6.6 0-11.8-4.2-13.7-9.8l-7.8 6C6.4 42.6 14.6 48 24 48z"/></svg>${realClientId()?'Sign in with Google':'Continue with Google (demo)'}</button>
+      <p class="note">By continuing you accept the concept Terms &amp; the data-sharing code of conduct. data.amaravati is a concept — not an official government service.</p>`;
+    if(realClientId()&&initGSI()){try{google.accounts.id.renderButton($("#gsiMount"),{theme:"filled_blue",size:"large",width:360,text:"continue_with"});}catch(e){}}
+    $("#demoG").onclick=()=>afterSignIn({name:"Demo Citizen",email:"demo@data.amaravati",picture:""});
+  }
+  else if(step==="persona"){
+    const opts=PERSONA_DATA.map(p=>`<option value="${p.key}" ${SESSION.persona===p.key?"selected":""}>${p.t}</option>`).join("");
+    modalBody.innerHTML=`${seal}<div class="mk">Welcome, ${(SESSION.name||"there").split(" ")[0]}</div>
+      <h3>Choose your <em>persona</em></h3>
+      <p>Your persona sets a default access envelope across the four confidentiality tiers. A Data Steward can change it later.</p>
+      ${dsCtx()}${steps(2)}
+      <div class="field"><label for="personaSel">I am a…</label><select id="personaSel">${opts}</select></div>
+      <div id="envPrev"></div>
+      <div class="mfoot"><button class="btn btn-ghost" id="soBtn">Sign out</button><button class="btn btn-primary" id="contBtn" style="flex:2">${pendingDataset?"Continue to request →":"Enter the nexus →"}</button></div>`;
+    const sel=$("#personaSel"); const prev=()=>{const p=PERSONAS[sel.value];$("#envPrev").innerHTML=`<div class="clr" style="margin-bottom:18px">${CLASS_DATA.map(c=>{const a=p.access[c.key];return `<span class="cls ${c.key}" style="${a==='n'?'opacity:.32':''}"><i></i>${c.t} ${a==='y'?'✓':a==='c'?'·agreement':'·closed'}</span>`}).join("")}</div>`;};
+    sel.onchange=()=>{SESSION.persona=sel.value;prev();}; prev();
+    $("#soBtn").onclick=signOut;
+    $("#contBtn").onclick=()=>{SESSION.persona=sel.value;persistSession();renderModal(pendingDataset?"request":"done");};
+  }
+  else if(step==="request"){
+    const p=PERSONAS[SESSION.persona], a=pendingDataset?p.access[pendingDataset.cls]:"y";
+    const verdict=a==="y"?{c:"#5ad17a",h:"Instant access",t:"Your persona may use this tier directly. An API key & download link are issued on submit."}:a==="c"?{c:"var(--gold)",h:"Access on agreement",t:"This tier needs a short purpose review and a data-sharing agreement. We'll route your request to the data steward."}:{c:"#ff7a7a",h:"Closed tier",t:"This dataset is confidential and not available to your persona. You can request a steward review, but approval is unlikely."};
+    modalBody.innerHTML=`${seal}<div class="mk">Request access</div>
+      <h3>${pendingDataset.t}</h3>
+      <p style="margin-bottom:14px">${pendingDataset.d}</p>
+      ${dsCtx()}${steps(3)}
+      <div class="ssoflag" style="color:${verdict.c};border-color:${verdict.c}"><b>${verdict.h}.</b> ${verdict.t}</div>
+      <div class="field"><label for="purpose">Purpose of use</label><input id="purpose" placeholder="e.g. ward-level mobility research"></div>
+      <div class="mfoot"><button class="btn btn-ghost" id="backBtn">Back</button><button class="btn btn-primary" id="subBtn" style="flex:2">Submit request</button></div>`;
+    $("#backBtn").onclick=()=>renderModal("persona");
+    $("#subBtn").onclick=()=>renderModal("done");
+  }
+  else if(step==="done"){
+    const p=PERSONAS[SESSION.persona];
+    const reqLine=pendingDataset?`<li>Request for <b>${pendingDataset.t}</b> logged with an audit reference</li>`:"";
+    modalBody.innerHTML=`<div class="ok-screen"><div class="tick">✓</div>
+      <h3>You're in${pendingDataset?" — request received":""}.</h3>
+      <p>Signed in as <b>${SESSION.email}</b> · ${p.t}</p>
+      <ul>${reqLine}<li>Public datasets are ready to download or call now</li><li>Internal & restricted tiers route through governance per the access matrix</li><li>Every request is consent-bound and audit-logged</li></ul>
+      <div class="mfoot" style="margin-top:22px"><button class="btn btn-ghost" id="doneBrowse">Browse catalogue</button><button class="btn btn-primary" id="doneClose" style="flex:2">Done</button></div></div>`;
+    $("#doneClose").onclick=closeModal;
+    $("#doneBrowse").onclick=()=>{closeModal();location.hash="#catalogue";};
+  }
+}
+
+/* ---- catalogue (filterable) ---- */
+let activeFilter="all";
+function reqLabel(cls){
+  if(!SESSION) return `<span class="lock">↗</span>Request access`;
+  const a=PERSONAS[SESSION.persona].access[cls];
+  return a==="y"?`<span class="lock">⚡</span>Request · instant`:a==="c"?`<span class="lock">✎</span>Request · agreement`:`<span class="lock">🔒</span>Closed for you`;
+}
+function buildCatalogue(filter){
+  activeFilter=filter; const grid=$("#catalogue-grid"); grid.innerHTML="";
+  DATASET_DATA.filter(d=>filter==="all"||d.cls===filter).forEach(d=>{
+    const c=CLS[d.cls]; const closed=SESSION&&PERSONAS[SESSION.persona].access[d.cls]==="n";
+    grid.insertAdjacentHTML("beforeend",
+      `<article class="ds${closed?' locked':''}" style="--gd:${c.c}">
+        <div class="ds-top"><span class="ent">${d.ent}</span><span class="cls ${d.cls}"><i></i>${c.t}</span></div>
+        <h4>${d.t}</h4><p>${d.d}</p>
+        <div class="meta"><span>${d.fmt}</span><span>↻ ${d.cad}</span><span>${d.owner}</span></div>
+        <div class="ds-foot"><button class="req" data-ds="${d.t}">${reqLabel(d.cls)}</button></div>
+      </article>`);
+  });
+  grid.querySelectorAll(".req").forEach(b=>b.onclick=()=>{const d=DATASET_DATA.find(x=>x.t===b.dataset.ds);openFlow(d);});
+}
+/* filter chips */
+const chips=[{k:"all",t:"All datasets"}].concat(CLASS_DATA.map(c=>({k:c.key,t:c.t})));
+chips.forEach((c,i)=>$("#catbar").insertAdjacentHTML("beforeend",`<button class="chip${i===0?' on':''}" data-f="${c.k}">${c.t}</button>`));
+$("#catbar").querySelectorAll(".chip").forEach(ch=>ch.onclick=()=>{$("#catbar").querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));ch.classList.add("on");buildCatalogue(ch.dataset.f);});
+buildCatalogue("all");
+renderAuth();
+
+/* wire entry points */
+$("#signInBtn").addEventListener("click",e=>{e.preventDefault();openFlow(null);});
+$("#userChip").addEventListener("click",()=>openFlow(null));
+$("#heroRequest").addEventListener("click",e=>{e.preventDefault();openFlow(null);});
+document.querySelectorAll("[data-open-auth]").forEach(a=>a.addEventListener("click",e=>{e.preventDefault();openFlow(null);}));
+$("#ovClose").addEventListener("click",closeModal);
+ov.addEventListener("click",e=>{if(e.target===ov)closeModal();});
+addEventListener("keydown",e=>{if(e.key==="Escape"&&ov.classList.contains("on"))closeModal();});
 
 /* reveal on scroll */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});

@@ -1,7 +1,37 @@
 import 'package:flutter/material.dart';
+import '../models/models.dart';
 import '../theme.dart';
 
 /// Small, reusable, decoupled UI atoms shared across feature screens.
+
+/// A pill showing a dataset's confidentiality classification.
+class ClassBadge extends StatelessWidget {
+  final Classification classification;
+  final bool dense;
+  const ClassBadge(this.classification, {super.key, this.dense = false});
+
+  @override
+  Widget build(BuildContext context) {
+    final c = classification.color;
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: dense ? 8 : 10, vertical: 4),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        border: Border.fromBorderSide(BorderSide(color: c)),
+      ),
+      child: Row(mainAxisSize: MainAxisSize.min, children: [
+        Icon(Icons.circle, size: 6, color: c),
+        const SizedBox(width: 6),
+        Text(classification.label.toUpperCase(),
+            style: TextStyle(
+                color: c,
+                fontSize: 9.5,
+                letterSpacing: 0.8,
+                fontWeight: FontWeight.w600)),
+      ]),
+    );
+  }
+}
 
 class SectionHeader extends StatelessWidget {
   final String kicker;

@@ -41,7 +41,7 @@ class _TwinScreenState extends State<TwinScreen> {
           color: AppColors.bg,
           alignment: Alignment.center,
           child: Column(mainAxisSize: MainAxisSize.min, children: [
-            Text('AMARATWIN',
+            Text('data.amaravati',
                 style: AppTheme.display(20, color: AppColors.gold)),
             const SizedBox(height: 14),
             SizedBox(
