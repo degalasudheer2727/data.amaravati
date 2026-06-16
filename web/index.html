@@ -18,9 +18,13 @@
   :root{
     /* ── 3-colour LIGHT system ── paper (bg) · ink (text) · saffron (accent).
        Everything else is one of these three at varying opacity / blur. */
-    /* --saffron retained as the accent token name; value = Amaravati teal
-       (blue-green network · Krishna riverfront · Amaravati limestone heritage) */
-    --paper:#ffffff; --ink:#0e1320; --saffron:#0e7c70;
+    /* Accent = Amaravati's blue-green identity carried into the future:
+       emerald (growth · hope · the blue-green network) flowing into azure
+       (the open sky · vision · the future). AP = "The Sunrise State" — a new dawn,
+       expressed cool, not orange. --saffron kept as the solid-accent token name. */
+    --paper:#ffffff; --ink:#0e1320; --saffron:#0b8a6f;
+    --accent-2:#2563eb;
+    --grad:linear-gradient(120deg,#10b981,#2563eb);
     --bg:var(--paper); --bg-2:#f7f8fa; --bg-3:#f1f3f6;
     --text:var(--ink);
     --muted:rgba(14,19,32,.64); --muted-2:rgba(14,19,32,.46);
@@ -62,7 +66,7 @@
   .chakra{width:40px;height:40px;animation:spin 7s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
   .l-bar{width:min(260px,64vw);height:2px;background:rgba(14,19,32,.08);overflow:hidden;border-radius:2px}
-  .l-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--saffron),var(--gold));transition:width .35s}
+  .l-bar i{display:block;height:100%;width:0;background:var(--grad);transition:width .35s}
   .l-sub{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--muted-2)}
 
   /* ---------- nav ---------- */
@@ -71,7 +75,7 @@
   .brand{display:flex;align-items:center;gap:13px;text-decoration:none;color:var(--text)}
   .brand .seal{width:38px;height:38px;flex-shrink:0}
   .brand b{font-family:var(--display);font-size:1.18rem;font-weight:400;display:block;letter-spacing:.04em;line-height:1}
-  .brand b i{font-style:normal;color:var(--saffron)}
+  .brand b i{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
   .brand small{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2)}
   .navlinks{display:flex;gap:28px;align-items:center}
   .navlinks a{color:var(--muted);text-decoration:none;font-size:13px;letter-spacing:.02em;transition:color .2s}
@@ -81,25 +85,26 @@
   @media(max-width:920px){.navlinks a:not(.nav-cta){display:none}}
 
   /* progress line */
-  .prog{position:fixed;top:0;left:0;height:2px;background:linear-gradient(90deg,var(--saffron),var(--pulse));z-index:70;width:0;box-shadow:0 0 10px var(--pulse)}
+  .prog{position:fixed;top:0;left:0;height:2px;background:var(--grad);z-index:70;width:0;box-shadow:0 0 10px rgba(47,107,240,.5)}
 
   /* ---------- hero ---------- */
   #scene{position:fixed;inset:0;z-index:0}
   .no3d #scene{display:none}
   .hero{position:relative;z-index:2;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:96px clamp(18px,5vw,56px) 120px;pointer-events:none}
   .no3d .hero{background:radial-gradient(120% 80% at 65% 30%,rgba(14,124,112,.20),transparent 60%),linear-gradient(180deg,var(--bg),var(--bg-2))}
-  .hero-inner{max-width:var(--maxw);margin:0 auto;width:100%}
+  .hero::before{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,.95),rgba(255,255,255,.74) 34%,rgba(255,255,255,.18) 60%,transparent 80%)}
+  .hero-inner{max-width:var(--maxw);margin:0 auto;width:100%;position:relative;z-index:1}
   .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--saffron);font-weight:600;margin-bottom:22px;pointer-events:auto}
   .eyebrow .live{display:inline-flex;align-items:center;gap:7px;color:var(--pulse)}
   .eyebrow .live i{width:7px;height:7px;border-radius:50%;background:var(--pulse);box-shadow:0 0 12px var(--pulse);animation:beat 1.2s infinite}
   @keyframes beat{0%,100%{transform:scale(1);opacity:1}35%{transform:scale(1.6);opacity:.65}}
   .hero h1{font-family:var(--display);font-weight:400;font-size:clamp(2.5rem,6.4vw,5.1rem);line-height:1.0;letter-spacing:-.02em;margin-bottom:18px;max-width:16ch}
-  .hero h1 em{font-style:italic;color:var(--gold)}
+  .hero h1 em{font-style:italic;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
   .hero .tel{font-family:var(--tel);font-size:clamp(1rem,2vw,1.4rem);color:var(--saffron);opacity:.92;margin-bottom:20px}
   .hero p.lead{font-size:clamp(1.02rem,1.5vw,1.25rem);color:var(--muted);max-width:56ch;margin-bottom:32px;pointer-events:auto}
   .hero-cta{display:flex;gap:14px;flex-wrap:wrap;pointer-events:auto}
   .btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:32px;font-size:14px;font-weight:600;letter-spacing:.02em;text-decoration:none;cursor:pointer;border:1px solid transparent;transition:transform .2s,box-shadow .2s,background .2s,border-color .2s}
-  .btn-primary{background:linear-gradient(120deg,var(--saffron),var(--gold));color:#1a1205;box-shadow:0 12px 36px -14px rgba(14,124,112,.30)}
+  .btn-primary{background:var(--grad);color:#fff;box-shadow:0 14px 36px -14px rgba(37,99,235,.45)}
   .btn-primary:hover{transform:translateY(-2px);box-shadow:0 18px 44px -14px rgba(14,124,112,.38)}
   .btn-ghost{border-color:var(--line);color:var(--text);background:var(--surface);backdrop-filter:blur(6px)}
   .btn-ghost:hover{border-color:var(--gold);transform:translateY(-2px)}
@@ -123,7 +128,7 @@
   .sec-head{max-width:var(--maxw);margin:0 auto 52px;padding:0 clamp(18px,5vw,56px)}
   .sec-head .kicker{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--saffron);font-weight:600;margin-bottom:14px;display:block}
   .sec-head h2{font-family:var(--display);font-weight:400;font-size:clamp(1.9rem,4.4vw,3.3rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:16px}
-  .sec-head h2 em{font-style:italic;color:var(--gold)}
+  .sec-head h2 em{font-style:italic;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
   .sec-head p{font-size:clamp(1rem,1.3vw,1.13rem);color:var(--muted);max-width:64ch}
 
   /* KPI strip */
@@ -245,7 +250,7 @@
   .auth{display:flex;align-items:center;gap:12px}
   .user-chip{display:none;align-items:center;gap:9px;padding:5px 12px 5px 6px;border:1px solid var(--line);border-radius:30px;background:var(--surface);cursor:pointer}
   .user-chip.on{display:inline-flex}
-  .user-chip img,.user-chip .av{width:26px;height:26px;border-radius:50%;object-fit:cover;background:linear-gradient(120deg,var(--saffron),var(--gold));display:grid;place-items:center;color:#1a1205;font-weight:700;font-size:12px}
+  .user-chip img,.user-chip .av{width:26px;height:26px;border-radius:50%;object-fit:cover;background:var(--grad);display:grid;place-items:center;color:#fff;font-weight:700;font-size:12px}
   .user-chip .un{font-size:12.5px;line-height:1.1}
   .user-chip .ur{font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted-2)}
   #signInBtn.hide{display:none}
@@ -273,7 +278,7 @@
   .catbar{max-width:var(--maxw);margin:0 auto 26px;padding:0 clamp(18px,5vw,56px);display:flex;flex-wrap:wrap;gap:9px;align-items:center}
   .chip{font-size:12px;letter-spacing:.02em;padding:8px 15px;border-radius:24px;border:1px solid var(--line-soft);background:var(--surface);color:var(--muted);cursor:pointer;transition:border-color .2s,color .2s,background .2s}
   .chip:hover{color:var(--text);border-color:var(--gold)}
-  .chip.on{color:#1a1205;background:linear-gradient(120deg,var(--saffron),var(--gold));border-color:transparent;font-weight:600}
+  .chip.on{color:#fff;background:var(--grad);border-color:transparent;font-weight:600}
   .catalogue{max-width:var(--maxw);margin:0 auto;padding:0 clamp(18px,5vw,56px);display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
   .ds{position:relative;display:flex;flex-direction:column;border:1px solid var(--line-soft);border-radius:var(--radius);background:var(--surface);padding:20px 20px 18px;transition:border-color .2s,transform .2s}
   .ds:hover{transform:translateY(-4px);border-color:var(--gd,var(--gold))}
@@ -427,7 +432,7 @@
 <!-- loader -->
 <div id="loader">
   <div class="l-mark">
-    <svg class="chakra" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" fill="none" stroke="#0e7c70" stroke-width="3"/><circle cx="50" cy="50" r="7" fill="#0e7c70"/><g stroke="rgba(14,19,32,.5)" stroke-width="2">
+    <svg class="chakra" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" fill="none" stroke="#0b8a6f" stroke-width="3"/><circle cx="50" cy="50" r="7" fill="#0b8a6f"/><g stroke="rgba(14,19,32,.5)" stroke-width="2">
     <line x1="50" y1="9" x2="50" y2="91"/><line x1="9" y1="50" x2="91" y2="50"/><line x1="20" y1="20" x2="80" y2="80"/><line x1="80" y1="20" x2="20" y2="80"/><line x1="33" y1="11" x2="67" y2="89"/><line x1="67" y1="11" x2="33" y2="89"/><line x1="11" y1="33" x2="89" y2="67"/><line x1="11" y1="67" x2="89" y2="33"/></g></svg>
     data<span>.amaravati</span>
   </div>
@@ -440,7 +445,7 @@
 <!-- nav -->
 <nav class="top" id="nav">
   <a class="brand" href="#top" aria-label="data.amaravati home">
-    <svg class="seal" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="#0e7c70" stroke-width="2.5"/><circle cx="50" cy="50" r="6" fill="#0e7c70"/><g stroke="#0e7c70" stroke-width="2"><line x1="50" y1="8" x2="50" y2="92"/><line x1="8" y1="50" x2="92" y2="50"/><line x1="21" y1="21" x2="79" y2="79"/><line x1="79" y1="21" x2="21" y2="79"/></g></svg>
+    <svg class="seal" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="#0b8a6f" stroke-width="2.5"/><circle cx="50" cy="50" r="6" fill="#0b8a6f"/><g stroke="#0b8a6f" stroke-width="2"><line x1="50" y1="8" x2="50" y2="92"/><line x1="8" y1="50" x2="92" y2="50"/><line x1="21" y1="21" x2="79" y2="79"/><line x1="79" y1="21" x2="21" y2="79"/></g></svg>
     <span><b>data<i>.amaravati</i></b><small>Open-Data Nexus · Amaravati</small></span>
   </a>
   <div class="navlinks">
@@ -921,7 +926,7 @@ function openFlow(dataset){exchangeMode=false;pendingDataset=dataset||null; ov.c
 function openExchange(){exchangeMode=true;pendingDataset=null; ov.classList.add("on"); ov.setAttribute("aria-hidden","false"); renderModal(SESSION?"exchange":"signin");}
 function closeModal(){ov.classList.remove("on");ov.setAttribute("aria-hidden","true");pendingDataset=null;exchangeMode=false;}
 
-const seal=`<svg class="seal" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="#0e7c70" stroke-width="2.5"/><circle cx="50" cy="50" r="6" fill="#0e7c70"/><g stroke="#0e7c70" stroke-width="2"><line x1="50" y1="8" x2="50" y2="92"/><line x1="8" y1="50" x2="92" y2="50"/><line x1="21" y1="21" x2="79" y2="79"/><line x1="79" y1="21" x2="21" y2="79"/></g></svg>`;
+const seal=`<svg class="seal" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="#0b8a6f" stroke-width="2.5"/><circle cx="50" cy="50" r="6" fill="#0b8a6f"/><g stroke="#0b8a6f" stroke-width="2"><line x1="50" y1="8" x2="50" y2="92"/><line x1="8" y1="50" x2="92" y2="50"/><line x1="21" y1="21" x2="79" y2="79"/><line x1="79" y1="21" x2="21" y2="79"/></g></svg>`;
 const steps=(n)=>`<div class="steps">${[1,2,3].map(i=>`<span class="st ${i<=n?'on':''}"></span>`).join("")}</div>`;
 function dsCtx(){return pendingDataset?`<div class="ds-ctx"><span class="cls ${pendingDataset.cls}"><i></i>${CLS[pendingDataset.cls].t}</span><span>Requesting <b>${pendingDataset.t}</b> · ${pendingDataset.ent}</span></div>`:"";}
 
@@ -1094,17 +1099,17 @@ function initTwin(){
   // lights — restrained, premium
   scene.add(new THREE.AmbientLight(0x9aa2b0,0.7));
   const key=new THREE.DirectionalLight(0xffffff,1.25);key.position.set(20,40,18);scene.add(key);
-  const rim=new THREE.PointLight(0x0e7c70,0.7,160);rim.position.set(-30,22,-20);scene.add(rim);
-  const saff=new THREE.PointLight(0x0e7c70,0.5,140);saff.position.set(34,16,18);scene.add(saff);
+  const rim=new THREE.PointLight(0x10b981,0.7,160);rim.position.set(-30,22,-20);scene.add(rim);
+  const saff=new THREE.PointLight(0x2563eb,0.55,140);saff.position.set(34,16,18);scene.add(saff);
 
   const city=new THREE.Group();scene.add(city);
 
   // ground grid — subtle gold lines
-  const grid=new THREE.GridHelper(160,40,0x7fc4ba,0xd8dee7);
+  const grid=new THREE.GridHelper(160,40,0x8fd6c6,0xd8dee7);
   grid.material.opacity=0.18;grid.material.transparent=true;city.add(grid);
 
   // low-poly tower blocks on a grid (original abstract layout — not the real plan)
-  const cols=[0x8089a0,0x0e7c70,0x99a1b2,0x8089a0,0x3fa093,0x99a1b2];
+  const cols=[0x8089a0,0x10b981,0x99a1b2,0x8089a0,0x2563eb,0x99a1b2];
   const towerMat=i=>new THREE.MeshStandardMaterial({color:cols[i%cols.length],emissive:0x000000,roughness:0.82,metalness:0.08});
   const N=11,gap=11;
   const nodes=[];
@@ -1123,7 +1128,7 @@ function initTwin(){
     // glowing data node atop tall central towers
     if(dist<46 && tall>16 && Math.random()>0.55){
       const c=cols[(x*3+z)%cols.length];
-      const nd=new THREE.Mesh(new THREE.SphereGeometry(0.7,12,12),new THREE.MeshBasicMaterial({color:0x0e7c70}));
+      const nd=new THREE.Mesh(new THREE.SphereGeometry(0.7,12,12),new THREE.MeshBasicMaterial({color:0x10b981}));
       nd.position.set(cx,tall+2.5,cz);city.add(nd);
       nodes.push({m:nd,base:tall+2.5,ph:Math.random()*6.28});
     }
@@ -1131,7 +1136,7 @@ function initTwin(){
 
   // river ribbon — flowing emissive plane along the diagonal corridor
   const riverGeo=new THREE.PlaneGeometry(150,9,60,1);
-  const riverMat=new THREE.MeshStandardMaterial({color:0x0e7c70,emissive:0x0e7c70,emissiveIntensity:0.12,roughness:0.5,metalness:0.2,transparent:true,opacity:0.55,side:THREE.DoubleSide});
+  const riverMat=new THREE.MeshStandardMaterial({color:0x2563eb,emissive:0x2563eb,emissiveIntensity:0.12,roughness:0.5,metalness:0.2,transparent:true,opacity:0.55,side:THREE.DoubleSide});
   const river=new THREE.Mesh(riverGeo,riverMat);
   river.rotation.x=-Math.PI/2;river.rotation.z=Math.PI/4;river.position.y=0.15;city.add(river);
   const rPos=riverGeo.attributes.position, rBase=rPos.array.slice();
