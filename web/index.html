@@ -43,7 +43,7 @@
     --sp-2:.5rem; --sp-3:.75rem; --sp-4:1rem; --sp-6:1.5rem; --sp-8:2rem; --sp-12:3rem; --sp-16:4rem;
     --display:'Georgia','Times New Roman',serif;
     --tel:'Noto Sans Telugu','Gautami',sans-serif;
-    --maxw:1200px;--focus:var(--saffron);--radius:16px;--r-pill:999px;
+    --maxw:1200px;--focus:var(--saffron);--radius:16px;--r-pill:999px;--gov-h:38px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -70,7 +70,7 @@
   .l-sub{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--muted-2)}
 
   /* ---------- nav ---------- */
-  nav.top{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px clamp(18px,5vw,56px);transition:background .3s,backdrop-filter .3s,border-color .3s;border-bottom:1px solid transparent}
+  nav.top{position:fixed;top:var(--gov-h);left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px clamp(18px,5vw,56px);transition:background .3s,backdrop-filter .3s,border-color .3s;border-bottom:1px solid transparent}
   nav.top.scrolled{background:rgba(255,255,255,.82);backdrop-filter:blur(14px);border-color:var(--line-soft)}
   .brand{display:flex;align-items:center;gap:13px;text-decoration:none;color:var(--text)}
   .brand .seal{width:34px;height:34px;flex-shrink:0}
@@ -88,9 +88,9 @@
   .prog{position:fixed;top:0;left:0;height:2px;background:var(--grad);z-index:70;width:0;box-shadow:0 0 10px rgba(47,107,240,.5)}
 
   /* ---------- hero ---------- */
-  #scene{position:fixed;inset:0;z-index:0;opacity:.62}
+  #scene{position:fixed;inset:0;z-index:0;opacity:.72}
   .no3d #scene{display:none}
-  .hero{position:relative;z-index:2;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:96px clamp(18px,5vw,56px) 120px;pointer-events:none}
+  .hero{position:relative;z-index:2;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:118px clamp(18px,5vw,56px) 120px;pointer-events:none}
   .no3d .hero{background:radial-gradient(120% 80% at 65% 30%,rgba(14,124,112,.20),transparent 60%),linear-gradient(180deg,var(--bg),var(--bg-2))}
   .hero::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,.95),rgba(255,255,255,.74) 34%,rgba(255,255,255,.18) 60%,transparent 80%)}
   .hero-inner{max-width:var(--maxw);margin:0 auto;width:100%;position:relative;z-index:2}
@@ -423,6 +423,38 @@
   /* reveal anim */
   .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
   .reveal.in{opacity:1;transform:none}
+
+  /* ---------- GIGW gov-standard utility bar ---------- */
+  .gov-util{position:fixed;top:0;left:0;right:0;height:var(--gov-h);z-index:65;background:var(--ink);color:#fff;display:flex;align-items:center;font-size:12px}
+  .gu-in{max-width:var(--maxw);margin:0 auto;width:100%;padding:0 clamp(14px,5vw,56px);display:flex;align-items:center;gap:12px}
+  .gu-spacer{flex:1}
+  .gu-a{color:rgba(255,255,255,.86);text-decoration:none;white-space:nowrap}
+  .gu-a:hover,.gu-a:focus-visible{color:#fff;text-decoration:underline}
+  .gu-sep{width:1px;height:14px;background:rgba(255,255,255,.28)}
+  .gu-grp{display:inline-flex;align-items:center;gap:2px}
+  .gu-b{background:transparent;border:1px solid transparent;color:rgba(255,255,255,.86);font:inherit;font-size:12px;padding:3px 8px;border-radius:6px;cursor:pointer;line-height:1.35}
+  .gu-b:hover{background:rgba(255,255,255,.14);color:#fff}
+  .gu-b.on{background:#fff;color:var(--ink);font-weight:600}
+  #fontStd{font-size:13px}#fontInc{font-size:15px}
+  @media(max-width:700px){.gu-a,.gu-sep{display:none}.gu-in{gap:8px;justify-content:flex-end}}
+
+  /* high-contrast theme (GIGW) */
+  body.hc{--paper:#000;--ink:#fff;--bg-2:#000;--bg-3:#0a0a0a;--text:#fff;--muted:#ededed;--muted-2:#d0d0d0;
+    --surface:rgba(255,255,255,.06);--surface-2:rgba(255,255,255,.1);--surface-solid:#000;
+    --line:rgba(255,255,255,.55);--line-soft:rgba(255,255,255,.3);
+    --saffron:#ffd200;--grad:#ffd200;--grad-text:#ffd200;background:#000}
+  body.hc .gov-util{background:#000;border-bottom:1px solid #ffd200}
+  body.hc .gu-b.on{background:#ffd200;color:#000}
+  body.hc #scene{display:none}
+  body.hc .hero::before{background:#000}
+  body.hc .btn-primary{color:#000}
+  body.hc nav.top.scrolled{background:#000}
+
+  /* footer policy bar (GIGW mandatory links) */
+  .foot-policies{max-width:var(--maxw);margin:34px auto 0;padding:18px clamp(18px,5vw,56px) 0;border-top:1px solid var(--line-soft);display:flex;flex-wrap:wrap;gap:6px 20px}
+  .foot-policies a{color:var(--muted);text-decoration:none;font-size:12.5px}
+  .foot-policies a:hover{color:var(--text);text-decoration:underline}
+
   @media(prefers-reduced-motion:reduce){
     .reveal{opacity:1;transform:none;transition:none}
     .l-spire,.ticker .track,.hero-foot .ln,.eyebrow .live i,.card .status i,.l-bar i{animation:none}
@@ -432,6 +464,26 @@
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
+
+<!-- GIGW accessibility & language utility bar -->
+<div class="gov-util" role="region" aria-label="Accessibility and language options">
+  <div class="gu-in">
+    <a href="#main" class="gu-a">Skip to main content</a>
+    <span class="gu-sep" aria-hidden="true"></span>
+    <a href="#accessibility" class="gu-a">Screen reader access</a>
+    <span class="gu-spacer"></span>
+    <span class="gu-grp" role="group" aria-label="Text size">
+      <button type="button" id="fontDec" class="gu-b" aria-label="Decrease text size">A&minus;</button>
+      <button type="button" id="fontStd" class="gu-b" aria-label="Reset text size">A</button>
+      <button type="button" id="fontInc" class="gu-b" aria-label="Increase text size">A+</button>
+    </span>
+    <button type="button" id="hcToggle" class="gu-b" aria-pressed="false">High contrast</button>
+    <span class="gu-grp" role="group" aria-label="Language">
+      <button type="button" id="langEn" class="gu-b on">English</button>
+      <button type="button" id="langTe" class="gu-b" lang="te">తెలుగు</button>
+    </span>
+  </div>
+</div>
 
 <!-- loader -->
 <div id="loader">
@@ -472,10 +524,10 @@
     <span><b>data<i>.amaravati</i></b><small>Governed Data Platform · Amaravati</small></span>
   </a>
   <div class="navlinks">
-    <a href="#catalogue">Catalogue</a>
-    <a href="#exchange">Exchange Hub</a>
-    <a href="#access">Access &amp; Roles</a>
-    <a href="#cities">Theme Cities</a>
+    <a href="#catalogue" data-te="కేటలాగ్">Catalogue</a>
+    <a href="#exchange" data-te="డేటా మార్పిడి">Exchange Hub</a>
+    <a href="#access" data-te="ప్రవేశం &amp; పాత్రలు">Access &amp; Roles</a>
+    <a href="#cities" data-te="థీమ్ నగరాలు">Theme Cities</a>
     <div class="auth">
       <button class="user-chip" id="userChip" aria-label="Your account">
         <span class="av" id="userAv">U</span>
@@ -495,15 +547,14 @@
 <header class="hero">
   <div class="hero-inner">
     <span class="eyebrow">Amaravati · The People's Capital <span class="live"><i></i>Live Nexus</span></span>
-    <h1>The governed data platform of a <em>capital being born.</em></h1>
+    <h1 data-te="ఆవిర్భవిస్తున్న <em>రాజధాని</em> యొక్క నియంత్రిత డేటా వేదిక.">The governed data platform of a <em>capital being born.</em></h1>
     <div class="tel" lang="te">అమరావతి — ప్రజల రాజధాని డేటా</div>
-    <p class="lead"><b>data.amaravati</b> turns the Amaravati master plan into one governed data platform and a navigable 3D twin — open, internal, sensitive and confidential datasets, served to the right authority under consent and audit, from a single sign-on.</p>
+    <p class="lead" data-te="<b>data.amaravati</b> అమరావతి బృహత్ ప్రణాళికను ఒకే నియంత్రిత డేటా వేదికగా, నావిగేట్ చేయగల 3D ట్విన్‌గా మారుస్తుంది — తెరచిన, అంతర్గత, సున్నిత మరియు గోప్య డేటా, మీ అధికారం మేరకు, సమ్మతి మరియు ఆడిట్‌తో."><b>data.amaravati</b> turns the Amaravati master plan into one governed data platform and a navigable 3D twin — open, internal, sensitive and confidential datasets, served to the right authority under consent and audit, from a single sign-on.</p>
     <div class="hero-cta">
-      <a class="btn btn-primary" href="#catalogue">Browse the catalogue ↗</a>
-      <a class="btn btn-ghost" href="#" id="heroRequest">Request access</a>
+      <a class="btn btn-primary" href="#catalogue" data-te="కేటలాగ్ చూడండి ↗">Browse the catalogue ↗</a>
+      <a class="btn btn-ghost" href="#" id="heroRequest" data-te="ప్రవేశం అభ్యర్థించండి">Request access</a>
     </div>
   </div>
-  <div class="hero-art" aria-hidden="true"><svg viewBox="0 0 64 116" preserveAspectRatio="xMidYMid meet"><use href="#amaraSpire"/></svg></div>
   <div class="hero-foot"><span class="ln"></span> Scroll to explore <span class="ln"></span></div>
 </header>
 
@@ -696,7 +747,20 @@
       <a href="#cities">Theme cities</a><a href="#overview">At a glance</a><a href="#app">Mobile app</a>
     </div>
   </div>
-  <div class="disclaimer">
+  <nav class="foot-policies" aria-label="Website policies">
+    <a href="#accessibility">Accessibility Statement</a>
+    <a href="#access">Copyright Policy</a>
+    <a href="#access">Hyperlinking Policy</a>
+    <a href="#access">Terms &amp; Conditions</a>
+    <a href="#access">Privacy Policy</a>
+    <a href="#accessibility">Disclaimer</a>
+    <a href="#main">Sitemap</a>
+    <a href="#" data-open-auth>Help</a>
+    <a href="#" data-open-auth>Feedback</a>
+  </nav>
+  <div class="disclaimer" id="accessibility">
+    <b>Accessibility &amp; standards.</b> Built to follow the Guidelines for Indian Government Websites (GIGW) and WCAG 2.1 Level AA — skip links, keyboard focus, screen-reader landmarks, resizable text, a high-contrast theme, reduced-motion support and bilingual (English / తెలుగు) content. Last reviewed June 2026.
+    <br><br>
     <b>Concept prototype — not an official product.</b> data.amaravati is an independent concept inspired by the public Amaravati master plan and the spirit of CRDA's data-governance vision. It is <b>not</b> a Government of Andhra Pradesh or APCRDA product and is not endorsed by either. It deliberately does not use the official State Emblem (whose use is legally restricted) or any copyrighted master-plan artwork. The 3D model is an original interpretation of the publicly documented city layout. All datasets shown are illustrative samples and all headline figures are indicative, drawn from public reporting. © 2026 data.amaravati concept. Bilingual Telugu + English throughout.
   </div>
 </footer>
@@ -1107,6 +1171,28 @@ document.querySelectorAll("[data-open-auth]").forEach(a=>a.addEventListener("cli
 $("#ovClose").addEventListener("click",closeModal);
 ov.addEventListener("click",e=>{if(e.target===ov)closeModal();});
 addEventListener("keydown",e=>{if(e.key==="Escape"&&ov.classList.contains("on"))closeModal();});
+
+/* ============== GIGW ACCESSIBILITY TOOLBAR ============== */
+(function(){
+  const root=document.documentElement, KEY="dav_a11y", SIZES=[14,15,16,18,20], BASE=2;
+  let st={font:0,hc:false,lang:"en"};
+  try{st=Object.assign(st,JSON.parse(localStorage.getItem(KEY)||"{}"));}catch(e){}
+  const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}};
+  const applyFont=()=>{root.style.fontSize=SIZES[Math.max(0,Math.min(4,BASE+st.font))]+"px";};
+  const applyHc=()=>{document.body.classList.toggle("hc",st.hc);const b=$("#hcToggle");if(b)b.setAttribute("aria-pressed",String(st.hc));};
+  const applyLang=()=>{const te=st.lang==="te";root.lang=te?"te":"en";
+    document.querySelectorAll("[data-te]").forEach(el=>{
+      if(!el.hasAttribute("data-en"))el.setAttribute("data-en",el.innerHTML);
+      el.innerHTML=te?el.getAttribute("data-te"):el.getAttribute("data-en");});
+    $("#langEn").classList.toggle("on",!te);$("#langTe").classList.toggle("on",te);};
+  $("#fontInc").onclick=()=>{st.font=Math.min(2,st.font+1);applyFont();save();};
+  $("#fontDec").onclick=()=>{st.font=Math.max(-2,st.font-1);applyFont();save();};
+  $("#fontStd").onclick=()=>{st.font=0;applyFont();save();};
+  $("#hcToggle").onclick=()=>{st.hc=!st.hc;applyHc();save();};
+  $("#langEn").onclick=()=>{st.lang="en";applyLang();save();};
+  $("#langTe").onclick=()=>{st.lang="te";applyLang();save();};
+  applyFont();applyHc();applyLang();
+})();
 
 /* reveal on scroll */
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});
