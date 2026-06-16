@@ -16,18 +16,21 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <style>
   :root{
-    /* India tricolour-derived, govt-credible enterprise palette */
-    --green:#138808;--green-deep:#0a4d05;
-    --saffron:#ff9933;--gold:#e7c46b;--maroon:#7a1f2b;--navy:#0a1f44;
-    --pulse:#3b7bff;            /* Ashoka-chakra live accent */
-    --cyan:#34e0d8;
-    --bg:#05070e;--bg-2:#080c18;--bg-3:#0b1124;
-    --surface:rgba(16,24,48,0.55);--surface-2:rgba(20,30,60,0.5);--surface-solid:#0a1124;
-    --line:rgba(231,196,107,0.18);--line-soft:rgba(255,255,255,0.07);
-    --text:#eef2fb;--muted:#9fb0cc;--muted-2:#6c7e9e;
+    /* ── 3-colour system ── ink (base) · snow (foreground) · saffron (accent).
+       Everything else is one of these three at varying opacity / blur. */
+    --ink:#080b12; --snow:#eef2f8; --saffron:#ff9f43;
+    --bg:var(--ink); --bg-2:#0a0e16; --bg-3:#0c1119;
+    --text:var(--snow);
+    --muted:rgba(238,242,248,.60); --muted-2:rgba(238,242,248,.38);
+    /* glassy translucent surfaces (snow over ink) */
+    --surface:rgba(255,255,255,.045); --surface-2:rgba(255,255,255,.06); --surface-solid:#0c1119;
+    --line:rgba(255,255,255,.12); --line-soft:rgba(255,255,255,.06);
+    /* legacy accent names collapsed onto the single accent */
+    --gold:var(--saffron); --green:var(--saffron); --pulse:var(--saffron);
+    --cyan:var(--saffron); --maroon:var(--saffron); --navy:var(--ink); --green-deep:#0a0e16;
     --display:'Georgia','Times New Roman',serif;
     --tel:'Noto Sans Telugu','Gautami',sans-serif;
-    --maxw:1240px;--focus:#ffb347;--radius:14px;
+    --maxw:1240px;--focus:var(--saffron);--radius:14px;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -73,7 +76,7 @@
   #scene{position:fixed;inset:0;z-index:0}
   .no3d #scene{display:none}
   .hero{position:relative;z-index:2;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:96px clamp(18px,5vw,56px) 120px;pointer-events:none}
-  .no3d .hero{background:radial-gradient(120% 80% at 65% 30%,rgba(19,136,8,.28),transparent 60%),linear-gradient(180deg,var(--bg),var(--bg-2))}
+  .no3d .hero{background:radial-gradient(120% 80% at 65% 30%,rgba(255,159,67,.20),transparent 60%),linear-gradient(180deg,var(--bg),var(--bg-2))}
   .hero-inner{max-width:var(--maxw);margin:0 auto;width:100%}
   .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--saffron);font-weight:600;margin-bottom:22px;pointer-events:auto}
   .eyebrow .live{display:inline-flex;align-items:center;gap:7px;color:var(--pulse)}
@@ -183,7 +186,7 @@
   .role li::before{content:"→";position:absolute;left:0;color:var(--saffron)}
 
   /* app CTA */
-  .appcta{position:relative;z-index:3;background:linear-gradient(140deg,var(--green-deep),#06210f 55%,var(--bg-3));overflow:hidden}
+  .appcta{position:relative;z-index:3;background:linear-gradient(140deg,var(--green-deep),#0c1119 55%,var(--bg-3));overflow:hidden}
   .appcta .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding-top:clamp(56px,9vh,104px);padding-bottom:clamp(56px,9vh,104px)}
   @media(max-width:860px){.appcta .wrap{grid-template-columns:1fr;gap:36px}}
   .appcta h2{font-family:var(--display);font-weight:400;font-size:clamp(1.9rem,4vw,3rem);line-height:1.06;margin-bottom:16px}
@@ -206,7 +209,7 @@
   .phone .ph-stat div{background:var(--surface);border:1px solid var(--line-soft);border-radius:10px;padding:10px}
   .phone .ph-stat b{font-family:var(--display);color:var(--gold);font-size:1.1rem;display:block}
   .phone .ph-stat small{font-size:8px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-2)}
-  .phone .ph-map{flex:1;border-radius:12px;border:1px solid var(--line-soft);background:radial-gradient(80% 60% at 60% 35%,rgba(59,123,255,.25),transparent),linear-gradient(180deg,#0a1530,#070c1a);position:relative;overflow:hidden}
+  .phone .ph-map{flex:1;border-radius:12px;border:1px solid var(--line-soft);background:radial-gradient(80% 60% at 60% 35%,rgba(255,159,67,.18),transparent),linear-gradient(180deg,#0a1530,#070c1a);position:relative;overflow:hidden}
   .phone .ph-map::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(231,196,107,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(231,196,107,.08) 1px,transparent 1px);background-size:22px 22px}
   .phone .ph-map .nd{position:absolute;width:8px;height:8px;border-radius:50%;background:var(--saffron);box-shadow:0 0 10px var(--saffron);animation:beat 2s infinite}
   .phone .ph-nav{display:flex;justify-content:space-around;padding-top:8px;border-top:1px solid var(--line-soft)}
@@ -239,10 +242,11 @@
   /* ---------- classification badges ---------- */
   .cls{display:inline-flex;align-items:center;gap:6px;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;padding:3px 9px;border-radius:20px;border:1px solid currentColor;white-space:nowrap}
   .cls i{width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 7px currentColor}
-  .cls.public{color:#5ad17a}
-  .cls.internal{color:var(--pulse)}
-  .cls.restricted{color:var(--gold)}
-  .cls.confidential{color:#ff7a7a}
+  .cls.public{color:var(--saffron)}
+  .cls.internal{color:var(--snow)}
+  .cls.restricted{color:var(--saffron);opacity:.72}
+  .cls.confidential{color:rgba(238,242,248,.45)}
+  .cls.confidential i{box-shadow:none}
 
   /* classification legend */
   .legend{max-width:var(--maxw);margin:0 auto;padding:0 clamp(18px,5vw,56px);display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
@@ -282,7 +286,7 @@
   table.matrix thead th{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;vertical-align:bottom}
   table.matrix tbody th{text-align:left;font-weight:600;color:var(--text);white-space:nowrap}
   table.matrix tbody th small{display:block;font-weight:400;font-size:10px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted-2);margin-top:2px}
-  table.matrix .y{color:#5ad17a;font-size:15px}
+  table.matrix .y{color:var(--saffron);font-size:15px}
   table.matrix .n{color:var(--muted-2);opacity:.5}
   table.matrix .c{color:var(--gold);font-size:11px;letter-spacing:.04em}
   table.matrix tbody tr:hover{background:rgba(255,255,255,.02)}
@@ -340,10 +344,10 @@
   table.ledger .dsn{color:var(--text)}
   .stat{display:inline-flex;align-items:center;gap:6px;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;padding:3px 9px;border-radius:20px;border:1px solid currentColor;white-space:nowrap}
   .stat i{width:6px;height:6px;border-radius:50%;background:currentColor}
-  .stat.active{color:#5ad17a}
-  .stat.review{color:var(--gold)}
-  .stat.agreement{color:var(--pulse)}
-  .stat.denied{color:#ff7a7a}
+  .stat.active{color:var(--saffron)}
+  .stat.review{color:var(--snow)}
+  .stat.agreement{color:var(--saffron);opacity:.72}
+  .stat.denied{color:rgba(238,242,248,.42)}
 
   /* ---------- onboarding modal ---------- */
   .ov{position:fixed;inset:0;z-index:300;background:rgba(3,5,12,.74);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px}
@@ -376,12 +380,25 @@
   .mfoot{display:flex;gap:12px;margin-top:8px}
   .mfoot .btn{flex:1;justify-content:center}
   .ok-screen{text-align:center;padding:8px 0}
-  .ok-screen .tick{width:66px;height:66px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;background:rgba(90,209,122,.12);border:1px solid #5ad17a;color:#5ad17a;font-size:30px}
+  .ok-screen .tick{width:66px;height:66px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;background:rgba(255,159,67,.12);border:1px solid var(--saffron);color:var(--saffron);font-size:30px}
   .ok-screen ul{list-style:none;text-align:left;max-width:380px;margin:18px auto 0;font-size:13px}
   .ok-screen li{padding:8px 0 8px 24px;position:relative;color:var(--muted);border-bottom:1px solid var(--line-soft)}
   .ok-screen li:last-child{border:none}
-  .ok-screen li::before{content:"✓";position:absolute;left:0;color:#5ad17a}
+  .ok-screen li::before{content:"✓";position:absolute;left:0;color:var(--saffron)}
   .ssoflag{font-size:10.5px;color:var(--gold);background:rgba(231,196,107,.08);border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin-bottom:16px;line-height:1.5}
+
+  /* ---------- sleek glass treatment (applied across surfaces) ---------- */
+  .card,.pillar,.ds,.entity,.tier,.persona,.estep,.stage,.role,.city,
+  .modal,.user-chip,.chip,.ds-ctx,.field select,.field input{
+    -webkit-backdrop-filter:blur(14px) saturate(120%);
+    backdrop-filter:blur(14px) saturate(120%);
+  }
+  .card,.pillar,.ds,.entity,.tier,.persona,.estep,.role{
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.06), 0 24px 48px -30px rgba(0,0,0,.75);
+  }
+  .modal{box-shadow:inset 0 1px 0 rgba(255,255,255,.08), 0 50px 120px -30px rgba(0,0,0,.9)}
+  /* mute emoji glyphs so iconography harmonises with the 3-colour palette */
+  .card .ico,.entity .ic,.persona .pi,.role .ri{filter:grayscale(.7) brightness(1.08)}
 
   /* reveal anim */
   .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s ease}
@@ -399,7 +416,7 @@
 <!-- loader -->
 <div id="loader">
   <div class="l-mark">
-    <svg class="chakra" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" fill="none" stroke="#3b7bff" stroke-width="3"/><circle cx="50" cy="50" r="7" fill="#e7c46b"/><g stroke="#9fb0cc" stroke-width="2">
+    <svg class="chakra" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" fill="none" stroke="#ff9f43" stroke-width="3"/><circle cx="50" cy="50" r="7" fill="#ff9f43"/><g stroke="rgba(238,242,248,.55)" stroke-width="2">
     <line x1="50" y1="9" x2="50" y2="91"/><line x1="9" y1="50" x2="91" y2="50"/><line x1="20" y1="20" x2="80" y2="80"/><line x1="80" y1="20" x2="20" y2="80"/><line x1="33" y1="11" x2="67" y2="89"/><line x1="67" y1="11" x2="33" y2="89"/><line x1="11" y1="33" x2="89" y2="67"/><line x1="11" y1="67" x2="89" y2="33"/></g></svg>
     data<span>.amaravati</span>
   </div>
@@ -412,7 +429,7 @@
 <!-- nav -->
 <nav class="top" id="nav">
   <a class="brand" href="#top" aria-label="data.amaravati home">
-    <svg class="seal" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="#e7c46b" stroke-width="2.5"/><circle cx="50" cy="50" r="6" fill="#ff9933"/><g stroke="#3b7bff" stroke-width="2"><line x1="50" y1="8" x2="50" y2="92"/><line x1="8" y1="50" x2="92" y2="50"/><line x1="21" y1="21" x2="79" y2="79"/><line x1="79" y1="21" x2="21" y2="79"/></g></svg>
+    <svg class="seal" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="#ff9f43" stroke-width="2.5"/><circle cx="50" cy="50" r="6" fill="#ff9f43"/><g stroke="#ff9f43" stroke-width="2"><line x1="50" y1="8" x2="50" y2="92"/><line x1="8" y1="50" x2="92" y2="50"/><line x1="21" y1="21" x2="79" y2="79"/><line x1="79" y1="21" x2="21" y2="79"/></g></svg>
     <span><b>data<i>.amaravati</i></b><small>Open-Data Nexus · Amaravati</small></span>
   </a>
   <div class="navlinks">
@@ -674,9 +691,9 @@ const CONNECTOR_DATA=[
   {e:"Energy",t:"Green Power",d:"Solar generation, grid load and the city's renewables mix.",ic:"⚡",feeds:["Solar","Grid","Demand"],c:"var(--gold)"},
   {e:"Housing",t:"Live Here",d:"Housing stock, affordability and neighbourhood build-out.",ic:"🏘️",feeds:["Stock","Pricing","Build-out"],c:"#c98bff"},
   {e:"Economy",t:"Capital Markets",d:"Investment, jobs, GVA and sectoral growth across theme cities.",ic:"📈",feeds:["Jobs","FDI","GVA"],c:"var(--green)"},
-  {e:"Demographics",t:"People & Place",d:"Population, density and the human texture of each ward.",ic:"👥",feeds:["Census","Density","Wards"],c:"#ff7a7a"},
+  {e:"Demographics",t:"People & Place",d:"Population, density and the human texture of each ward.",ic:"👥",feeds:["Census","Density","Wards"],c:"rgba(238,242,248,.5)"},
   {e:"Construction",t:"Build Watch",d:"Live progress on the government spine and capital works.",ic:"🏗️",feeds:["Projects","Progress","Spend"],c:"#ffb347"},
-  {e:"Environment",t:"Air & Green",d:"Air quality, green cover and the blue-green network.",ic:"🌿",feeds:["AQI","Canopy","Parks"],c:"#5ad17a"},
+  {e:"Environment",t:"Air & Green",d:"Air quality, green cover and the blue-green network.",ic:"🌿",feeds:["AQI","Canopy","Parks"],c:"var(--saffron)"},
   {e:"Heritage",t:"Amara Roots",d:"Buddhist heritage, the stupa, and the cultural memory of Amaravati.",ic:"🪷",feeds:["Sites","Tourism","Archive"],c:"var(--maroon)"},
   {e:"Safety",t:"Safe City",d:"Emergency response, disaster readiness and public-safety signals.",ic:"🛡️",feeds:["112","Disaster","CCTV"],c:"#ff5f6d"},
 ];
@@ -689,7 +706,7 @@ const CITY_DATA=[
   {t:"Sports City",te:"క్రీడా నగరం",d:"Stadia & athletic venues.",c:"#34e0d8"},
   {t:"Media City",te:"మీడియా నగరం",d:"Film, broadcast & creative.",c:"#c98bff"},
   {t:"Tourism City",te:"పర్యాటక నగరం",d:"Riverfront, culture & leisure.",c:"#ffb347"},
-  {t:"Electronics City",te:"ఎలక్ట్రానిక్స్ నగరం",d:"Manufacturing & deep-tech.",c:"#5ad17a"},
+  {t:"Electronics City",te:"ఎలక్ట్రానిక్స్ నగరం",d:"Manufacturing & deep-tech.",c:"var(--saffron)"},
   {t:"Quantum Valley",te:"క్వాంటం వ్యాలీ",d:"Quantum compute & frontier R&D.",c:"#7ad0ff"},
 ];
 const ARCH_DATA=[
@@ -711,10 +728,10 @@ const TICKER_DATA=[
 
 /* ---- data classification (4-tier confidentiality) ---- */
 const CLASS_DATA=[
-  {key:"public",lvl:"P0 · Open",t:"Public",te:"బహిరంగ",d:"Open data anyone can use, share and build on under an open licence.",ex:"Path → instant download / open API · no sign-in needed",c:"#5ad17a"},
+  {key:"public",lvl:"P0 · Open",t:"Public",te:"బహిరంగ",d:"Open data anyone can use, share and build on under an open licence.",ex:"Path → instant download / open API · no sign-in needed",c:"var(--saffron)"},
   {key:"internal",lvl:"P1 · Internal",t:"Internal",te:"అంతర్గత",d:"Operational data shared across agencies and verified partners.",ex:"Path → signed-in request, API key issued · access logged",c:"var(--pulse)"},
   {key:"restricted",lvl:"P2 · Restricted",t:"Restricted",te:"పరిమిత",d:"Sensitive or commercially valuable data needing a data-sharing agreement.",ex:"Path → agreement + purpose review · time-boxed, consent-bound",c:"var(--gold)"},
-  {key:"confidential",lvl:"P3 · Confidential",t:"Confidential",te:"గోప్యం",d:"Personal, security or individually-identifying records — strict need-to-know.",ex:"Path → closed · DPO approval, need-to-know, full audit",c:"#ff7a7a"},
+  {key:"confidential",lvl:"P3 · Confidential",t:"Confidential",te:"గోప్యం",d:"Personal, security or individually-identifying records — strict need-to-know.",ex:"Path → closed · DPO approval, need-to-know, full audit",c:"rgba(238,242,248,.5)"},
 ];
 const CLS=Object.fromEntries(CLASS_DATA.map(c=>[c.key,c]));
 
@@ -761,7 +778,7 @@ const ENTITY_DATA=[
   {abbr:"DTCP",name:"Town &amp; Country Planning",role:"Provider · Consumer",ic:"📐",pub:3,con:2,c:"var(--saffron)"},
   {abbr:"Irrigation",name:"Water Resources Dept",role:"Provider",ic:"💧",pub:2,con:1,c:"#3aa0ff"},
   {abbr:"APSRTC",name:"Road Transport Corp.",role:"Provider · Consumer",ic:"🚌",pub:2,con:2,c:"var(--pulse)"},
-  {abbr:"APPCB",name:"Pollution Control Board",role:"Provider",ic:"🌿",pub:2,con:1,c:"#5ad17a"},
+  {abbr:"APPCB",name:"Pollution Control Board",role:"Provider",ic:"🌿",pub:2,con:1,c:"var(--saffron)"},
   {abbr:"AP Police",name:"Police &amp; Command Centre",role:"Provider · Consumer",ic:"🛡️",pub:2,con:3,c:"#ff5f6d"},
   {abbr:"Reg. &amp; Stamps",name:"Registration &amp; Stamps",role:"Provider",ic:"🧾",pub:1,con:1,c:"#c98bff"},
   {abbr:"AP EDB",name:"Economic Development Board",role:"Consumer",ic:"📈",pub:1,con:4,c:"var(--green)"},
@@ -796,11 +813,11 @@ const $=s=>document.querySelector(s);
 KPI_DATA.forEach(k=>$("#kpis").insertAdjacentHTML("beforeend",
   `<div class="kpi"><div class="num">${k.num}<small>${k.unit}</small></div><div class="lbl">${k.lbl}</div></div>`));
 PILLAR_DATA.forEach(p=>$("#pillars-grid").insertAdjacentHTML("beforeend",
-  `<div class="pillar" style="--accent:${p.c}"><div class="pn">${p.n}</div><h3>${p.t}</h3><p>${p.d}</p></div>`));
+  `<div class="pillar" style="--accent:var(--saffron)"><div class="pn">${p.n}</div><h3>${p.t}</h3><p>${p.d}</p></div>`));
 CONNECTOR_DATA.forEach(c=>$("#connectors-grid").insertAdjacentHTML("beforeend",
-  `<article class="card" style="--accent:${c.c}"><div class="status"><i></i>Live</div><div class="ico">${c.ic}</div><div class="ent">${c.e}</div><h3>${c.t}</h3><p>${c.d}</p><div class="feeds">${c.feeds.map(f=>`<span>${f}</span>`).join("")}</div></article>`));
+  `<article class="card" style="--accent:var(--saffron)"><div class="status"><i></i>Live</div><div class="ico">${c.ic}</div><div class="ent">${c.e}</div><h3>${c.t}</h3><p>${c.d}</p><div class="feeds">${c.feeds.map(f=>`<span>${f}</span>`).join("")}</div></article>`));
 CITY_DATA.forEach(c=>$("#cities-grid").insertAdjacentHTML("beforeend",
-  `<div class="city" style="--c:${c.c}"><span class="dot"></span><div><h4>${c.t}</h4><div class="te">${c.te}</div><span class="d">${c.d}</span></div></div>`));
+  `<div class="city" style="--c:var(--saffron)"><span class="dot"></span><div><h4>${c.t}</h4><div class="te">${c.te}</div><span class="d">${c.d}</span></div></div>`));
 ARCH_DATA.forEach((s,i)=>$("#arch-grid").insertAdjacentHTML("beforeend",
   `<div class="stage"><div class="sn">${s.n}</div><h4>${s.t}</h4><ul>${s.items.map(x=>`<li>${x}</li>`).join("")}</ul>${i<ARCH_DATA.length-1?'<div class="arrow">→</div>':''}</div>`));
 ROLE_DATA.forEach(r=>$("#roles-grid").insertAdjacentHTML("beforeend",
@@ -810,13 +827,13 @@ $("#track").innerHTML=tHTML+tHTML;
 
 /* ---- classification legend ---- */
 CLASS_DATA.forEach(c=>$("#legend-grid").insertAdjacentHTML("beforeend",
-  `<div class="tier" style="--tc:${c.c}"><span class="lvl">${c.lvl}</span><h4><span class="cls ${c.key}"><i></i>${c.t}</span></h4><div class="te" style="font-family:var(--tel);color:var(--saffron);font-size:.8rem;opacity:.85;margin-bottom:8px">${c.te}</div><p>${c.d}</p><div class="ex">${c.ex}</div></div>`));
+  `<div class="tier" style="--tc:var(--saffron)"><span class="lvl">${c.lvl}</span><h4><span class="cls ${c.key}"><i></i>${c.t}</span></h4><div class="te" style="font-family:var(--tel);color:var(--saffron);font-size:.8rem;opacity:.85;margin-bottom:8px">${c.te}</div><p>${c.d}</p><div class="ex">${c.ex}</div></div>`));
 
 /* ---- personas ---- */
 PERSONA_DATA.forEach(p=>{
   const chips=CLASS_DATA.map(c=>{const a=p.access[c.key];return a==="n"?"":`<span class="cls ${c.key}"><i></i>${c.t}${a==="c"?" ·agreement":""}</span>`}).join("");
   $("#personas-grid").insertAdjacentHTML("beforeend",
-    `<div class="persona" style="--pc:${CLS.public.c}"><div class="pi">${p.i}</div><h4>${p.t}</h4><div class="te">${p.te}</div><p>${p.d}</p><div class="clr">${chips||'<span class="cls" style="color:var(--muted-2)">No access</span>'}</div></div>`);
+    `<div class="persona" style="--pc:var(--saffron)"><div class="pi">${p.i}</div><h4>${p.t}</h4><div class="te">${p.te}</div><p>${p.d}</p><div class="clr">${chips||'<span class="cls" style="color:var(--muted-2)">No access</span>'}</div></div>`);
 });
 
 /* ---- access matrix ---- */
@@ -830,7 +847,7 @@ PERSONA_DATA.forEach(p=>{
 EXFLOW_DATA.forEach((s,i)=>$("#exflow").insertAdjacentHTML("beforeend",
   `<div class="estep${s.gov?' gov':''}"><div class="en">${s.n}</div><h4>${s.t}</h4><p>${s.d}</p>${i<EXFLOW_DATA.length-1?'<div class="ar">→</div>':''}</div>`));
 ENTITY_DATA.forEach(e=>$("#entities-grid").insertAdjacentHTML("beforeend",
-  `<div class="entity${e.gov?' gov':''}" style="--ec:${e.c}">${e.gov?'<span class="crda-tag">GOVERNS</span>':''}<div class="ab"><span class="ic">${e.ic}</span><b>${e.abbr}</b></div><h4>${e.name}</h4><div class="role">${e.role}</div><div class="io"><div><b>${e.pub}</b>Published</div><div><b>${e.con}</b>Consumed</div></div></div>`));
+  `<div class="entity${e.gov?' gov':''}" style="--ec:var(--saffron)">${e.gov?'<span class="crda-tag">GOVERNS</span>':''}<div class="ab"><span class="ic">${e.ic}</span><b>${e.abbr}</b></div><h4>${e.name}</h4><div class="role">${e.role}</div><div class="io"><div><b>${e.pub}</b>Published</div><div><b>${e.con}</b>Consumed</div></div></div>`));
 (function(){
   const head=`<thead><tr><th>Exchange</th><th>Dataset</th><th>Class</th><th>Purpose</th><th>Status</th></tr></thead>`;
   const body=`<tbody>${EXCHANGE_DATA.map(x=>{const st=EXSTATUS[x.status];const c=CLS[x.cls];return `<tr><td><span class="flow"><b>${x.prov}</b> <span class="ar">→</span> <b>${x.con}</b></span></td><td class="dsn">${x.ds}</td><td><span class="cls ${x.cls}"><i></i>${c.t}</span></td><td style="color:var(--muted)">${x.purpose}</td><td><span class="stat ${st.c}"><i></i>${st.t}</span></td></tr>`}).join("")}</tbody>`;
@@ -893,7 +910,7 @@ function openFlow(dataset){exchangeMode=false;pendingDataset=dataset||null; ov.c
 function openExchange(){exchangeMode=true;pendingDataset=null; ov.classList.add("on"); ov.setAttribute("aria-hidden","false"); renderModal(SESSION?"exchange":"signin");}
 function closeModal(){ov.classList.remove("on");ov.setAttribute("aria-hidden","true");pendingDataset=null;exchangeMode=false;}
 
-const seal=`<svg class="seal" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="#e7c46b" stroke-width="2.5"/><circle cx="50" cy="50" r="6" fill="#ff9933"/><g stroke="#3b7bff" stroke-width="2"><line x1="50" y1="8" x2="50" y2="92"/><line x1="8" y1="50" x2="92" y2="50"/><line x1="21" y1="21" x2="79" y2="79"/><line x1="79" y1="21" x2="21" y2="79"/></g></svg>`;
+const seal=`<svg class="seal" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="46" fill="none" stroke="#ff9f43" stroke-width="2.5"/><circle cx="50" cy="50" r="6" fill="#ff9f43"/><g stroke="#ff9f43" stroke-width="2"><line x1="50" y1="8" x2="50" y2="92"/><line x1="8" y1="50" x2="92" y2="50"/><line x1="21" y1="21" x2="79" y2="79"/><line x1="79" y1="21" x2="21" y2="79"/></g></svg>`;
 const steps=(n)=>`<div class="steps">${[1,2,3].map(i=>`<span class="st ${i<=n?'on':''}"></span>`).join("")}</div>`;
 function dsCtx(){return pendingDataset?`<div class="ds-ctx"><span class="cls ${pendingDataset.cls}"><i></i>${CLS[pendingDataset.cls].t}</span><span>Requesting <b>${pendingDataset.t}</b> · ${pendingDataset.ent}</span></div>`:"";}
 
@@ -924,7 +941,7 @@ function renderModal(step){
   }
   else if(step==="request"){
     const p=PERSONAS[SESSION.persona], a=pendingDataset?p.access[pendingDataset.cls]:"y";
-    const verdict=a==="y"?{c:"#5ad17a",h:"Instant access",t:"Your persona may use this tier directly. An API key & download link are issued on submit."}:a==="c"?{c:"var(--gold)",h:"Access on agreement",t:"This tier needs a short purpose review and a data-sharing agreement. We'll route your request to the data steward."}:{c:"#ff7a7a",h:"Closed tier",t:"This dataset is confidential and not available to your persona. You can request a steward review, but approval is unlikely."};
+    const verdict=a==="y"?{c:"var(--saffron)",h:"Instant access",t:"Your persona may use this tier directly. An API key & download link are issued on submit."}:a==="c"?{c:"var(--gold)",h:"Access on agreement",t:"This tier needs a short purpose review and a data-sharing agreement. We'll route your request to the data steward."}:{c:"rgba(238,242,248,.5)",h:"Closed tier",t:"This dataset is confidential and not available to your persona. You can request a steward review, but approval is unlikely."};
     modalBody.innerHTML=`${seal}<div class="mk">Request access</div>
       <h3>${pendingDataset.t}</h3>
       <p style="margin-bottom:14px">${pendingDataset.d}</p>
@@ -990,7 +1007,7 @@ function buildCatalogue(filter){
   DATASET_DATA.filter(d=>filter==="all"||d.cls===filter).forEach(d=>{
     const c=CLS[d.cls]; const closed=SESSION&&PERSONAS[SESSION.persona].access[d.cls]==="n";
     grid.insertAdjacentHTML("beforeend",
-      `<article class="ds${closed?' locked':''}" style="--gd:${c.c}">
+      `<article class="ds${closed?' locked':''}" style="--gd:var(--saffron)">
         <div class="ds-top"><span class="ent">${d.ent}</span><span class="cls ${d.cls}"><i></i>${c.t}</span></div>
         <h4>${d.t}</h4><p>${d.d}</p>
         <div class="meta"><span>${d.fmt}</span><span>↻ ${d.cad}</span><span>${d.owner}</span></div>
@@ -1042,7 +1059,7 @@ function initTwin(){
 
   const host=$("#scene");
   const scene=new THREE.Scene();
-  scene.fog=new THREE.FogExp2(0x05070e,0.018);
+  scene.fog=new THREE.FogExp2(0x080b12,0.018);
   const cam=new THREE.PerspectiveCamera(52,innerWidth/innerHeight,0.1,400);
   cam.position.set(0,26,52);
   renderer.setPixelRatio(Math.min(devicePixelRatio,2));
@@ -1050,20 +1067,20 @@ function initTwin(){
   host.appendChild(renderer.domElement);
 
   // lights — restrained, premium
-  scene.add(new THREE.AmbientLight(0x4a5a88,0.65));
+  scene.add(new THREE.AmbientLight(0x5a5e6a,0.65));
   const key=new THREE.DirectionalLight(0xffe6c0,0.9);key.position.set(20,40,18);scene.add(key);
-  const rim=new THREE.PointLight(0x3b7bff,1.1,160);rim.position.set(-30,22,-20);scene.add(rim);
-  const saff=new THREE.PointLight(0xff9933,0.8,140);saff.position.set(34,16,18);scene.add(saff);
+  const rim=new THREE.PointLight(0xff9f43,1.1,160);rim.position.set(-30,22,-20);scene.add(rim);
+  const saff=new THREE.PointLight(0xff9f43,0.8,140);saff.position.set(34,16,18);scene.add(saff);
 
   const city=new THREE.Group();scene.add(city);
 
   // ground grid — subtle gold lines
-  const grid=new THREE.GridHelper(160,40,0xe7c46b,0x16203c);
+  const grid=new THREE.GridHelper(160,40,0xff9f43,0x141821);
   grid.material.opacity=0.18;grid.material.transparent=true;city.add(grid);
 
   // low-poly tower blocks on a grid (original abstract layout — not the real plan)
-  const cols=[0xff9933,0x138808,0x3b7bff,0xe7c46b,0x34e0d8,0xc98bff];
-  const towerMat=i=>new THREE.MeshStandardMaterial({color:0x0d1730,emissive:cols[i%cols.length],emissiveIntensity:0.18,roughness:0.45,metalness:0.5});
+  const cols=[0xff9f43,0xff9f43,0xff9f43,0xff9f43,0xeef2f8,0xffc081];
+  const towerMat=i=>new THREE.MeshStandardMaterial({color:0x0c1119,emissive:cols[i%cols.length],emissiveIntensity:0.18,roughness:0.45,metalness:0.5});
   const N=11,gap=11;
   const nodes=[];
   for(let x=0;x<N;x++)for(let z=0;z<N;z++){
@@ -1089,7 +1106,7 @@ function initTwin(){
 
   // river ribbon — flowing emissive plane along the diagonal corridor
   const riverGeo=new THREE.PlaneGeometry(150,9,60,1);
-  const riverMat=new THREE.MeshStandardMaterial({color:0x0a2a4d,emissive:0x1c6cff,emissiveIntensity:0.5,roughness:0.2,metalness:0.6,transparent:true,opacity:0.82,side:THREE.DoubleSide});
+  const riverMat=new THREE.MeshStandardMaterial({color:0x0c1119,emissive:0xff9f43,emissiveIntensity:0.5,roughness:0.2,metalness:0.6,transparent:true,opacity:0.82,side:THREE.DoubleSide});
   const river=new THREE.Mesh(riverGeo,riverMat);
   river.rotation.x=-Math.PI/2;river.rotation.z=Math.PI/4;river.position.y=0.15;city.add(river);
   const rPos=riverGeo.attributes.position, rBase=rPos.array.slice();
@@ -1099,7 +1116,7 @@ function initTwin(){
   const pGeo=new THREE.BufferGeometry();const arr=new Float32Array(pc*3);
   for(let i=0;i<pc;i++){arr[i*3]=(Math.random()-0.5)*180;arr[i*3+1]=Math.random()*60;arr[i*3+2]=(Math.random()-0.5)*180;}
   pGeo.setAttribute("position",new THREE.BufferAttribute(arr,3));
-  const pMat=new THREE.PointsMaterial({color:0xe7c46b,size:0.35,transparent:true,opacity:0.55,blending:THREE.AdditiveBlending,depthWrite:false});
+  const pMat=new THREE.PointsMaterial({color:0xff9f43,size:0.35,transparent:true,opacity:0.55,blending:THREE.AdditiveBlending,depthWrite:false});
   const points=new THREE.Points(pGeo,pMat);scene.add(points);
 
   // pointer parallax
