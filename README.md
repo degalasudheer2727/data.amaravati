@@ -1,13 +1,13 @@
 <div align="center">
 
-# AMARATWIN
+# data.amaravati
 
-**The living digital twin & open-data nexus of Amaravati — the People's Capital.**
-అమరావతి · ప్రజల రాజధాని
+**The governed data platform & living digital twin of Amaravati — the People's Capital.**
+అమరావతి · ప్రజల రాజధాని డేటా
 
-A super-rich, sleek 3D website + a Flutter hybrid mobile app, deployed on Vercel with an end-to-end DevSecOps pipeline.
+Access city data by your authority — open, internal, sensitive and confidential — with a governed catalogue, a CRDA-governed inter-agency exchange hub, single sign-on and a navigable 3D twin. A sleek, GIGW/WCAG 2.1 AA-aligned 3D website + a Flutter hybrid app, deployed on Vercel with an end-to-end DevSecOps pipeline.
 
-`concept prototype` · `Three.js` · `Flutter` · `Vercel` · `DevSecOps`
+`concept prototype · not an official government product` · `Three.js` · `Flutter` · `Vercel` · `DevSecOps`
 
 </div>
 

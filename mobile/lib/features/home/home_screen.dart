@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
               gradient: RadialGradient(
                 center: Alignment(0.6, -0.8),
                 radius: 1.1,
-                colors: [Color(0x33138808), AppColors.bg],
+                colors: [Color(0x26FF9F43), AppColors.bg],
               ),
             ),
             child: Column(
@@ -45,7 +45,7 @@ class HomeScreen extends StatelessWidget {
                 Text('అమరావతి', style: AppTheme.telugu(16)),
                 const SizedBox(height: 14),
                 const Text(
-                  'A navigable digital twin and open-data nexus for the Amaravati master plan — every domain of the city as a live connector.',
+                  'A governed data platform and navigable digital twin for the Amaravati master plan — open, internal, sensitive and confidential data, by your authority.',
                   style: TextStyle(color: AppColors.muted, height: 1.5),
                 ),
               ],

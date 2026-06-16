@@ -4,10 +4,8 @@ import '../models/models.dart';
 
 /// Session + onboarding state for data.amaravati.
 ///
-/// Wraps real Google Sign-In (`google_sign_in`). On platforms/configurations
-/// where Google isn't wired yet, [signInWithGoogle] returns `false` and the UI
-/// offers a demo identity so the onboarding flow stays explorable. To go fully
-/// live, configure the Google OAuth client for each platform:
+/// Production Google Sign-In via `google_sign_in`. Configure the OAuth client
+/// per platform:
 ///   • Android: add `google-services.json` (OAuth client + SHA-1).
 ///   • iOS: add the reversed-client-id URL scheme to Info.plist.
 ///   • Web: add `<meta name="google-signin-client_id" content="…">` to web/index.html.
@@ -20,35 +18,19 @@ class AuthController extends ChangeNotifier {
   AppUser? get user => _user;
   bool get isSignedIn => _user != null;
 
-  /// Attempt real Gmail sign-in. Returns false if cancelled or unavailable
-  /// (e.g. the OAuth client isn't configured for this platform yet).
+  /// Gmail sign-in. Returns false if the user cancels. Throws if Google Sign-In
+  /// fails (e.g. the OAuth client isn't configured) so the UI can surface it.
   Future<bool> signInWithGoogle() async {
-    try {
-      final account = await _google.signIn();
-      if (account == null) return false; // user cancelled
-      _user = AppUser(
-        name: account.displayName ?? account.email,
-        email: account.email,
-        photoUrl: account.photoUrl,
-        personaKey: _user?.personaKey ?? 'citizen',
-      );
-      notifyListeners();
-      return true;
-    } catch (_) {
-      // Google not configured for this platform — caller falls back to demo.
-      return false;
-    }
-  }
-
-  /// Demo identity so the flow is explorable before the OAuth client is set.
-  void signInDemo() {
-    _user = const AppUser(
-      name: 'Demo Citizen',
-      email: 'demo@data.amaravati',
-      personaKey: 'citizen',
-      demo: true,
+    final account = await _google.signIn();
+    if (account == null) return false; // user cancelled
+    _user = AppUser(
+      name: account.displayName ?? account.email,
+      email: account.email,
+      photoUrl: account.photoUrl,
+      personaKey: _user?.personaKey ?? 'citizen',
     );
     notifyListeners();
+    return true;
   }
 
   void selectPersona(String key) {

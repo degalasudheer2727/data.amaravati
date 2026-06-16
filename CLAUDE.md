@@ -1,7 +1,8 @@
-# AMARATWIN — Project Brief
+# data.amaravati — Project Brief
 
-> The digital twin universe of the People's Capital. A concept open-data nexus,
-> a super-rich 3D website, and a Flutter hybrid app, shipped via Vercel + DevSecOps.
+> The governed data platform of the People's Capital. A concept that serves city
+> data by authority — open, internal, sensitive and confidential — with a digital
+> twin, a Flutter hybrid app, shipped via Vercel + DevSecOps. (Formerly "AMARATWIN".)
 
 Read this before making changes.
 

@@ -14,11 +14,16 @@ abstract class AmaraverseRepository {
   List<FutureFeature> futures();
   List<Signal> liveSignals();
 
-  /// The open-data catalogue + governance model.
+  /// The governed data catalogue + governance model.
   List<ClassTier> classes();
   List<Persona> personas();
   List<Dataset> datasets();
   Persona personaByKey(String key);
+
+  /// The CRDA-governed Data Exchange Hub.
+  List<GovEntity> exchangeEntities();
+  List<ExchangeStep> exchangeFlow();
+  List<ExchangeRecord> exchanges();
 
   /// The live 3D digital-twin web experience embedded by the Twin screen.
   /// Hosted on Vercel in production; falls back to the bundled asset offline.
@@ -36,7 +41,7 @@ class MockRepository implements AmaraverseRepository {
         Kpi('217', ' km²', 'Amaravati capital city'),
         Kpi('1,575', ' ac', 'Government Complex · AGC'),
         Kpi('21', '', 'Land-use zones · R·C·I·P·S·U'),
-        Kpi('1.2', 'k+', 'Indicative open datasets'),
+        Kpi('1.2', 'k+', 'Governed datasets · all tiers'),
       ];
 
   @override
@@ -48,8 +53,8 @@ class MockRepository implements AmaraverseRepository {
             AppColors.saffron),
         Pillar(
             '02',
-            'Open Data Portal',
-            'Public, machine-readable datasets with licences, schemas and APIs anyone can build on.',
+            'Governed Catalogue',
+            'Open, internal, sensitive and confidential datasets — each with a licence, schema, owner and access path.',
             AppColors.green),
         Pillar(
             '03',
@@ -72,7 +77,7 @@ class MockRepository implements AmaraverseRepository {
                 'Master-plan land-use zones — R·C·I·P·S·U — parcels, layouts and pooling.',
             icon: Icons.map,
             feeds: ['Zoning', 'Layouts', 'LPS'],
-            accent: Color(0xFF7AD0FF),
+            accent: AppColors.saffron,
             reading: 0.74),
         Connector(
             entity: 'Governance',
@@ -106,7 +111,7 @@ class MockRepository implements AmaraverseRepository {
                 'Krishna riverfront levels, reservoirs and flood resilience.',
             icon: Icons.water_drop,
             feeds: ['River', 'Supply', 'Flood'],
-            accent: Color(0xFF3AA0FF),
+            accent: AppColors.saffron,
             reading: 0.96),
         Connector(
             entity: 'Energy',
@@ -123,7 +128,7 @@ class MockRepository implements AmaraverseRepository {
                 'Housing stock, affordability and neighbourhood build-out.',
             icon: Icons.holiday_village,
             feeds: ['Stock', 'Pricing', 'Build-out'],
-            accent: Color(0xFFC98BFF),
+            accent: AppColors.saffron,
             reading: 0.55),
         Connector(
             entity: 'Economy',
@@ -140,7 +145,7 @@ class MockRepository implements AmaraverseRepository {
                 'Population, density and the human texture of each ward.',
             icon: Icons.groups,
             feeds: ['Census', 'Density', 'Wards'],
-            accent: Color(0xFFFF7A7A),
+            accent: AppColors.saffron,
             reading: 0.6),
         Connector(
             entity: 'Construction',
@@ -149,7 +154,7 @@ class MockRepository implements AmaraverseRepository {
                 'Live progress on the government spine and capital works.',
             icon: Icons.construction,
             feeds: ['Projects', 'Progress', 'Spend'],
-            accent: Color(0xFFFFB347),
+            accent: AppColors.saffron,
             reading: 0.64),
         Connector(
             entity: 'Environment',
@@ -157,7 +162,7 @@ class MockRepository implements AmaraverseRepository {
             description: 'Air quality, green cover and the blue-green network.',
             icon: Icons.eco,
             feeds: ['AQI', 'Canopy', 'Parks'],
-            accent: Color(0xFF5AD17A),
+            accent: AppColors.saffron,
             reading: 0.83),
         Connector(
             entity: 'Heritage',
@@ -174,7 +179,7 @@ class MockRepository implements AmaraverseRepository {
                 'Emergency response, disaster readiness and safety signals.',
             icon: Icons.shield,
             feeds: ['112', 'Disaster', 'CCTV'],
-            accent: Color(0xFFFF5F6D),
+            accent: AppColors.saffron,
             reading: 0.9),
       ];
 
@@ -189,17 +194,17 @@ class MockRepository implements AmaraverseRepository {
         ThemeCity('Knowledge City', 'విజ్ఞాన నగరం', 'Universities & research.',
             AppColors.pulse, 121),
         ThemeCity('Health City', 'ఆరోగ్య నగరం', 'Hospitals & life sciences.',
-            Color(0xFFFF5F6D), 77),
+            AppColors.saffron, 77),
         ThemeCity('Sports City', 'క్రీడా నగరం', 'Stadia & athletic venues.',
             AppColors.cyan, 39),
         ThemeCity('Media City', 'మీడియా నగరం', 'Film, broadcast & creative.',
-            Color(0xFFC98BFF), 45),
+            AppColors.saffron, 45),
         ThemeCity('Tourism City', 'పర్యాటక నగరం',
-            'Riverfront, culture & leisure.', Color(0xFFFFB347), 58),
+            'Riverfront, culture & leisure.', AppColors.saffron, 58),
         ThemeCity('Electronics City', 'ఎలక్ట్రానిక్స్ నగరం',
-            'Manufacturing & deep-tech.', Color(0xFF5AD17A), 83),
+            'Manufacturing & deep-tech.', AppColors.saffron, 83),
         ThemeCity('Quantum Valley', 'క్వాంటం వ్యాలీ',
-            'Quantum compute & frontier R&D.', Color(0xFF7AD0FF), 96),
+            'Quantum compute & frontier R&D.', AppColors.saffron, 96),
       ];
 
   /// Forward-looking capability roadmap — the digital city of 2040.
@@ -246,21 +251,21 @@ class MockRepository implements AmaraverseRepository {
             description:
                 'The twin forecasts floods, congestion and demand and pre-positions resources.',
             icon: Icons.insights,
-            accent: Color(0xFFC98BFF)),
+            accent: AppColors.saffron),
         FutureFeature(
             horizon: '2036',
             title: 'Net-Zero Energy Twin',
             description:
                 'Real-time carbon ledger; every building, grid and vehicle optimised to net-zero.',
             icon: Icons.energy_savings_leaf,
-            accent: Color(0xFF5AD17A)),
+            accent: AppColors.saffron),
         FutureFeature(
             horizon: '2038',
             title: 'Quantum-Secured Exchange',
             description:
                 'Post-quantum cryptography securing every inter-agency data transaction.',
             icon: Icons.lock,
-            accent: Color(0xFF7AD0FF)),
+            accent: AppColors.saffron),
         FutureFeature(
             horizon: '2040',
             title: 'Sentient City OS',
@@ -274,7 +279,7 @@ class MockRepository implements AmaraverseRepository {
             description:
                 'Residents co-allocate participatory budgets on-chain, ward by ward.',
             icon: Icons.how_to_vote,
-            accent: Color(0xFFFFB347)),
+            accent: AppColors.saffron),
       ];
 
   @override
@@ -577,5 +582,192 @@ class MockRepository implements AmaraverseRepository {
             cadence: '—',
             owner: 'Police',
             classification: Classification.confidential),
+      ];
+
+  @override
+  List<GovEntity> exchangeEntities() => const [
+        GovEntity(
+            abbr: 'APCRDA',
+            name: 'Capital Region Dev. Authority',
+            role: 'Governing authority',
+            icon: Icons.account_balance,
+            published: 9,
+            consumed: 5,
+            color: AppColors.gold,
+            governs: true),
+        GovEntity(
+            abbr: 'DTCP',
+            name: 'Town & Country Planning',
+            role: 'Provider · Consumer',
+            icon: Icons.architecture,
+            published: 3,
+            consumed: 2,
+            color: AppColors.saffron),
+        GovEntity(
+            abbr: 'Irrigation',
+            name: 'Water Resources Dept',
+            role: 'Provider',
+            icon: Icons.water_drop,
+            published: 2,
+            consumed: 1,
+            color: AppColors.saffron),
+        GovEntity(
+            abbr: 'APSRTC',
+            name: 'Road Transport Corp.',
+            role: 'Provider · Consumer',
+            icon: Icons.directions_bus,
+            published: 2,
+            consumed: 2,
+            color: AppColors.pulse),
+        GovEntity(
+            abbr: 'APPCB',
+            name: 'Pollution Control Board',
+            role: 'Provider',
+            icon: Icons.eco,
+            published: 2,
+            consumed: 1,
+            color: AppColors.saffron),
+        GovEntity(
+            abbr: 'AP Police',
+            name: 'Police & Command Centre',
+            role: 'Provider · Consumer',
+            icon: Icons.shield,
+            published: 2,
+            consumed: 3,
+            color: AppColors.saffron),
+        GovEntity(
+            abbr: 'Reg. & Stamps',
+            name: 'Registration & Stamps',
+            role: 'Provider',
+            icon: Icons.receipt_long,
+            published: 1,
+            consumed: 1,
+            color: AppColors.saffron),
+        GovEntity(
+            abbr: 'AP EDB',
+            name: 'Economic Development Board',
+            role: 'Consumer',
+            icon: Icons.trending_up,
+            published: 1,
+            consumed: 4,
+            color: AppColors.green),
+        GovEntity(
+            abbr: 'DES',
+            name: 'Economics & Statistics',
+            role: 'Provider · Consumer',
+            icon: Icons.bar_chart,
+            published: 3,
+            consumed: 3,
+            color: AppColors.saffron),
+        GovEntity(
+            abbr: 'Transport',
+            name: 'Transport Department',
+            role: 'Provider · Consumer',
+            icon: Icons.traffic,
+            published: 2,
+            consumed: 2,
+            color: AppColors.pulse),
+        GovEntity(
+            abbr: 'Water Utility',
+            name: 'City Water Utility',
+            role: 'Provider',
+            icon: Icons.water,
+            published: 1,
+            consumed: 2,
+            color: AppColors.cyan),
+        GovEntity(
+            abbr: 'ULBs',
+            name: 'Urban Local Bodies',
+            role: 'Consumer',
+            icon: Icons.location_city,
+            published: 1,
+            consumed: 5,
+            color: AppColors.saffron),
+      ];
+
+  @override
+  List<ExchangeStep> exchangeFlow() => const [
+        ExchangeStep('01', 'Request',
+            'A consumer entity requests a dataset from a provider through the hub.'),
+        ExchangeStep('02', 'Classify & route',
+            'The hub tags the data\'s confidentiality tier and routes it by policy.'),
+        ExchangeStep('03', 'CRDA review',
+            'CRDA verifies purpose, legal basis and DPDP / consent compliance.',
+            crda: true),
+        ExchangeStep('04', 'Agreement',
+            'A signed, time-boxed, consent-bound data-sharing agreement is registered.',
+            crda: true),
+        ExchangeStep('05', 'Provision',
+            'A secure API / exchange channel is opened between the two entities.'),
+        ExchangeStep('06', 'Audit',
+            'Every transaction is logged; CRDA monitors and can revoke access.',
+            crda: true),
+      ];
+
+  @override
+  List<ExchangeRecord> exchanges() => const [
+        ExchangeRecord(
+            provider: 'DTCP',
+            consumer: 'APCRDA',
+            dataset: 'Layout & Plot Sanctions',
+            classification: Classification.internal,
+            status: ExchangeStatus.active,
+            purpose: 'Master-plan compliance'),
+        ExchangeRecord(
+            provider: 'Irrigation',
+            consumer: 'APCRDA',
+            dataset: 'Krishna Riverfront Levels',
+            classification: Classification.public,
+            status: ExchangeStatus.active,
+            purpose: 'Flood resilience'),
+        ExchangeRecord(
+            provider: 'AP Police',
+            consumer: 'Transport',
+            dataset: 'ANPR Vehicle Movements',
+            classification: Classification.restricted,
+            status: ExchangeStatus.review,
+            purpose: 'Corridor congestion modelling'),
+        ExchangeRecord(
+            provider: 'Reg. & Stamps',
+            consumer: 'AP EDB',
+            dataset: 'Property Registration Prices',
+            classification: Classification.restricted,
+            status: ExchangeStatus.agreement,
+            purpose: 'Land-value baselining'),
+        ExchangeRecord(
+            provider: 'APPCB',
+            consumer: 'ULBs',
+            dataset: 'Air Quality Index',
+            classification: Classification.public,
+            status: ExchangeStatus.active,
+            purpose: 'Ward health dashboards'),
+        ExchangeRecord(
+            provider: 'DES',
+            consumer: 'APCRDA',
+            dataset: 'Ward Population & Density',
+            classification: Classification.public,
+            status: ExchangeStatus.active,
+            purpose: 'Service planning'),
+        ExchangeRecord(
+            provider: 'APCRDA',
+            consumer: 'AP Police',
+            dataset: 'Individual Land-Loser Records',
+            classification: Classification.confidential,
+            status: ExchangeStatus.declined,
+            purpose: 'Identity verification'),
+        ExchangeRecord(
+            provider: 'Water Utility',
+            consumer: 'APCRDA',
+            dataset: 'Reservoir & Supply (SCADA)',
+            classification: Classification.restricted,
+            status: ExchangeStatus.agreement,
+            purpose: 'Demand forecasting'),
+        ExchangeRecord(
+            provider: 'APSRTC',
+            consumer: 'Transport',
+            dataset: 'Public Transit Positions',
+            classification: Classification.public,
+            status: ExchangeStatus.active,
+            purpose: 'Multimodal routing'),
       ];
 }

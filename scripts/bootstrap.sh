@@ -9,7 +9,7 @@
 # =============================================================================
 set -euo pipefail
 
-REPO="${1:-amara-twin}"
+REPO="${1:-data.amaravati}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 say() { printf "\n\033[1;33m▸ %s\033[0m\n" "$*"; }

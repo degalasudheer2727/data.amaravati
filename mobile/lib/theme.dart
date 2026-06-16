@@ -4,23 +4,29 @@ import 'package:google_fonts/google_fonts.dart';
 /// data.amaravati brand system — India tricolour-derived, govt-credible, enterprise-grade.
 /// Mirrors the 3D website palette so the hybrid app and site feel like one product.
 class AppColors {
-  static const bg = Color(0xFF05070E);
-  static const bg2 = Color(0xFF080C18);
-  static const surface = Color(0xFF0B1124);
-  static const surfaceHi = Color(0xFF101830);
-  static const line = Color(0x14FFFFFF);
+  // 3-colour system: ink (base) · snow (foreground) · saffron (single accent).
+  static const ink = Color(0xFF080B12);
+  static const snow = Color(0xFFEEF2F8);
+  static const saffron = Color(0xFFFF9F43);
 
-  static const saffron = Color(0xFFFF9933);
-  static const green = Color(0xFF138808);
-  static const navy = Color(0xFF0A1F44);
-  static const pulse = Color(0xFF3B7BFF); // Ashoka-chakra live accent
-  static const gold = Color(0xFFE7C46B);
-  static const cyan = Color(0xFF34E0D8);
-  static const maroon = Color(0xFF7A1F2B);
+  static const bg = ink;
+  static const bg2 = Color(0xFF0A0E16);
+  static const surface = Color(0x0DFFFFFF); // translucent glass
+  static const surfaceHi = Color(0xFF141A26); // opaque (avatars, dropdowns)
+  static const surfaceSolid = Color(0xFF0F141E); // opaque base
+  static const line = Color(0x1FFFFFFF); // white @ .12
 
-  static const text = Color(0xFFEEF2FB);
-  static const muted = Color(0xFF9FB0CC);
-  static const muted2 = Color(0xFF6C7E9E);
+  // legacy accent names collapse onto the single accent
+  static const green = saffron;
+  static const navy = ink;
+  static const pulse = saffron;
+  static const gold = saffron;
+  static const cyan = saffron;
+  static const maroon = saffron;
+
+  static const text = snow;
+  static const muted = Color(0x99EEF2F8); // .60
+  static const muted2 = Color(0x61EEF2F8); // .38
 }
 
 class AppTheme {
@@ -34,8 +40,8 @@ class AppTheme {
       scaffoldBackgroundColor: AppColors.bg,
       colorScheme: const ColorScheme.dark(
         primary: AppColors.saffron,
-        secondary: AppColors.gold,
-        surface: AppColors.surface,
+        secondary: AppColors.saffron,
+        surface: AppColors.surfaceSolid,
         onPrimary: Color(0xFF1A1205),
       ),
       textTheme: textTheme,

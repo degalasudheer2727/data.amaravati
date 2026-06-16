@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 /// Immutable domain models for data.amaravati. Pure data — no UI, no IO.
 /// Keeping these decoupled lets the repository swap mock data for a real
-/// open-data API later without touching the feature screens.
+/// live data API later without touching the feature screens.
 
 /// Confidentiality tier a dataset is classified under. The tier — not the
 /// team — decides the path to access and the controls applied.
@@ -17,22 +17,23 @@ enum Access {
 
 extension ClassificationMeta on Classification {
   String get label => switch (this) {
-        Classification.public => 'Public',
+        Classification.public => 'Open',
         Classification.internal => 'Internal',
-        Classification.restricted => 'Restricted',
+        Classification.restricted => 'Sensitive',
         Classification.confidential => 'Confidential',
       };
   String get level => switch (this) {
-        Classification.public => 'P0 · Open',
-        Classification.internal => 'P1 · Internal',
-        Classification.restricted => 'P2 · Restricted',
-        Classification.confidential => 'P3 · Confidential',
+        Classification.public => 'L0 · Open',
+        Classification.internal => 'L1 · Internal',
+        Classification.restricted => 'L2 · Sensitive',
+        Classification.confidential => 'L3 · Confidential',
       };
+  // 3-colour system: saffron / snow / muted-snow, differentiated by weight.
   Color get color => switch (this) {
-        Classification.public => const Color(0xFF5AD17A),
-        Classification.internal => const Color(0xFF3B7BFF),
-        Classification.restricted => const Color(0xFFE7C46B),
-        Classification.confidential => const Color(0xFFFF7A7A),
+        Classification.public => const Color(0xFFFF9F43),
+        Classification.internal => const Color(0xFFEEF2F8),
+        Classification.restricted => const Color(0xB8FF9F43),
+        Classification.confidential => const Color(0x73EEF2F8),
       };
 }
 
@@ -87,6 +88,77 @@ class Dataset {
   });
 }
 
+/// Status of an inter-agency exchange agreement in CRDA governance.
+enum ExchangeStatus { active, review, agreement, declined }
+
+extension ExchangeStatusMeta on ExchangeStatus {
+  String get label => switch (this) {
+        ExchangeStatus.active => 'Active',
+        ExchangeStatus.review => 'CRDA review',
+        ExchangeStatus.agreement => 'Agreement',
+        ExchangeStatus.declined => 'Declined',
+      };
+  Color get color => switch (this) {
+        ExchangeStatus.active => const Color(0xFFFF9F43),
+        ExchangeStatus.review => const Color(0xFFEEF2F8),
+        ExchangeStatus.agreement => const Color(0xB8FF9F43),
+        ExchangeStatus.declined => const Color(0x6BEEF2F8),
+      };
+}
+
+/// A government entity participating in the Data Exchange Hub.
+@immutable
+class GovEntity {
+  final String abbr;
+  final String name;
+  final String role;
+  final IconData icon;
+  final int published;
+  final int consumed;
+  final Color color;
+  final bool governs; // true for CRDA, the governing authority
+  const GovEntity({
+    required this.abbr,
+    required this.name,
+    required this.role,
+    required this.icon,
+    required this.published,
+    required this.consumed,
+    required this.color,
+    this.governs = false,
+  });
+}
+
+/// A step in the CRDA-governed exchange workflow.
+@immutable
+class ExchangeStep {
+  final String number;
+  final String title;
+  final String description;
+  final bool crda; // governed/controlled by CRDA
+  const ExchangeStep(this.number, this.title, this.description,
+      {this.crda = false});
+}
+
+/// A government-to-government exchange agreement in the register.
+@immutable
+class ExchangeRecord {
+  final String provider;
+  final String consumer;
+  final String dataset;
+  final Classification classification;
+  final ExchangeStatus status;
+  final String purpose;
+  const ExchangeRecord({
+    required this.provider,
+    required this.consumer,
+    required this.dataset,
+    required this.classification,
+    required this.status,
+    required this.purpose,
+  });
+}
+
 /// A signed-in user mapped to a persona. `null` persona until chosen.
 @immutable
 class AppUser {
@@ -94,13 +166,11 @@ class AppUser {
   final String email;
   final String? photoUrl;
   final String personaKey;
-  final bool demo;
   const AppUser({
     required this.name,
     required this.email,
     this.photoUrl,
     this.personaKey = 'citizen',
-    this.demo = false,
   });
 
   AppUser copyWith({String? personaKey}) => AppUser(
@@ -108,7 +178,6 @@ class AppUser {
         email: email,
         photoUrl: photoUrl,
         personaKey: personaKey ?? this.personaKey,
-        demo: demo,
       );
 }
 

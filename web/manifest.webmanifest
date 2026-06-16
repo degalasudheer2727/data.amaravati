@@ -1,11 +1,11 @@
 {
-  "name": "AMARATWIN — Digital Twin of Amaravati",
-  "short_name": "AMARATWIN",
-  "description": "The living digital twin & open-data nexus of Amaravati, the People's Capital. Concept prototype.",
+  "name": "data.amaravati — Governed Data Platform of Amaravati",
+  "short_name": "data.amaravati",
+  "description": "The governed data platform & living digital twin of Amaravati. Access city data by authority - open to confidential. Concept prototype.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#05070e",
-  "theme_color": "#05070e",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
   "icons": [
     { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
   ]

@@ -4,9 +4,10 @@ import '../../data/repository.dart';
 import '../../models/models.dart';
 import '../../theme.dart';
 import '../../widgets/common.dart';
+import '../exchange/exchange_screen.dart';
 import '../onboarding/onboarding_screen.dart';
 
-/// The pre-loaded open-data catalogue: governed sample datasets, each with a
+/// The pre-loaded governed data catalogue: governed sample datasets, each with a
 /// confidentiality class. What a signed-in persona may request is gated by the
 /// persona × classification access matrix.
 class CatalogueScreen extends StatefulWidget {
@@ -59,7 +60,7 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Open Data Catalogue', style: AppTheme.display(20)),
+                Text('Data Catalogue', style: AppTheme.display(20)),
                 Text(
                     persona == null
                         ? 'Sign in to request · ${all.length} datasets'
@@ -69,6 +70,12 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
               ],
             ),
             actions: [
+              IconButton(
+                tooltip: 'Data Exchange Hub',
+                icon: const Icon(Icons.swap_horiz),
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => ExchangeScreen(repo: repo))),
+              ),
               IconButton(
                 tooltip: persona == null ? 'Sign in' : 'Account',
                 icon: Icon(persona == null
@@ -81,6 +88,38 @@ class _CatalogueScreenState extends State<CatalogueScreen> {
           ),
           body: CustomScrollView(
             slivers: [
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                  child: GlassCard(
+                    accent: AppColors.gold,
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) => ExchangeScreen(repo: repo))),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 14),
+                    child: const Row(children: [
+                      Icon(Icons.swap_horiz, color: AppColors.gold, size: 22),
+                      SizedBox(width: 14),
+                      Expanded(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Data Exchange Hub',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14)),
+                              SizedBox(height: 2),
+                              Text('Govt-to-govt exchange · governed by CRDA',
+                                  style: TextStyle(
+                                      color: AppColors.muted2, fontSize: 11)),
+                            ]),
+                      ),
+                      Icon(Icons.chevron_right,
+                          size: 18, color: AppColors.muted2),
+                    ]),
+                  ),
+                ),
+              ),
               SliverToBoxAdapter(
                 child: SizedBox(
                   height: 52,
@@ -252,7 +291,7 @@ class _DatasetCard extends StatelessWidget {
         null => 'Request access',
         Access.instant => 'Request · instant',
         Access.agreement => 'Request · agreement',
-        Access.closed => 'Closed for you',
+        Access.closed => 'Requires clearance',
       };
 }
 
@@ -265,7 +304,7 @@ class _RequestSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final (color, head, body) = switch (access) {
       Access.instant => (
-          const Color(0xFF5AD17A),
+          AppColors.saffron,
           'Instant access',
           'Your persona may use this tier directly. An API key & download link are issued on submit.'
         ),
@@ -275,9 +314,9 @@ class _RequestSheet extends StatelessWidget {
           'This tier needs a short purpose review and a data-sharing agreement. We’ll route your request to the data steward.'
         ),
       Access.closed => (
-          const Color(0xFFFF7A7A),
-          'Closed tier',
-          'This dataset is confidential and not available to your persona. You can request a steward review, but approval is unlikely.'
+          const Color(0x73EEF2F8),
+          'Requires clearance',
+          'This tier is above your current authority. Submit a clearance request — routed to the Data Steward and DPO for need-to-know review before any release.'
         ),
     };
     return Padding(

@@ -1,8 +1,8 @@
 {
-  "name": "amara-twin",
+  "name": "data-amaravati",
   "version": "1.0.0",
   "private": true,
-  "description": "AMARATWIN — concept digital-twin & open-data nexus for Amaravati. Super-rich 3D website + Flutter hybrid app.",
+  "description": "data.amaravati — concept governed data platform & digital twin for Amaravati. Access open, internal, sensitive and confidential city data by authority. 3D website + Flutter hybrid app.",
   "type": "module",
   "scripts": {
     "dev": "python3 -m http.server 5173 --directory web",
@@ -12,7 +12,7 @@
     "preview": "vercel deploy",
     "deploy": "vercel deploy --prod"
   },
-  "keywords": ["amaravati", "digital-twin", "open-data", "threejs", "flutter", "vercel", "devsecops"],
+  "keywords": ["amaravati", "data-platform", "governed-data", "digital-twin", "threejs", "flutter", "vercel", "devsecops"],
   "license": "UNLICENSED",
   "devDependencies": {
     "htmlhint": "^1.1.4"
