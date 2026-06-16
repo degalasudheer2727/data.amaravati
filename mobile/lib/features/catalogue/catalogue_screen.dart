@@ -304,7 +304,7 @@ class _RequestSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     final (color, head, body) = switch (access) {
       Access.instant => (
-          const Color(0xFF5AD17A),
+          AppColors.saffron,
           'Instant access',
           'Your persona may use this tier directly. An API key & download link are issued on submit.'
         ),
@@ -314,7 +314,7 @@ class _RequestSheet extends StatelessWidget {
           'This tier needs a short purpose review and a data-sharing agreement. We’ll route your request to the data steward.'
         ),
       Access.closed => (
-          const Color(0xFFFF7A7A),
+          const Color(0x73EEF2F8),
           'Closed tier',
           'This dataset is confidential and not available to your persona. You can request a steward review, but approval is unlikely.'
         ),

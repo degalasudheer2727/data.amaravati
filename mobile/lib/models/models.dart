@@ -28,11 +28,12 @@ extension ClassificationMeta on Classification {
         Classification.restricted => 'P2 · Restricted',
         Classification.confidential => 'P3 · Confidential',
       };
+  // 3-colour system: saffron / snow / muted-snow, differentiated by weight.
   Color get color => switch (this) {
-        Classification.public => const Color(0xFF5AD17A),
-        Classification.internal => const Color(0xFF3B7BFF),
-        Classification.restricted => const Color(0xFFE7C46B),
-        Classification.confidential => const Color(0xFFFF7A7A),
+        Classification.public => const Color(0xFFFF9F43),
+        Classification.internal => const Color(0xFFEEF2F8),
+        Classification.restricted => const Color(0xB8FF9F43),
+        Classification.confidential => const Color(0x73EEF2F8),
       };
 }
 
@@ -98,10 +99,10 @@ extension ExchangeStatusMeta on ExchangeStatus {
         ExchangeStatus.declined => 'Declined',
       };
   Color get color => switch (this) {
-        ExchangeStatus.active => const Color(0xFF5AD17A),
-        ExchangeStatus.review => const Color(0xFFE7C46B),
-        ExchangeStatus.agreement => const Color(0xFF3B7BFF),
-        ExchangeStatus.declined => const Color(0xFFFF7A7A),
+        ExchangeStatus.active => const Color(0xFFFF9F43),
+        ExchangeStatus.review => const Color(0xFFEEF2F8),
+        ExchangeStatus.agreement => const Color(0xB8FF9F43),
+        ExchangeStatus.declined => const Color(0x6BEEF2F8),
       };
 }
 

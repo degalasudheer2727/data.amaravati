@@ -163,7 +163,7 @@ class _TierRow extends StatelessWidget {
 
   Widget _accessChip(Access a) {
     final (label, color) = switch (a) {
-      Access.instant => ('You: instant', const Color(0xFF5AD17A)),
+      Access.instant => ('You: instant', AppColors.saffron),
       Access.agreement => ('You: agreement', AppColors.gold),
       Access.closed => ('You: closed', AppColors.muted2),
     };

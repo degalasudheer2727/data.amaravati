@@ -1,3 +1,4 @@
+import 'dart:ui' show ImageFilter;
 import 'package:flutter/material.dart';
 import '../models/models.dart';
 import '../theme.dart';
@@ -78,29 +79,35 @@ class GlassCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: AppColors.surface,
+    return ClipRRect(
       borderRadius: BorderRadius.circular(16),
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Container(
-          decoration: BoxDecoration(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
+        child: Material(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(16),
+          child: InkWell(
+            onTap: onTap,
             borderRadius: BorderRadius.circular(16),
-            border:
-                const Border.fromBorderSide(BorderSide(color: AppColors.line)),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Container(
-                  height: 3,
-                  decoration: BoxDecoration(
-                      color: accent,
-                      borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(16)))),
-              Padding(padding: padding, child: child),
-            ],
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                border: const Border.fromBorderSide(
+                    BorderSide(color: AppColors.line)),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Container(
+                      height: 3,
+                      decoration: BoxDecoration(
+                          color: accent,
+                          borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(16)))),
+                  Padding(padding: padding, child: child),
+                ],
+              ),
+            ),
           ),
         ),
       ),

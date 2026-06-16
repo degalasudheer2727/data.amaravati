@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
               gradient: RadialGradient(
                 center: Alignment(0.6, -0.8),
                 radius: 1.1,
-                colors: [Color(0x33138808), AppColors.bg],
+                colors: [Color(0x26FF9F43), AppColors.bg],
               ),
             ),
             child: Column(
