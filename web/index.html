@@ -22,9 +22,9 @@
        emerald (growth · hope · the blue-green network) flowing into azure
        (the open sky · vision · the future). AP = "The Sunrise State" — a new dawn,
        expressed cool, not orange. --saffron kept as the solid-accent token name. */
-    --paper:#ffffff; --ink:#0e1320; --saffron:#0b8a6f;
+    --paper:#ffffff; --ink:#0e1320; --saffron:#0a7d63;
     --accent-2:#2563eb;
-    --grad:linear-gradient(120deg,#10b981,#2563eb);
+    --grad:linear-gradient(120deg,#10b981,#2563eb); --grad-text:linear-gradient(120deg,#0a8f63,#1d52d6);
     --bg:var(--paper); --bg-2:#f7f8fa; --bg-3:#f1f3f6;
     --text:var(--ink);
     --muted:rgba(14,19,32,.64); --muted-2:rgba(14,19,32,.46);
@@ -63,7 +63,7 @@
   #loader.gone{opacity:0;pointer-events:none}
   .l-mark{font-family:var(--display);font-size:clamp(1.5rem,4vw,2.1rem);letter-spacing:.04em;display:flex;align-items:center;gap:14px}
   .l-mark span{color:var(--saffron)}
-  .l-spire{width:42px;height:62px;filter:drop-shadow(0 10px 22px rgba(37,99,235,.22));animation:floaty 4s ease-in-out infinite}
+  .l-spire{width:50px;height:50px;filter:drop-shadow(0 10px 22px rgba(37,99,235,.22));animation:floaty 4s ease-in-out infinite}
   @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
   .l-bar{width:min(260px,64vw);height:2px;background:rgba(14,19,32,.08);overflow:hidden;border-radius:2px}
   .l-bar i{display:block;height:100%;width:0;background:var(--grad);transition:width .35s}
@@ -73,9 +73,9 @@
   nav.top{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:14px clamp(18px,5vw,56px);transition:background .3s,backdrop-filter .3s,border-color .3s;border-bottom:1px solid transparent}
   nav.top.scrolled{background:rgba(255,255,255,.82);backdrop-filter:blur(14px);border-color:var(--line-soft)}
   .brand{display:flex;align-items:center;gap:13px;text-decoration:none;color:var(--text)}
-  .brand .seal{width:30px;height:42px;flex-shrink:0}
+  .brand .seal{width:34px;height:34px;flex-shrink:0}
   .brand b{font-family:var(--display);font-size:1.18rem;font-weight:400;display:block;letter-spacing:.04em;line-height:1}
-  .brand b i{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+  .brand b i{font-style:normal;background:var(--grad-text);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
   .brand small{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2)}
   .navlinks{display:flex;gap:28px;align-items:center}
   .navlinks a{color:var(--muted);text-decoration:none;font-size:13px;letter-spacing:.02em;transition:color .2s}
@@ -103,7 +103,7 @@
   .eyebrow .live i{width:7px;height:7px;border-radius:50%;background:var(--pulse);box-shadow:0 0 12px var(--pulse);animation:beat 1.2s infinite}
   @keyframes beat{0%,100%{transform:scale(1);opacity:1}35%{transform:scale(1.6);opacity:.65}}
   .hero h1{font-family:var(--display);font-weight:400;font-size:clamp(2.5rem,6.4vw,5.1rem);line-height:1.0;letter-spacing:-.02em;margin-bottom:18px;max-width:16ch}
-  .hero h1 em{font-style:italic;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+  .hero h1 em{font-style:italic;background:var(--grad-text);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
   .hero .tel{font-family:var(--tel);font-size:clamp(1rem,2vw,1.4rem);color:var(--saffron);opacity:.92;margin-bottom:20px}
   .hero p.lead{font-size:clamp(1.02rem,1.5vw,1.25rem);color:var(--muted);max-width:56ch;margin-bottom:32px;pointer-events:auto}
   .hero-cta{display:flex;gap:14px;flex-wrap:wrap;pointer-events:auto}
@@ -132,7 +132,7 @@
   .sec-head{max-width:var(--maxw);margin:0 auto 52px;padding:0 clamp(18px,5vw,56px)}
   .sec-head .kicker{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--saffron);font-weight:600;margin-bottom:14px;display:block}
   .sec-head h2{font-family:var(--display);font-weight:400;font-size:clamp(1.9rem,4.4vw,3.3rem);line-height:1.05;letter-spacing:-.02em;margin-bottom:16px}
-  .sec-head h2 em{font-style:italic;background:var(--grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+  .sec-head h2 em{font-style:italic;background:var(--grad-text);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
   .sec-head p{font-size:clamp(1rem,1.3vw,1.13rem);color:var(--muted);max-width:64ch}
 
   /* KPI strip */
@@ -375,7 +375,7 @@
   .modal{position:relative;width:min(560px,96vw);max-height:92vh;overflow-y:auto;background:linear-gradient(180deg,var(--bg-3),var(--surface-solid));border:1px solid var(--line);border-radius:20px;padding:34px clamp(22px,4vw,40px) 30px;box-shadow:0 40px 100px -30px rgba(14,19,32,.14)}
   .modal .x{position:absolute;top:16px;right:16px;width:34px;height:34px;border-radius:50%;border:1px solid var(--line-soft);background:transparent;color:var(--muted);font-size:18px;cursor:pointer;line-height:1}
   .modal .x:hover{color:var(--text);border-color:var(--gold)}
-  .modal .seal{width:34px;height:48px;margin-bottom:16px}
+  .modal .seal{width:46px;height:46px;margin-bottom:16px}
   .modal .mk{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--saffron);font-weight:600;margin-bottom:10px}
   .modal h3{font-family:var(--display);font-weight:400;font-size:clamp(1.5rem,3vw,2rem);line-height:1.1;margin-bottom:8px}
   .modal h3 em{font-style:italic;color:var(--gold)}
@@ -425,8 +425,8 @@
   .reveal.in{opacity:1;transform:none}
   @media(prefers-reduced-motion:reduce){
     .reveal{opacity:1;transform:none;transition:none}
-    .chakra,.ticker .track,.hero-foot .ln{animation:none}
-    *{scroll-behavior:auto}
+    .l-spire,.ticker .track,.hero-foot .ln,.eyebrow .live i,.card .status i,.l-bar i{animation:none}
+    *{scroll-behavior:auto;transition-duration:.001ms!important}
   }
 </style>
 </head>
@@ -436,7 +436,7 @@
 <!-- loader -->
 <div id="loader">
   <div class="l-mark">
-    <svg class="l-spire" aria-hidden="true"><use href="#amaraSpire"/></svg>
+    <svg class="l-spire" aria-hidden="true"><use href="#amaraMark"/></svg>
     data<span>.amaravati</span>
   </div>
   <div class="l-bar"><i id="lbar"></i></div>
@@ -459,6 +459,8 @@
       <path d="M27 34 L24 110"/><path d="M32 14 L32 110"/><path d="M37 34 L40 110"/>
     </g>
   </symbol>
+  <linearGradient id="markGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#10b981"/><stop offset="1" stop-color="#2563eb"/></linearGradient>
+  <symbol id="amaraMark" viewBox="0 0 48 48"><rect width="48" height="48" rx="13" fill="url(#markGrad)"/><path d="M15.5 34 L24 15.5 L32.5 34" fill="none" stroke="#fff" stroke-width="3.2" stroke-linejoin="round" stroke-linecap="round"/><line x1="19.5" y1="27.5" x2="28.5" y2="27.5" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/><circle cx="24" cy="11" r="2.6" fill="#fff"/></symbol>
 </defs></svg>
 
 <div class="prog" id="prog"></div>
@@ -466,7 +468,7 @@
 <!-- nav -->
 <nav class="top" id="nav">
   <a class="brand" href="#top" aria-label="data.amaravati home">
-    <svg class="seal" aria-hidden="true"><use href="#amaraSpire"/></svg>
+    <svg class="seal" aria-hidden="true"><use href="#amaraMark"/></svg>
     <span><b>data<i>.amaravati</i></b><small>Governed Data Platform · Amaravati</small></span>
   </a>
   <div class="navlinks">
@@ -494,7 +496,7 @@
   <div class="hero-inner">
     <span class="eyebrow">Amaravati · The People's Capital <span class="live"><i></i>Live Nexus</span></span>
     <h1>The governed data platform of a <em>capital being born.</em></h1>
-    <div class="tel">అమరావతి — ప్రజల రాజధాని డేటా</div>
+    <div class="tel" lang="te">అమరావతి — ప్రజల రాజధాని డేటా</div>
     <p class="lead"><b>data.amaravati</b> turns the Amaravati master plan into one governed data platform and a navigable 3D twin — open, internal, sensitive and confidential datasets, served to the right authority under consent and audit, from a single sign-on.</p>
     <div class="hero-cta">
       <a class="btn btn-primary" href="#catalogue">Browse the catalogue ↗</a>
@@ -861,7 +863,7 @@ PILLAR_DATA.forEach(p=>$("#pillars-grid").insertAdjacentHTML("beforeend",
 CONNECTOR_DATA.forEach(c=>$("#connectors-grid").insertAdjacentHTML("beforeend",
   `<article class="card" style="--accent:var(--saffron)"><div class="status"><i></i>Live</div><div class="ico">${c.ic}</div><div class="ent">${c.e}</div><h3>${c.t}</h3><p>${c.d}</p><div class="feeds">${c.feeds.map(f=>`<span>${f}</span>`).join("")}</div></article>`));
 CITY_DATA.forEach(c=>$("#cities-grid").insertAdjacentHTML("beforeend",
-  `<div class="city" style="--c:var(--saffron)"><span class="dot"></span><div><h4>${c.t}</h4><div class="te">${c.te}</div><span class="d">${c.d}</span></div></div>`));
+  `<div class="city" style="--c:var(--saffron)"><span class="dot"></span><div><h4>${c.t}</h4><div class="te" lang="te">${c.te}</div><span class="d">${c.d}</span></div></div>`));
 ARCH_DATA.forEach((s,i)=>$("#arch-grid").insertAdjacentHTML("beforeend",
   `<div class="stage"><div class="sn">${s.n}</div><h4>${s.t}</h4><ul>${s.items.map(x=>`<li>${x}</li>`).join("")}</ul>${i<ARCH_DATA.length-1?'<div class="arrow">→</div>':''}</div>`));
 ROLE_DATA.forEach(r=>$("#roles-grid").insertAdjacentHTML("beforeend",
@@ -871,13 +873,13 @@ $("#track").innerHTML=tHTML+tHTML;
 
 /* ---- classification legend ---- */
 CLASS_DATA.forEach(c=>$("#legend-grid").insertAdjacentHTML("beforeend",
-  `<div class="tier" style="--tc:var(--saffron)"><span class="lvl">${c.lvl}</span><h4><span class="cls ${c.key}"><i></i>${c.t}</span></h4><div class="te" style="font-family:var(--tel);color:var(--saffron);font-size:.8rem;opacity:.85;margin-bottom:8px">${c.te}</div><p>${c.d}</p><div class="ex">${c.ex}</div></div>`));
+  `<div class="tier" style="--tc:var(--saffron)"><span class="lvl">${c.lvl}</span><h4><span class="cls ${c.key}"><i></i>${c.t}</span></h4><div class="te" lang="te" style="font-family:var(--tel);color:var(--saffron);font-size:.8rem;opacity:.85;margin-bottom:8px">${c.te}</div><p>${c.d}</p><div class="ex">${c.ex}</div></div>`));
 
 /* ---- personas ---- */
 PERSONA_DATA.forEach(p=>{
   const chips=CLASS_DATA.map(c=>{const a=p.access[c.key];return a==="n"?"":`<span class="cls ${c.key}"><i></i>${c.t}${a==="c"?" ·agreement":""}</span>`}).join("");
   $("#personas-grid").insertAdjacentHTML("beforeend",
-    `<div class="persona" style="--pc:var(--saffron)"><div class="pi">${p.i}</div><h4>${p.t}</h4><div class="te">${p.te}</div><p>${p.d}</p><div class="clr">${chips||'<span class="cls" style="color:var(--muted-2)">No access</span>'}</div></div>`);
+    `<div class="persona" style="--pc:var(--saffron)"><div class="pi">${p.i}</div><h4>${p.t}</h4><div class="te" lang="te">${p.te}</div><p>${p.d}</p><div class="clr">${chips||'<span class="cls" style="color:var(--muted-2)">No access</span>'}</div></div>`);
 });
 
 /* ---- access matrix ---- */
@@ -950,11 +952,15 @@ function afterSignIn(profile){
 }
 
 /* ---- modal flow ---- */
-function openFlow(dataset){exchangeMode=false;pendingDataset=dataset||null; ov.classList.add("on"); ov.setAttribute("aria-hidden","false"); renderModal(SESSION? (dataset?"request":"persona") : "signin");}
-function openExchange(){exchangeMode=true;pendingDataset=null; ov.classList.add("on"); ov.setAttribute("aria-hidden","false"); renderModal(SESSION?"exchange":"signin");}
-function closeModal(){ov.classList.remove("on");ov.setAttribute("aria-hidden","true");pendingDataset=null;exchangeMode=false;}
+let lastFocus=null;
+function openModal(){lastFocus=document.activeElement; ov.classList.add("on"); ov.setAttribute("aria-hidden","false"); document.body.style.overflow="hidden";
+  setTimeout(()=>{(modalBody.querySelector("input,button,select,a[href]")||$("#ovClose")).focus();},30);}
+function openFlow(dataset){exchangeMode=false;pendingDataset=dataset||null; renderModal(SESSION? (dataset?"request":"persona") : "signin"); openModal();}
+function openExchange(){exchangeMode=true;pendingDataset=null; renderModal(SESSION?"exchange":"signin"); openModal();}
+function closeModal(){ov.classList.remove("on");ov.setAttribute("aria-hidden","true");pendingDataset=null;exchangeMode=false;document.body.style.overflow="";
+  if(lastFocus&&lastFocus.focus){lastFocus.focus();} lastFocus=null;}
 
-const seal=`<svg class="seal" aria-hidden="true"><use href="#amaraSpire"/></svg>`;
+const seal=`<svg class="seal" aria-hidden="true"><use href="#amaraMark"/></svg>`;
 const steps=(n)=>`<div class="steps">${[1,2,3].map(i=>`<span class="st ${i<=n?'on':''}"></span>`).join("")}</div>`;
 function dsCtx(){return pendingDataset?`<div class="ds-ctx"><span class="cls ${pendingDataset.cls}"><i></i>${CLS[pendingDataset.cls].t}</span><span>Requesting <b>${pendingDataset.t}</b> · ${pendingDataset.ent}</span></div>`:"";}
 
@@ -962,7 +968,7 @@ function renderModal(step){
   if(step==="signin"){
     modalBody.innerHTML=`${seal}<div class="mk">data.amaravati · Single sign-on</div>
       <h3 id="ovTitle">Sign in to <em>request data</em></h3>
-      <div class="tel">అమరావతి డేటా · ప్రవేశం</div>
+      <div class="tel" lang="te">అమరావతి డేటా · ప్రవేశం</div>
       <p>Sign in to reach the catalogue, your role's data envelope and your request history.</p>
       ${dsCtx()}${steps(1)}
       ${clientConfigured()?'<div id="gsiMount"></div><div class="or">or continue with email</div>':''}
@@ -1051,7 +1057,18 @@ function renderModal(step){
     $("#doneClose").onclick=closeModal;
     $("#doneBrowse").onclick=()=>{closeModal();location.hash="#catalogue";};
   }
+  // give the dialog an accessible name from whatever heading this step rendered
+  const _h=modalBody.querySelector("h3"); if(_h) _h.id="ovTitle";
 }
+/* keep Tab focus within the open dialog */
+ov.addEventListener("keydown",e=>{
+  if(e.key!=="Tab"||!ov.classList.contains("on"))return;
+  const f=[...ov.querySelectorAll('button,a[href],input,select,[tabindex]:not([tabindex="-1"])')].filter(el=>el.offsetParent!==null);
+  if(!f.length)return;
+  const first=f[0], last=f[f.length-1];
+  if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}
+  else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}
+});
 
 /* ---- catalogue (filterable) ---- */
 let activeFilter="all";
