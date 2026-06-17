@@ -631,6 +631,36 @@ body{background:#e9eef5;overflow:hidden}
   body{overflow:auto}.shell{height:auto}.canvas{height:auto;overflow:visible}
 }
 
+
+/* ---- topbar control contrast (works in both themes) ---- */
+.gu-b{color:var(--muted)!important;border:1px solid var(--line-soft)!important;background:transparent;border-radius:9px;padding:5px 10px;font-size:12px;cursor:pointer;transition:background .2s,color .2s}
+.gu-b:hover{background:rgba(14,19,32,.05);color:var(--text)!important}
+.gu-b.on{background:var(--grad);color:#fff!important;border-color:transparent!important}
+
+/* ================= DARK GLASS VARIANT ================= */
+body.dark{
+  --paper:#0a0f1d; --ink:#e9eefb; --bg:#070b16; --bg-2:#0c1322; --bg-3:#0f1728;
+  --text:#e9eefb; --snow:#e9eefb; --navy:#e9eefb;
+  --muted:rgba(233,238,251,.68); --muted-2:rgba(233,238,251,.44);
+  --surface:rgba(255,255,255,.055); --surface-2:rgba(255,255,255,.09); --surface-solid:rgba(24,32,52,.85);
+  --line:rgba(255,255,255,.16); --line-soft:rgba(255,255,255,.085);
+  --glass:rgba(20,28,48,.52); --glass-2:rgba(20,28,48,.68); --glass-line:rgba(255,255,255,.1);
+  --grad-text:linear-gradient(120deg,#34e0b0,#6aa1ff);
+  background:#070b16;
+}
+body.dark .side{background:rgba(15,21,40,.55)}
+body.dark .topbar{background:rgba(15,21,40,.46)}
+body.dark .navlink:hover{background:rgba(255,255,255,.07)}
+body.dark .ov-hero{background:linear-gradient(125deg,rgba(16,185,129,.2),rgba(37,99,235,.22))}
+body.dark .kpis{background:var(--glass)}
+body.dark .modal{background:#111a2e}
+body.dark #loader{background:radial-gradient(120% 90% at 50% 30%,#0c1322,#070b16)}
+body.dark #scene{opacity:.32}
+body.dark .gu-b:hover{background:rgba(255,255,255,.08)}
+body.dark .bgmesh i{opacity:.42}
+body.dark .btn-ghost{background:rgba(255,255,255,.04)}
+body.dark .tk .it b{color:#e9eefb}
+
 </style>
 </head>
 <body>
@@ -692,6 +722,7 @@ body{background:#e9eef5;overflow:hidden}
         <button type="button" id="fontInc" class="gu-b" aria-label="Increase text size">A+</button>
       </span>
       <button type="button" id="hcToggle" class="gu-b" aria-pressed="false">High contrast</button>
+      <button type="button" id="themeToggle" class="gu-b" aria-pressed="false" aria-label="Toggle dark mode">☾ Dark</button>
       <div class="auth">
         <button class="user-chip" id="userChip" aria-label="Your account"><span class="av" id="userAv">U</span><span><span class="un" id="userName">You</span><span class="ur" id="userRole">Citizen</span></span></button>
         <a href="#" class="btn btn-primary nav-cta" id="signInBtn" role="button">Sign in</a>
@@ -1282,16 +1313,18 @@ addEventListener("keydown",e=>{if(e.key==="Escape"&&ov.classList.contains("on"))
 /* ============== GIGW ACCESSIBILITY TOOLBAR ============== */
 (function(){
   const root=document.documentElement, KEY="dav_a11y", SIZES=[14,15,16,18,20], BASE=2;
-  let st={font:0,hc:false};
+  let st={font:0,hc:false,dark:false};
   try{st=Object.assign(st,JSON.parse(localStorage.getItem(KEY)||"{}"));}catch(e){}
   const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st));}catch(e){}};
   const applyFont=()=>{root.style.fontSize=SIZES[Math.max(0,Math.min(4,BASE+st.font))]+"px";};
   const applyHc=()=>{document.body.classList.toggle("hc",st.hc);const b=$("#hcToggle");if(b)b.setAttribute("aria-pressed",String(st.hc));};
+  const applyTheme=()=>{document.body.classList.toggle("dark",!!st.dark);const b=$("#themeToggle");if(b){b.setAttribute("aria-pressed",String(!!st.dark));b.textContent=st.dark?"☀ Light":"☾ Dark";}const m=document.querySelector('meta[name=theme-color]');if(m)m.setAttribute("content",st.dark?"#070b16":"#ffffff");};
   $("#fontInc").onclick=()=>{st.font=Math.min(2,st.font+1);applyFont();save();};
   $("#fontDec").onclick=()=>{st.font=Math.max(-2,st.font-1);applyFont();save();};
   $("#fontStd").onclick=()=>{st.font=0;applyFont();save();};
   $("#hcToggle").onclick=()=>{st.hc=!st.hc;applyHc();save();};
-  applyFont();applyHc();
+  {const t=$("#themeToggle");if(t)t.onclick=()=>{st.dark=!st.dark;applyTheme();save();};}
+  applyFont();applyHc();applyTheme();
 })();
 
 /* reveal on scroll */
