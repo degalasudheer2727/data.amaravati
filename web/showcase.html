@@ -218,14 +218,11 @@
     *{animation:none!important;transition:none!important}
   }
 
-  /* Entrance reveal — 1 element group, transform/opacity only */
-  @media (prefers-reduced-motion:no-preference){
-    .reveal{opacity:0;transform:translateY(14px);animation:rise .6s var(--ease-out) forwards}
-    .reveal.d1{animation-delay:.05s}
-    .reveal.d2{animation-delay:.12s}
-    .reveal.d3{animation-delay:.19s}
-    @keyframes rise{to{opacity:1;transform:none}}
-  }
+  /* Entrance reveal + progress fill are driven by Motion (vendor/motion.js)
+     as progressive enhancement. Content is fully visible by default, so if
+     JS/Motion is unavailable — or prefers-reduced-motion is set — nothing
+     is hidden and the layout is complete without animation. */
+  .reveal{will-change:opacity,transform}
 </style>
 </head>
 <body>
@@ -395,6 +392,45 @@
     else { raf = requestAnimationFrame(tick); }
   });
   raf = requestAnimationFrame(tick);
+})();
+</script>
+
+<!-- Motion (vendored from npm "motion" v12, UMD build → window.Motion).
+     Used for its vanilla-JS imperative API (animate/stagger); the React
+     <motion.*> API is not applicable in this zero-build, no-React page. -->
+<script src="vendor/motion.js"></script>
+<script>
+(function(){
+  "use strict";
+  var M = window.Motion;
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Progressive enhancement only: bail if Motion failed to load or the user
+  // prefers reduced motion. Content is already fully visible either way.
+  if (!M || typeof M.animate !== 'function' || reduce) return;
+
+  // Staggered entrance for the hero cells (spring easing per design guidance).
+  var items = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+  if (items.length) {
+    try {
+      items.forEach(function(el){ el.style.opacity = '0'; });
+      M.animate(
+        items,
+        { opacity: [0, 1], y: [16, 0] },
+        { duration: 0.6, delay: M.stagger(0.07), ease: [0.16, 1, 0.3, 1] }
+      );
+    } catch (e) {
+      // Restore visibility if the animation engine rejects the call.
+      items.forEach(function(el){ el.style.opacity = ''; });
+    }
+  }
+
+  // Animate the progress bar fill with a spring (transform only → no reflow).
+  var bar = document.querySelector('.progress-bar');
+  if (bar) {
+    try {
+      M.animate(bar, { scaleX: [0, 1] }, { delay: 0.35, type: 'spring', stiffness: 90, damping: 18 });
+    } catch (e) { /* default CSS width already shows the 60% fill */ }
+  }
 })();
 </script>
 </body>
