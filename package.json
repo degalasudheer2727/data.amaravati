@@ -12,10 +12,25 @@
     "preview": "vercel deploy",
     "deploy": "vercel deploy --prod"
   },
-  "keywords": ["amaravati", "data-platform", "governed-data", "digital-twin", "threejs", "flutter", "vercel", "devsecops"],
+  "keywords": [
+    "amaravati",
+    "data-platform",
+    "governed-data",
+    "digital-twin",
+    "threejs",
+    "flutter",
+    "vercel",
+    "devsecops"
+  ],
   "license": "UNLICENSED",
   "devDependencies": {
     "htmlhint": "^1.1.4"
   },
-  "engines": { "node": ">=18" }
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "framer-motion": "^12.40.0",
+    "motion": "^12.40.0"
+  }
 }
