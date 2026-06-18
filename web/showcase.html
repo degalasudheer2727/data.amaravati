@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="theme-color" content="#0a1f44">
+<meta name="description" content="data.amaravati — the governed data platform of the People's Capital. A concept showcase hero. Not official, not endorsed.">
+<title>data.amaravati — Governed Data Platform · Showcase</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<style>
+  /* ---- Design tokens (tricolour identity, per project brief) ---- */
+  :root{
+    --saffron:#ff9933;
+    --green:#138808;
+    --navy:#0a1f44;
+    --pulse:#3b7bff;
+    --gold:#e7c46b;
+
+    /* Semantic, dark-mode-first surface scale */
+    --bg:#05080f;
+    --surface:rgba(255,255,255,.04);
+    --border:rgba(231,196,107,.22);
+    --fg:#f3f6fb;          /* primary text — ~13:1 on --bg */
+    --fg-muted:#aeb9cc;    /* secondary text — ~5.4:1 on --bg */
+    --fg-faint:#7c8aa3;    /* labels — ~3.4:1, large/letter-spaced only */
+
+    --display:'Georgia','Times New Roman',serif;
+    --mono:ui-monospace,'SF Mono','Cascadia Mono','Segoe UI Mono',Menlo,Consolas,monospace;
+    --sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+
+    --ease-out:cubic-bezier(.16,1,.3,1);
+    --pad:clamp(16px,4vw,48px);
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{
+    background:var(--bg);
+    color:var(--fg);
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+    overflow:hidden;
+  }
+
+  /* ---- Accessibility: skip link + visible focus ---- */
+  .skip-link{
+    position:absolute;left:8px;top:-48px;z-index:1000;
+    background:var(--navy);color:var(--fg);
+    padding:10px 16px;border:1px solid var(--gold);border-radius:8px;
+    transition:top .15s var(--ease-out);
+  }
+  .skip-link:focus{top:8px}
+  :focus-visible{outline:3px solid var(--pulse);outline-offset:3px;border-radius:4px}
+
+  /* ---- Background layers ---- */
+  #bg-canvas{position:fixed;inset:0;width:100%;height:100%;display:block;z-index:0}
+  /* CSS fallback shown when WebGL is unavailable or reduced-motion is on */
+  .bg-fallback{
+    position:fixed;inset:0;z-index:0;
+    background:
+      radial-gradient(120% 90% at 18% 12%, rgba(59,123,255,.20), transparent 55%),
+      radial-gradient(100% 80% at 82% 88%, rgba(19,136,8,.18), transparent 55%),
+      radial-gradient(90% 70% at 80% 10%, rgba(255,153,51,.14), transparent 50%),
+      var(--bg);
+  }
+
+  /* ---- Hero grid (reinterpretation of the HAOS showcase layout) ---- */
+  .haos{
+    position:relative;z-index:1;
+    height:100dvh;width:100%;
+    padding:var(--pad);
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    grid-template-rows:auto 1fr auto;
+    grid-template-areas:
+      "tl  tc  tr"
+      "main main main"
+      "bl  .   br";
+    gap:clamp(12px,2vw,24px);
+  }
+
+  .cell{display:flex;flex-direction:column;gap:6px;min-width:0}
+  .label{
+    font-family:var(--mono);
+    font-size:clamp(10px,1.1vw,12px);
+    letter-spacing:.18em;text-transform:uppercase;
+    color:var(--fg-faint);
+  }
+  .value{
+    font-family:var(--mono);
+    font-size:clamp(12px,1.3vw,14px);
+    letter-spacing:.06em;
+    color:var(--fg-muted);
+    font-variant-numeric:tabular-nums;
+  }
+
+  .top-left{grid-area:tl;align-items:flex-start}
+  .top-center{grid-area:tc;align-items:center;text-align:center}
+  .top-right{grid-area:tr;align-items:flex-end;text-align:right}
+
+  /* Main content */
+  .main-content{grid-area:main;align-self:center;max-width:min(60ch,80%)}
+  .main-content h1{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:clamp(40px,9vw,116px);
+    line-height:.98;
+    margin:0;
+    letter-spacing:-.02em;
+    color:var(--fg);
+    text-wrap:balance;
+  }
+  .main-content h1 .accent{
+    background:linear-gradient(96deg,var(--saffron),var(--gold) 55%,var(--green));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .main-content h2{
+    font-family:var(--display);
+    font-weight:400;font-style:italic;
+    font-size:clamp(16px,2.4vw,24px);
+    line-height:1.45;
+    margin:18px 0 0;
+    color:var(--fg-muted);
+    max-width:46ch;
+  }
+  .stats-block{
+    margin-top:28px;display:flex;flex-direction:column;gap:4px;
+    border-left:2px solid var(--gold);padding-left:14px;
+  }
+  .stats-block .value{
+    font-family:var(--display);
+    font-size:clamp(20px,3vw,30px);
+    color:var(--fg);letter-spacing:0;
+  }
+
+  /* Center chakra mark — abstract, chakra-inspired (NOT the official emblem) */
+  .center-logo{
+    position:absolute;inset:0;margin:auto;
+    width:clamp(120px,18vw,210px);height:clamp(120px,18vw,210px);
+    display:grid;place-items:center;
+    pointer-events:none;z-index:1;
+  }
+  .chakra{width:100%;height:100%;opacity:.92}
+  .chakra .ring{fill:none;stroke:var(--gold);stroke-width:1.4}
+  .chakra .spoke{stroke:var(--pulse);stroke-width:1.2;opacity:.85}
+  .chakra .hub{fill:var(--saffron)}
+  .wordmark{
+    position:absolute;bottom:-26px;left:50%;transform:translateX(-50%);
+    font-family:var(--mono);font-size:11px;letter-spacing:.34em;
+    text-transform:uppercase;color:var(--fg-faint);white-space:nowrap;
+  }
+
+  /* Bottom-left: stat value + progress */
+  .bottom-left{grid-area:bl;align-self:end;align-items:flex-start;gap:10px}
+  .bottom-left .stats-value{
+    font-family:var(--display);font-size:clamp(28px,4.5vw,52px);
+    line-height:1;color:var(--fg);font-variant-numeric:tabular-nums;
+  }
+  .progress-track{
+    width:min(220px,40vw);height:4px;border-radius:999px;
+    background:rgba(255,255,255,.12);overflow:hidden;
+  }
+  .progress-bar{
+    height:100%;border-radius:999px;
+    background:linear-gradient(90deg,var(--saffron),var(--gold));
+    width:var(--progress,60%);
+    transform-origin:left;
+  }
+
+  /* Bottom-right: action affordance (keyboard + pointer) */
+  .bottom-right{grid-area:br;align-self:end;align-items:flex-end;justify-content:flex-end}
+  .action-icon{
+    width:56px;height:56px;border-radius:50%;
+    border:1px solid var(--border);
+    background:var(--surface);
+    color:var(--fg);
+    display:grid;place-items:center;
+    cursor:pointer;text-decoration:none;
+    transition:transform .2s var(--ease-out),background .2s var(--ease-out),border-color .2s var(--ease-out);
+  }
+  .action-icon:hover,.action-icon:focus-visible{
+    background:rgba(59,123,255,.16);border-color:var(--pulse);transform:scale(1.06)
+  }
+  .action-icon:active{transform:scale(.96)}
+  .action-icon svg{width:22px;height:22px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+  /* Footer disclaimer (non-negotiable per project brief) */
+  .disclaimer{
+    position:fixed;left:var(--pad);bottom:8px;z-index:2;
+    font-family:var(--mono);font-size:10px;letter-spacing:.04em;
+    color:var(--fg-faint);max-width:min(70ch,80vw);line-height:1.5;margin:0;
+  }
+
+  /* ---- Responsive: stack the grid on small screens ---- */
+  @media (max-width:720px){
+    .haos{
+      grid-template-columns:1fr 1fr;
+      grid-template-areas:
+        "tl  tr"
+        "main main"
+        "bl  br";
+      gap:14px;
+    }
+    .top-center{display:none}            /* fold secondary content (content-priority) */
+    .center-logo{width:108px;height:108px;top:auto;bottom:34%;}
+    .main-content h2{font-size:16px}
+    .disclaimer{position:static;margin-top:18px}
+  }
+  @media (max-width:720px) and (orientation:landscape){
+    .haos{height:auto;min-height:100dvh}
+    body{overflow:auto}
+  }
+
+  /* ---- Motion preference: kill all animation, freeze background ---- */
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+  }
+
+  /* Entrance reveal — 1 element group, transform/opacity only */
+  @media (prefers-reduced-motion:no-preference){
+    .reveal{opacity:0;transform:translateY(14px);animation:rise .6s var(--ease-out) forwards}
+    .reveal.d1{animation-delay:.05s}
+    .reveal.d2{animation-delay:.12s}
+    .reveal.d3{animation-delay:.19s}
+    @keyframes rise{to{opacity:1;transform:none}}
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- Background: Three.js canvas, with a CSS gradient fallback beneath -->
+<div class="bg-fallback" aria-hidden="true"></div>
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+<main id="main">
+  <section class="haos" role="region" aria-label="data.amaravati governed data platform showcase">
+
+    <div class="cell top-left reveal d1">
+      <span class="label">Programme</span>
+      <span class="value">Governed City Data</span>
+    </div>
+
+    <div class="cell top-center reveal d1">
+      <span class="label">Year</span>
+      <span class="value">2026</span>
+    </div>
+
+    <div class="cell top-right reveal d1">
+      <span class="label">Digital Twin</span>
+      <span class="value">Live · Concept</span>
+    </div>
+
+    <div class="cell main-content reveal d2">
+      <h1>data<span class="accent">.amaravati</span></h1>
+      <h2>The governed data platform of the People's Capital — open, internal, sensitive &amp; confidential city data, served by authority.</h2>
+      <div class="stats-block">
+        <span class="label">Datasets governed</span>
+        <span class="value">240+ across nine theme cities</span>
+      </div>
+    </div>
+
+    <div class="center-logo" aria-hidden="true">
+      <!-- Abstract chakra-inspired mark (original interpretation; NOT the State Emblem) -->
+      <svg class="chakra" viewBox="0 0 100 100" role="img" aria-label="Abstract chakra mark">
+        <circle class="ring" cx="50" cy="50" r="46"/>
+        <circle class="ring" cx="50" cy="50" r="30"/>
+        <g class="spoke">
+          <line x1="50" y1="6"  x2="50" y2="94"/>
+          <line x1="6"  y1="50" x2="94" y2="50"/>
+          <line x1="18.6" y1="18.6" x2="81.4" y2="81.4"/>
+          <line x1="81.4" y1="18.6" x2="18.6" y2="81.4"/>
+          <line x1="32.5" y1="9.5" x2="67.5" y2="90.5"/>
+          <line x1="67.5" y1="9.5" x2="32.5" y2="90.5"/>
+          <line x1="9.5" y1="32.5" x2="90.5" y2="67.5"/>
+          <line x1="90.5" y1="32.5" x2="9.5" y2="67.5"/>
+        </g>
+        <circle class="hub" cx="50" cy="50" r="6"/>
+      </svg>
+      <span class="wordmark">People's Capital</span>
+    </div>
+
+    <div class="cell bottom-left reveal d3">
+      <div class="stats-value">+240</div>
+      <div class="progress-track">
+        <div class="progress-bar"
+             role="progressbar"
+             aria-label="Datasets onboarded"
+             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+             style="--progress:60%"></div>
+      </div>
+    </div>
+
+    <div class="cell bottom-right reveal d3">
+      <a class="action-icon" href="index.html" aria-label="Enter the digital twin">
+        <!-- lucide-style arrow-up-right (SVG, no emoji) -->
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+      </a>
+    </div>
+
+  </section>
+
+  <p class="disclaimer">
+    Concept prototype — not an official product and not endorsed by CRDA or the Government of
+    Andhra Pradesh. It deliberately does not use the official State Emblem or any copyrighted
+    master-plan artwork; the mark above is an abstract chakra-inspired interpretation. All figures
+    are indicative, drawn from public reporting. © 2026 data.amaravati concept.
+  </p>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  "use strict";
+  var canvas = document.getElementById('bg-canvas');
+  var fallback = document.querySelector('.bg-fallback');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // WebGL + library guard → fall back to the CSS gradient gracefully.
+  if (typeof THREE === 'undefined' || !canvas) { return; }
+  var renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+  } catch (e) { canvas.style.display = 'none'; return; }
+
+  fallback.style.display = 'none'; // WebGL ok — hide the static fallback
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2)); // cap pixel ratio at 2 (perf)
+  renderer.setClearColor(0x000000, 0);
+
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
+  camera.position.z = 26;
+
+  // A drifting field of points in the tricolour palette.
+  var COUNT = reduceMotion ? 700 : 1700; // fewer particles under reduced-motion
+  var positions = new Float32Array(COUNT * 3);
+  var colors = new Float32Array(COUNT * 3);
+  var palette = [
+    [1.00, 0.60, 0.20], // saffron
+    [0.07, 0.53, 0.03], // green
+    [0.23, 0.48, 1.00], // pulse blue
+    [0.91, 0.77, 0.42]  // gold
+  ];
+  for (var i = 0; i < COUNT; i++) {
+    positions[i*3]   = (Math.random() - 0.5) * 60;
+    positions[i*3+1] = (Math.random() - 0.5) * 40;
+    positions[i*3+2] = (Math.random() - 0.5) * 40;
+    var c = palette[(Math.random() * palette.length) | 0];
+    colors[i*3] = c[0]; colors[i*3+1] = c[1]; colors[i*3+2] = c[2];
+  }
+  var geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+  var mat = new THREE.PointsMaterial({ size: 0.16, vertexColors: true, transparent: true, opacity: 0.85, depthWrite: false });
+  var points = new THREE.Points(geo, mat);
+  scene.add(points);
+
+  // Subtle pointer parallax (skipped under reduced-motion).
+  var targetX = 0, targetY = 0;
+  if (!reduceMotion) {
+    window.addEventListener('pointermove', function(e){
+      targetX = (e.clientX / window.innerWidth - 0.5) * 0.6;
+      targetY = (e.clientY / window.innerHeight - 0.5) * 0.6;
+    }, { passive: true });
+  }
+
+  function resize(){
+    var w = window.innerWidth, h = window.innerHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  if (reduceMotion) {
+    renderer.render(scene, camera); // single static frame — honour the user's motion setting
+    return;
+  }
+
+  var raf;
+  function tick(t){
+    points.rotation.y = t * 0.00004;
+    camera.position.x += (targetX * 6 - camera.position.x) * 0.04;
+    camera.position.y += (-targetY * 6 - camera.position.y) * 0.04;
+    camera.lookAt(scene.position);
+    renderer.render(scene, camera);
+    raf = requestAnimationFrame(tick);
+  }
+  // Pause the loop when the tab is hidden (main-thread budget / battery).
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden) { cancelAnimationFrame(raf); }
+    else { raf = requestAnimationFrame(tick); }
+  });
+  raf = requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
