@@ -62,9 +62,9 @@ make preview     # vercel preview
 
 ## Vercel project settings
 
-- Framework preset: **Other**
-- Build command / Output: handled by `vercel.json` (`outputDirectory: web`)
-- Nothing else required — the site is fully static.
+- Framework preset: **Vite** (or **Other**)
+- Build command / Output: handled by `vercel.json` (`buildCommand: npm run build`, `outputDirectory: dist`)
+- Nothing else required — Vercel runs the build and serves the static `dist/` output.
 
 ## Mobile release (out of CI scope, documented for completeness)
 

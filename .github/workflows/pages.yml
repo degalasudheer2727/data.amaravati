@@ -1,10 +1,9 @@
 name: Deploy to GitHub Pages
 
-# Secret-free CD: publishes the static web/ directory to GitHub Pages using the
-# built-in GITHUB_TOKEN. Runs on every push to main. The Vercel deploy workflow
-# remains for when Vercel secrets are configured; this guarantees a live site
-# with zero external credentials. Security headers that Pages cannot serve are
-# mirrored into the HTML (CSP via <meta>).
+# Secret-free CD: builds the Vite site and publishes dist/ to GitHub Pages using
+# the built-in GITHUB_TOKEN. Runs on every push to main. The Vercel deploy
+# workflow remains for when Vercel secrets are configured; this guarantees a live
+# site with zero external credentials.
 
 on:
   push:
@@ -22,19 +21,27 @@ concurrency:
 
 jobs:
   deploy:
-    name: Publish web/ to Pages
+    name: Build & publish dist/ to Pages
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
       - name: Configure Pages
         uses: actions/configure-pages@v5
-      - name: Upload web/ artifact
+      - name: Upload dist/ artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: web
+          path: dist
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

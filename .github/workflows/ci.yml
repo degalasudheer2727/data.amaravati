@@ -16,24 +16,29 @@ concurrency:
 
 jobs:
   web:
-    name: Web · lint & validate
+    name: Web · type-check & build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-      - name: Validate HTML
-        run: npx --yes htmlhint "web/**/*.html"
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Type-check
+        run: npm run lint
       - name: Check JSON configs are well-formed
         run: |
-          for f in vercel.json web/manifest.webmanifest; do
+          for f in vercel.json public/manifest.webmanifest; do
             node -e "JSON.parse(require('fs').readFileSync('$f','utf8')); console.log('ok: $f')"
           done
+      - name: Build
+        run: npm run build
       - name: Lighthouse CI (performance budget)
         run: |
           npm install -g @lhci/cli@0.13.x
-          lhci autorun --collect.staticDistDir=web --upload.target=temporary-public-storage || echo "LHCI advisory only"
+          lhci autorun --collect.staticDistDir=dist --upload.target=temporary-public-storage || echo "LHCI advisory only"
         continue-on-error: true
 
   mobile:

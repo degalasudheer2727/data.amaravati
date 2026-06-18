@@ -26,9 +26,17 @@ bilingual Telugu layer has been retired).
 
 ## Architecture
 
-- `web/index.html` — zero-build single-file 3D experience (Three.js r128 via CDN).
-  Data lives in the `*_DATA` arrays near the top of the script — edit data there, the
-  UI builds itself.
+- Web is a **Vite + React + TypeScript + Tailwind** app (gov-credible editorial design).
+  - `src/pages/` — the three routes: `Platform` (`/`), `CommandCenter` (`/command-center`),
+    `Visit` (`/visit`). Routing in `src/App.tsx`.
+  - `src/data/` — the `*_DATA`-style content arrays (datasets, personas, entities, etc.).
+    Edit content here; pages build themselves from it.
+  - `src/components/` (shared chrome + UI primitives + `ThemeProvider`/`A11yControls`),
+    `src/lib/` (brand mark, classification, KPI scoring), `src/features/` (3D `twin/`,
+    `auth/` SSO + persona flow). Design tokens live in `tailwind.config.ts` + `src/styles/index.css`
+    (one CSS-variable set powers light · dark · high-contrast).
+  - Three.js is an npm dep (`src/features/twin/CityTwin.tsx`), code-split out of the main bundle.
+  - Build → `dist/`; `public/` holds favicon, manifest, robots. Self-hosted fonts (no CDN).
 - `mobile/` — Flutter, decoupled: `models/` (pure data) → `data/repository.dart`
   (abstraction + `MockRepository`) → `features/<name>/` (screens). Swap the repository
   in `lib/app.dart` to go live; screens never change.
@@ -44,8 +52,10 @@ bilingual Telugu layer has been retired).
 ## How to run
 
 ```bash
-make help          # all commands
-make web           # site at :5173
+npm install        # install web deps (Node 18+)
+npm run dev        # Vite dev server at :5173
+npm run build      # production build → dist/
+npm run lint       # type-check (tsc --noEmit)
 make mobile-run    # Flutter app
 ./scripts/bootstrap.sh   # automated first deploy
 ```

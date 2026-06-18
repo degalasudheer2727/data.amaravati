@@ -1,15 +1,16 @@
 {
   "name": "data-amaravati",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "data.amaravati — concept governed data platform & digital twin for Amaravati. Access open, internal, sensitive and confidential city data by authority. 3D website + Flutter hybrid app.",
+  "description": "data.amaravati — concept governed data platform & digital twin for Amaravati. Access open, internal, sensitive and confidential city data by authority. Gov-credible editorial web app (Vite + React) + Flutter hybrid app.",
   "type": "module",
   "scripts": {
-    "dev": "python3 -m http.server 5173 --directory web",
-    "lint": "htmlhint \"web/**/*.html\"",
-    "validate": "node -e \"['vercel.json','web/manifest.webmanifest'].forEach(f=>JSON.parse(require('fs').readFileSync(f,'utf8')))\" && echo ok",
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --port 5173",
+    "lint": "tsc --noEmit",
+    "validate": "node -e \"['vercel.json','public/manifest.webmanifest'].forEach(f=>JSON.parse(require('fs').readFileSync(f,'utf8')))\" && echo ok",
     "sbom": "cdxgen -o sbom.json .",
-    "preview": "vercel deploy",
     "deploy": "vercel deploy --prod"
   },
   "keywords": [
@@ -18,19 +19,36 @@
     "governed-data",
     "digital-twin",
     "threejs",
+    "react",
+    "vite",
     "flutter",
     "vercel",
     "devsecops"
   ],
   "license": "UNLICENSED",
+  "dependencies": {
+    "@fontsource-variable/inter": "^5.1.1",
+    "@fontsource-variable/newsreader": "^5.1.1",
+    "framer-motion": "^12.40.0",
+    "lucide-react": "^1.21.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.30.0",
+    "three": "^0.169.0"
+  },
   "devDependencies": {
-    "htmlhint": "^1.1.4"
+    "@types/node": "^22.19.21",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/three": "^0.169.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.7"
   },
   "engines": {
     "node": ">=18"
-  },
-  "dependencies": {
-    "framer-motion": "^12.40.0",
-    "motion": "^12.40.0"
   }
 }

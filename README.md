@@ -19,9 +19,13 @@ Access city data by your authority — open, internal, sensitive and confidentia
 
 ```
 amara-twin/
-├─ web/                  # the super-rich 3D website (zero-build, single file + assets)
-│  ├─ index.html         # Three.js digital twin, 12 connectors, 9 cities, 4 pillars
-│  ├─ manifest.webmanifest · favicon.svg · robots.txt
+├─ src/                  # the website — Vite + React + TypeScript + Tailwind
+│  ├─ pages/             # Platform · CommandCenter · Visit (3 routes)
+│  ├─ data/              # content arrays (datasets, personas, entities, KPIs)
+│  ├─ components/ lib/ features/   # shared UI, brand/classification/KPI, 3D twin + auth
+│  └─ styles/index.css · App.tsx · main.tsx
+├─ public/               # favicon.svg · manifest.webmanifest · robots.txt
+├─ index.html            # Vite entry · tailwind.config.ts · vite.config.ts
 ├─ mobile/               # Flutter hybrid app (decoupled: models → repository → features)
 │  └─ lib/
 │     ├─ models/ data/ widgets/ theme.dart
@@ -36,8 +40,9 @@ amara-twin/
 ## Quick start
 
 ```bash
-make setup     # install web + mobile + pre-commit tooling
-make web       # serve the 3D site at http://localhost:5173
+npm install      # install web deps (Node 18+)
+npm run dev      # Vite dev server at http://localhost:5173
+npm run build    # production build → dist/
 make mobile-run  # run the Flutter app on a device/emulator
 ```
 
@@ -68,10 +73,9 @@ for an `ApiRepository` in `lib/app.dart` to go live — no screen changes.
 
 ## Performance
 
-The website is engineered to be ultra-fast: zero-build static delivery, `content-visibility`
-on offscreen sections, deferred (idle-time) 3D init, `preconnect`/`preload` for the 3D
-runtime, capped device-pixel-ratio, reduced-motion fallbacks, and immutable asset caching
-via `vercel.json`.
+The website is engineered to be fast: route-level code-splitting (the Three.js twin is a
+separate chunk), self-hosted variable fonts, lazy on-scroll reveals, capped device-pixel-ratio,
+reduced-motion fallbacks, and immutable asset caching via `vercel.json`.
 
 ## License
 

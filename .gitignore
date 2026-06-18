@@ -16,3 +16,7 @@ Thumbs.db
 # Build output
 dist/
 mobile/build/
+.vercel
+
+# TS build info
+tsconfig.tsbuildinfo

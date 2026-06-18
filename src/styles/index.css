@@ -1,0 +1,187 @@
+/* self-hosted variable fonts — keeps font-src 'self', no third-party CDN */
+@import "@fontsource-variable/newsreader";
+@import "@fontsource-variable/inter";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   data.amaravati — gov-credible editorial design tokens
+   Colours expressed as "R G B" channels so Tailwind's
+   rgb(var(--x) / <alpha>) works and one set themes
+   light · dark · high-contrast (GIGW).
+   ============================================================ */
+:root {
+  --paper: 255 255 255;
+  --paper-2: 247 248 250;
+  --paper-3: 240 242 246;
+  --ink: 14 25 45;
+  --ink-muted: 71 85 110;
+  --ink-faint: 110 123 145;
+  --line: 214 219 227;
+  --line-soft: 233 236 241;
+
+  --navy: 10 31 68;
+  --brand: 29 78 216;      /* institutional chakra blue — primary */
+  --brand-2: 37 99 235;
+  --saffron: 255 153 51;   /* mandated identity — decorative accent */
+  --green: 19 136 8;       /* mandated identity */
+  --gold: 231 196 107;
+
+  /* 4-tier confidentiality (accessible label colours) */
+  --cls-open: 21 115 71;
+  --cls-internal: 29 78 216;
+  --cls-sensitive: 180 83 9;
+  --cls-confidential: 71 85 105;
+
+  --focus: var(--brand);
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  --paper: 8 12 22;
+  --paper-2: 14 20 34;
+  --paper-3: 20 28 46;
+  --ink: 233 238 251;
+  --ink-muted: 167 178 199;
+  --ink-faint: 122 134 156;
+  --line: 39 50 72;
+  --line-soft: 26 34 52;
+
+  --navy: 173 197 240;
+  --brand: 96 165 250;
+  --brand-2: 122 162 247;
+  --saffron: 255 173 92;
+  --green: 52 196 120;
+  --gold: 231 196 107;
+
+  --cls-open: 52 196 120;
+  --cls-internal: 122 162 247;
+  --cls-sensitive: 245 158 66;
+  --cls-confidential: 148 163 184;
+  color-scheme: dark;
+}
+
+[data-contrast="high"] {
+  --paper: 0 0 0;
+  --paper-2: 0 0 0;
+  --paper-3: 12 12 12;
+  --ink: 255 255 255;
+  --ink-muted: 240 240 240;
+  --ink-faint: 210 210 210;
+  --line: 255 255 255;
+  --line-soft: 170 170 170;
+  --navy: 255 210 0;
+  --brand: 255 210 0;
+  --brand-2: 255 210 0;
+  --saffron: 255 210 0;
+  --green: 0 230 0;
+  --gold: 255 210 0;
+  --cls-open: 0 230 0;
+  --cls-internal: 120 200 255;
+  --cls-sensitive: 255 210 0;
+  --cls-confidential: 230 230 230;
+  color-scheme: dark;
+}
+
+@layer base {
+  * {
+    border-color: rgb(var(--line));
+  }
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background-color: rgb(var(--paper));
+    color: rgb(var(--ink));
+    font-family: theme("fontFamily.sans");
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+    font-family: theme("fontFamily.serif");
+    font-weight: 500;
+    letter-spacing: -0.015em;
+  }
+  p { text-wrap: pretty; }
+  ::selection {
+    background: rgb(var(--brand));
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 3px solid rgb(var(--focus));
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+  /* honour reduced motion globally */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .wrap {
+    max-width: theme("maxWidth.content");
+    margin-inline: auto;
+    padding-inline: clamp(18px, 5vw, 56px);
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: theme("letterSpacing.eyebrow");
+    text-transform: uppercase;
+    color: rgb(var(--brand));
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; }
+  }
+  /* skip link */
+  .skip-link {
+    position: absolute;
+    left: -999px;
+    top: 0;
+    z-index: 200;
+    background: rgb(var(--brand));
+    color: #fff;
+    padding: 12px 20px;
+    font-weight: 600;
+    border-radius: 0 0 8px 0;
+  }
+  .skip-link:focus {
+    left: 0;
+    top: 0;
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+  /* animated-ai-chat helper */
+  .lab-bg::before {
+    overflow: hidden;
+    max-width: 100vw;
+    max-height: 100vh;
+    box-sizing: border-box;
+  }
+}

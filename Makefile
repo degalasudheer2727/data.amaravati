@@ -12,8 +12,11 @@ setup: ## Install dev tooling (node + flutter deps + pre-commit)
 
 dev: web ## Alias for `web`
 
-web: ## Serve the 3D website locally at :5173
-	cd web && python3 -m http.server 5173
+web: ## Run the Vite dev server at :5173
+	npm run dev
+
+build: ## Build the production site to dist/
+	npm run build
 
 mobile-run: ## Run the Flutter app on a connected device/emulator
 	cd mobile && flutter run
@@ -21,8 +24,8 @@ mobile-run: ## Run the Flutter app on a connected device/emulator
 mobile-test: ## Run Flutter analyze + tests
 	cd mobile && flutter analyze && flutter test
 
-analyze: ## Lint the website (HTMLHint)
-	npx --yes htmlhint "web/**/*.html"
+analyze: ## Type-check the website (tsc)
+	npm run lint
 
 scan: ## Run the local DevSecOps gate (secrets, vuln, misconfig)
 	pre-commit run --all-files || true
