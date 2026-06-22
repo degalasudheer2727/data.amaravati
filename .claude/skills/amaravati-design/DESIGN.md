@@ -1,76 +1,123 @@
 # amaravati-design DESIGN.md
 
-> Auto-generated design system — reverse-engineered via static analysis by skillui.
-> Frameworks: Tailwind CSS 3.4.17 + React 18.3.1
-> Colors: 2 · Fonts: 1 · Components: 26
-> Icon library: Lucide · State: not detected
-> Primary theme: light · Dark mode toggle: yes · Motion: expressive
+> Design system for the **data.amaravati** project — a gov-credible editorial UI.
+> Auto-extracted by skillui (static analysis) and **hand-enriched** from
+> `tailwind.config.ts` + `src/styles/index.css` (the source of truth).
+> Frameworks: Tailwind CSS 3.4 + React 18 · Motion: framer-motion + CSS keyframes
+> Themes: light (default) · dark · high-contrast (GIGW) — one CSS-variable set powers all three.
 
 ---
 
 ## 1. Visual Theme & Atmosphere
 
-This is a **light-themed** interface with a neutral, approachable feel. The light background emphasizes content clarity. Typography uses **sans-serif** throughout — a clean, modern choice that maintains consistency. Spacing follows a **4px base grid** (compact density), with scale: 2, 4, 6, 8, 10, 12, 14, 16px. Motion is expressive — spring physics, layout animations, and staggered reveals are part of the visual language.
+This is a **gov-credible editorial** interface — restrained, institutional, and
+typographically led. It defaults to a **light** theme on near-white paper with
+deep navy ink, and ships two more full themes driven by the same token set:
+**dark** and **high-contrast** (GIGW accessibility). The palette is
+**India tricolour-derived**: institutional chakra **blue** as the primary, with
+**saffron**, **green**, **navy**, and a premium **gold** as accents.
+
+Typography mixes two families on purpose: a **serif** display face
+(Newsreader Variable / Georgia) for headings and an **Inter** sans for body and
+UI. Density is comfortable (body 17px / 1.65), spacing rides a **4px grid**, and
+motion is **subtle and purposeful** — quiet reveal/fade-up transitions on a
+shared `ease-gov` curve, with framer-motion reserved for a few rich surfaces.
+`prefers-reduced-motion` is honoured globally.
 
 ---
 
 ## 2. Color Palette & Roles
 
-| Token | Hex | Role | Use |
+All colors are CSS custom properties expressed as **`R G B` channels**, consumed
+via Tailwind's `rgb(var(--x) / <alpha-value>)`. **Never hardcode hex** — always
+reference a token so light / dark / high-contrast all work.
+
+### Core Roles (light theme values)
+
+| Token | RGB | Hex | Role |
 |---|---|---|---|
-| background | `#ffffff` | background | Page background, darkest surface |
-| text-primary | `#05070e` | text-primary | Headings and body text |
+| `--paper` | `255 255 255` | `#ffffff` | Page background |
+| `--paper-2` | `247 248 250` | `#f7f8fa` | Raised surface / subtle fill |
+| `--paper-3` | `240 242 246` | `#f0f2f6` | Sunken / tertiary surface |
+| `--ink` | `14 25 45` | `#0e192d` | Primary text |
+| `--ink-muted` | `71 85 110` | `#47556e` | Secondary text |
+| `--ink-faint` | `110 123 145` | `#6e7b91` | Tertiary / captions |
+| `--line` | `214 219 227` | `#d6dbe3` | Borders / inputs |
+| `--line-soft` | `233 236 241` | `#e9ecf1` | Soft dividers |
+| `--navy` | `10 31 68` | `#0a1f44` | Deep brand surface (e.g. header) |
+| `--brand` | `29 78 216` | `#1d4ed8` | **Primary** — institutional chakra blue |
+| `--brand-2` | `37 99 235` | `#2563eb` | Brand secondary / hover |
+| `--saffron` | `255 153 51` | `#ff9933` | Tricolour accent (decorative) |
+| `--green` | `19 136 8` | `#138808` | Tricolour accent |
+| `--gold` | `231 196 107` | `#e7c46b` | Premium gold accent |
 
-### Dark Mode Token Mapping
+### Classification tiers (4-tier confidentiality)
 
-| Variable | Light | Dark |
+| Token | Light RGB | Meaning |
 |---|---|---|
-| `--paper` | `255 255 255` | `8 12 22` |
-| `--paper-2` | `247 248 250` | `14 20 34` |
-| `--paper-3` | `240 242 246` | `20 28 46` |
-| `--ink` | `14 25 45` | `233 238 251` |
-| `--ink-muted` | `71 85 110` | `167 178 199` |
-| `--ink-faint` | `110 123 145` | `122 134 156` |
-| `--line` | `214 219 227` | `39 50 72` |
-| `--line-soft` | `233 236 241` | `26 34 52` |
-| `--navy` | `10 31 68` | `173 197 240` |
-| `--brand` | `29 78 216` | `96 165 250` |
-| `--brand-2` | `37 99 235` | `122 162 247` |
-| `--saffron` | `255 153 51` | `255 173 92` |
-| `--green` | `19 136 8` | `52 196 120` |
-| `--cls-open` | `21 115 71` | `52 196 120` |
-| `--cls-internal` | `29 78 216` | `122 162 247` |
-| `--cls-sensitive` | `180 83 9` | `245 158 66` |
-| `--cls-confidential` | `71 85 105` | `148 163 184` |
+| `--cls-open` | `21 115 71` | Open data |
+| `--cls-internal` | `29 78 216` | Internal |
+| `--cls-sensitive` | `180 83 9` | Sensitive |
+| `--cls-confidential` | `71 85 105` | Confidential |
 
-### CSS Variable Tokens
+Tailwind exposes these as `open` / `internal` / `sensitive` / `confidential`
+color utilities (e.g. `text-sensitive`, `bg-open`, `border-confidential`).
+shadcn-style aliases also map onto the palette: `primary`→`--brand`,
+`background`→`--paper`, `foreground`→`--ink`, `input`→`--line`,
+`accent`→`--paper-2`.
 
-```css
---ink-muted: 71 85 110;
-```
+### Full Theme Token Mapping (light · dark · high-contrast)
 
+| Variable | Light | Dark | High-contrast |
+|---|---|---|---|
+| `--paper` | `255 255 255` | `8 12 22` | `0 0 0` |
+| `--paper-2` | `247 248 250` | `14 20 34` | `0 0 0` |
+| `--paper-3` | `240 242 246` | `20 28 46` | `12 12 12` |
+| `--ink` | `14 25 45` | `233 238 251` | `255 255 255` |
+| `--ink-muted` | `71 85 110` | `167 178 199` | `240 240 240` |
+| `--ink-faint` | `110 123 145` | `122 134 156` | `210 210 210` |
+| `--line` | `214 219 227` | `39 50 72` | `255 255 255` |
+| `--line-soft` | `233 236 241` | `26 34 52` | `170 170 170` |
+| `--navy` | `10 31 68` | `173 197 240` | `255 210 0` |
+| `--brand` | `29 78 216` | `96 165 250` | `255 210 0` |
+| `--brand-2` | `37 99 235` | `122 162 247` | `255 210 0` |
+| `--saffron` | `255 153 51` | `255 173 92` | `255 210 0` |
+| `--green` | `19 136 8` | `52 196 120` | `0 230 0` |
+| `--gold` | `231 196 107` | `231 196 107` | `255 210 0` |
+| `--cls-open` | `21 115 71` | `52 196 120` | `0 230 0` |
+| `--cls-internal` | `29 78 216` | `122 162 247` | `120 200 255` |
+| `--cls-sensitive` | `180 83 9` | `245 158 66` | `255 210 0` |
+| `--cls-confidential` | `71 85 105` | `148 163 184` | `230 230 230` |
+
+Themes switch on the root element: default `:root` (light), `[data-theme="dark"]`
+(also `.dark` class), and `[data-contrast="high"]`. Each sets the matching
+`color-scheme`. `--focus` aliases `--brand`.
 
 ---
 
 ## 3. Typography Rules
 
-**Font Stack:**
-- **sans-serif** — Heading 1, Heading 2, Heading 3, Body, Caption
+Two intentional families. **Hierarchy comes from mixing serif display with sans
+body**, not from a single typeface.
 
-| Role | Font | Size | Weight |
-|---|---|---|---|
-| Heading 1 | sans-serif | 48px / 3rem | 700 |
-| Heading 2 | sans-serif | 32px / 2rem | 600 |
-| Heading 3 | sans-serif | 24px / 1.5rem | 600 |
-| Body | sans-serif | 16px / 1rem | 400 |
-| Caption | sans-serif | 12px / 0.75rem | 400 |
+**Font stacks** (`tailwind.config.ts` → `fontFamily`):
+- **serif** (`font-serif`): `'Newsreader Variable', Georgia, 'Times New Roman', serif` — **headings h1–h4**
+- **sans** (`font-sans`, default body): `'Inter Variable', Inter, -apple-system, 'Segoe UI', sans-serif` — body & UI
+- **mono** (`font-mono`): `ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, Consolas, monospace` — data/labels (e.g. CommandCenter), `tabular-nums`
 
-**Typographic Rules:**
-- Use **sans-serif** for all text — do not mix font families
-- Maintain consistent hierarchy: no more than 3-4 font sizes per screen
-- Headings use bold (600-700), body uses regular (400)
-- Line height: 1.5 for body text, 1.2 for headings
-- Use color and opacity for secondary hierarchy, not additional font sizes
+Fonts are **self-hosted** via `@fontsource-variable/*` (no third-party CDN; keeps `font-src 'self'`).
+
+**Base & headings (from `index.css`):**
+- Body: `font-sans`, **17px** (`1.0625rem`) / line-height **1.65**, antialiased, `optimizeLegibility`
+- Headings `h1–h4`: `font-serif`, weight **500**, letter-spacing **-0.015em**, `text-wrap: balance`
+- Paragraphs: `text-wrap: pretty`
+- `.eyebrow`: 11px, weight 600, **uppercase**, letter-spacing **0.22em** (`tracking-eyebrow`), brand-colored
+- Custom size token: `text-2xs` = `0.6875rem` / 1.4
+
+**Rules:**
+- Serif for display headings, Inter sans for body/UI, mono for tabular data — don't blur these roles
+- Headings stay at weight 500 (not 700) — restraint is the look
+- Use color/opacity tokens (`ink-muted`, `ink-faint`) for hierarchy, not extra sizes
 
 
 ---
@@ -376,33 +423,35 @@ typeof window !== "undefined" &&
 
 ## 5. Layout Principles
 
-- **Base spacing unit:** 4px
-- **Spacing scale:** 2, 4, 6, 8, 10, 12, 14, 16, 20, 24, 28, 32
-- **Border radius:** 0 0 8px 0, 3px, 4px, 6px, 8px, 12px, 14px, 16px, 24px
-- **Grid usage:** `grid-cols-1`, `grid-cols-2`, `col-span-2`
-- **Container:** Tailwind `container` class with responsive padding
+- **Base grid:** 4px — every margin/padding/gap is a multiple of 4
+- **Page container:** the `.wrap` class — `max-width: 1200px` (`maxWidth.content`), centered, `padding-inline: clamp(18px, 5vw, 56px)`. Use `.wrap` for page sections, not Tailwind's `container`.
+- **Prose width:** `max-w-prose2` = `68ch` for long-form text
+- **Border radius:** card surfaces use `rounded-card` = **14px**; pills/toggles use `rounded-full`; smaller chrome uses `rounded-md`. Larger cards (`rounded-2xl`/`rounded-3xl`) appear on auth/marketing surfaces.
+- **Custom utilities:** `.eyebrow` (kicker label), `.reveal` / `.reveal.in` (scroll reveal), `.skip-link` (a11y), `.tabular` (`tabular-nums`)
 
-**Spacing as Meaning:**
+**Spacing as meaning:**
 | Spacing | Use |
 |---|---|
-| 4-8px | Tight: related items within a group |
-| 12-16px | Medium: between groups |
-| 24-32px | Wide: between sections |
+| 4–8px | Tight: related items within a group |
+| 12–16px | Medium: between groups |
+| 24–32px | Wide: between sections |
 | 48px+ | Vast: major section breaks |
-
 
 ---
 
 ## 6. Depth & Elevation
 
-### Overlay — full-screen overlays, top-level dialogs
+Elevation comes from two named shadow tokens (`tailwind.config.ts` → `boxShadow`),
+tinted with the ink color rather than pure black:
 
-- **card:** `0 1px 2px rgb(var(--ink) / 0.04), 0 18px 40px -28px rgb(var(--ink) / 0.18)`
-- **lift:** `0 24px 60px -30px rgb(var(--ink) / 0.28)`
+- **`shadow-card`:** `0 1px 2px rgb(var(--ink) / 0.04), 0 18px 40px -28px rgb(var(--ink) / 0.18)` — default cards/panels
+- **`shadow-lift`:** `0 24px 60px -30px rgb(var(--ink) / 0.28)` — raised/floating surfaces (modals, sign-in)
 
-### Z-Index Scale
+### Z-Index
 
-`200`
+`z-200` is used for the skip link (top of stacking order). Floating chrome like
+the AI launcher sits at `z-40`; section content at `z-10`. Keep new layers within
+this range.
 
 
 
@@ -410,50 +459,47 @@ typeof window !== "undefined" &&
 
 ## 7. Animation & Motion
 
-This project uses **expressive motion**. Animations are an integral part of the experience.
+Motion is **subtle and purposeful**, not flashy. The dominant idiom is a quiet
+scroll-reveal / fade-up on a shared easing curve. framer-motion is used only on a
+few rich surfaces (AuthFlow, animated-ai-chat, travel-connect-signin).
 
-### Framer Motion Patterns
+### Signature easing
+
+`ease-gov` = **`cubic-bezier(.2, .7, .2, 1)`** (`transitionTimingFunction.gov`).
+This is the house curve — prefer it for enters and hovers.
+
+### Keyframes & animations (`tailwind.config.ts`)
+
+- `animate-fade-up` → `fade-up .6s cubic-bezier(.2,.7,.2,1) both` (from `opacity:0, translateY(14px)`)
+- `animate-marquee` → `marquee 40s linear infinite` (`translateX(-50%)`)
+- Tailwind built-ins also used: `animate-pulse` (ambient glows), `animate-ping`, `animate-spin`, `animate-bounce`
+
+### The `.reveal` pattern (`index.css`)
+
+```css
+.reveal      { opacity: 0; transform: translateY(14px);
+               transition: opacity .6s cubic-bezier(.2,.7,.2,1),
+                           transform .6s cubic-bezier(.2,.7,.2,1); }
+.reveal.in   { opacity: 1; transform: none; }
+```
+
+Toggled by the `<Reveal>` component (IntersectionObserver adds `.in`).
+
+### framer-motion (rich surfaces only)
 
 ```tsx
-// Standard enter animation
 <motion.div
   initial={{ opacity: 0, y: 8 }}
   animate={{ opacity: 1, y: 0 }}
-  transition={{ duration: 0.3, ease: "easeOut" }}
+  transition={{ duration: 0.3, ease: [0.2, 0.7, 0.2, 1] }}
 />
-
-// List stagger
-const container = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.05 } }
-}
-const item = {
-  hidden: { opacity: 0, y: 8 },
-  show: { opacity: 1, y: 0 }
-}
 ```
 
-### CSS Animations
+### Guidelines
 
-- `@keyframes animate-pulse`
-- `@keyframes animate-spin`
-- `@keyframes animate-bounce`
-- `@keyframes animate-ping`
-- `@keyframes animate-marquee`
-
-### Animated Components
-
-- **A11yControls**: tw-transitions: transition-colors
-- **AiLauncher**: tw-transitions: transition-transform, hover-transforms
-- **SiteHeader**: tw-transitions: transition-colors, duration-300
-- **AnimatedAiChat**: framer-motion, transition: {duration: 0.2}, animate-presence
-- **DigitalAurora**: tw-transitions: transition-colors, duration-300
-
-### Motion Guidelines
-
-- Duration: 150-300ms for micro-interactions, 300-500ms for page transitions
-- Easing: `ease-out` for enters, `ease-in` for exits
-- Always respect `prefers-reduced-motion`
+- Default duration ~**600ms** for reveals; **150–300ms** for hovers/micro-interactions
+- Use `ease-gov` (`cubic-bezier(.2,.7,.2,1)`) as the default curve
+- **`prefers-reduced-motion` is honoured globally** in `index.css` — animations/transitions collapse to ~0ms and `.reveal` shows immediately. Don't override this.
 
 
 ---
@@ -462,31 +508,30 @@ const item = {
 
 ### Do's
 
-- Use `#ffffff` as the primary page background
-- Use **sans-serif** for all UI text
-- Follow the **4px** spacing grid for all margins, padding, and gaps
-- Use the defined shadow tokens for elevation — see Section 6
-- Use border-radius from the scale: 0 0 8px 0, 3px, 4px, 6px, 8px
+- Use the **token utilities** (`bg-paper`, `text-ink`, `border-line`, `text-brand`, …) — never raw hex
+- Use **serif for headings** (`font-serif`, weight 500) and **Inter sans for body**; `font-mono` for tabular data
+- Follow the **4px** grid for all margins, padding, and gaps
+- Use `shadow-card` / `shadow-lift` for elevation (Section 6)
+- Use `rounded-card` (14px) for cards; `rounded-full` for pills/toggles
+- Wrap page sections in `.wrap` (max-width 1200px)
 - Reuse existing components from Section 4 before creating new ones
-- Use **Lucide** for all icons
-- Always use CSS variables for colors — never hardcode hex
-- Test both light and dark modes for contrast
+- Icons: prefer the project's custom `<Icon name="…">` (24px, `currentColor`, stroke); `lucide-react` is available for richer sets
+- **Test all three themes** — light, dark, and `[data-contrast="high"]`
 
 ### Don'ts
 
-- Don't introduce colors outside this palette — extend the design tokens first
-- Don't mix font families — use sans-serif consistently
-- Don't use arbitrary spacing values — stick to multiples of 4px
-- Don't create custom box-shadow values outside the system tokens
-- Don't use gradients — the design uses solid colors only
-- Don't use arbitrary border-radius values — pick from the defined scale
+- Don't introduce colors outside the token set — add a CSS variable first
+- Don't hardcode hex (e.g. `#ffffff`, `#05070e`) — use `rgb(var(--token))` / Tailwind token utilities so theming works
+- Don't put body text in a serif or headings in sans — keep the serif/sans roles
+- Don't use arbitrary spacing — stick to multiples of 4px
+- Don't invent box-shadow or radius values outside the tokens
+- Don't disable or fight `prefers-reduced-motion`
 - Don't duplicate component patterns — check Section 4 first
-- Don't mix icon libraries — consistency matters
 
-### Anti-Patterns (detected from codebase)
+### Notes on usage (observed in codebase)
 
-- No gradient backgrounds
-- No zebra striping on tables/lists
+- **Gradients ARE used** sparingly for brand accent (e.g. AiLauncher `bg-gradient-to-r from-green to-brand`) and ambient blurred glows — keep them tasteful and brand-colored, not decorative everywhere.
+- Deep surfaces (header, hero overlays) use `bg-navy` with light text.
 
 
 ---
@@ -514,61 +559,62 @@ Use these as starting points when building new UI:
 ### Build a Card
 
 ```
-Background: #ffffff
-Border: 1px solid var(--border)
-Radius: 8px
-Padding: 16px
-Font: sans-serif
-Use shadow tokens from Section 6.
+Surface:  bg-paper (or bg-paper-2 for raised)
+Border:   border border-line
+Radius:   rounded-card (14px)
+Padding:  p-6 / p-7
+Shadow:   shadow-card
+Heading:  font-serif; body text-ink-muted
 ```
 
 ### Build a Button
 
 ```
-Primary: bg var(--accent), text white
-Ghost: bg transparent, border var(--border)
-Padding: 8px 16px
-Radius: 8px
-Hover: opacity 0.9 or lighter shade
-Focus: ring with var(--accent)
+Primary:  bg-brand text-white  (hover: bg-brand-2)
+Ghost:    bg-transparent border border-line text-ink (hover: border-brand)
+Padding:  px-4 py-2 / px-5 py-3
+Radius:   rounded-full (pills) or rounded-md
+Transition: ease-gov
+Focus:    inherits global :focus-visible (3px brand outline)
 ```
 
 ### Build a Page Layout
 
 ```
-Background: #ffffff
-Max-width: 1280px, centered
-Grid: 4px base
+Wrapper:  <div class="wrap">  → max-width 1200px, clamp padding
+Surface:  bg-paper text-ink
+Grid:     4px base
 Responsive: mobile-first, breakpoints from Section 9
 ```
 
 ### Build a Stats Card
 
 ```
-Surface: #ffffff
-Label: var(--text-muted) (muted, 12px, uppercase)
-Value: #05070e (primary, 24-32px, bold)
-Status: use success/warning/danger from Section 2
+Surface:  bg-paper-2 rounded-card shadow-card
+Label:    .eyebrow (11px, uppercase, tracking-eyebrow, text-brand)
+Value:    font-serif text-2xl/3xl text-ink  (add .tabular for numbers)
+Status:   classification tokens open/internal/sensitive/confidential
 ```
 
 ### Build a Form
 
 ```
-Input bg: #ffffff
-Input border: 1px solid var(--border)
-Focus: border-color var(--accent)
-Label: var(--text-muted) 12px
-Spacing: 16px between fields
-Radius: 8px
+Input bg:  bg-paper
+Input border: border border-line  (focus: border-brand)
+Label:     text-sm text-ink-muted
+Spacing:   gap-4 between fields (16px)
+Radius:    rounded-md
 ```
 
 ### General Component
 
 ```
-1. Read DESIGN.md Sections 2-6 for tokens
-2. Colors: only from palette
-3. Font: sans-serif, type scale from Section 3
-4. Spacing: 4px grid
+1. Read references/DESIGN.md Sections 2-7 for tokens
+2. Colors: token utilities only (bg-paper, text-ink, text-brand…), never hex
+3. Type: font-serif headings (wt 500) · Inter sans body · font-mono for data
+4. Spacing: 4px grid; wrap pages in .wrap
 5. Components: match patterns from Section 4
-6. Elevation: shadow tokens
+6. Elevation: shadow-card / shadow-lift
+7. Motion: ease-gov; respect prefers-reduced-motion
+8. Verify in light, dark, and high-contrast themes
 ```
