@@ -1,5 +1,5 @@
-/* self-hosted variable fonts — keeps font-src 'self', no third-party CDN */
-@import "@fontsource-variable/newsreader";
+/* self-hosted variable font — keeps font-src 'self', no third-party CDN.
+   Full Apple pass uses the SF Pro / system stack; Inter is the web fallback. */
 @import "@fontsource-variable/inter";
 
 @tailwind base;
@@ -14,19 +14,19 @@
    ============================================================ */
 :root {
   --paper: 255 255 255;
-  --paper-2: 247 248 250;
-  --paper-3: 240 242 246;
-  --ink: 14 25 45;
-  --ink-muted: 71 85 110;
-  --ink-faint: 110 123 145;
-  --line: 214 219 227;
-  --line-soft: 233 236 241;
+  --paper-2: 245 245 247;  /* Apple section gray */
+  --paper-3: 251 251 253;
+  --ink: 29 29 31;         /* Apple label */
+  --ink-muted: 110 110 115;/* Apple secondaryLabel */
+  --ink-faint: 134 134 139;/* Apple tertiaryLabel */
+  --line: 209 209 214;     /* Apple separator */
+  --line-soft: 229 229 234;
 
   --navy: 10 31 68;
-  --brand: 29 78 216;      /* institutional chakra blue — primary */
-  --brand-2: 37 99 235;
+  --brand: 0 113 227;      /* Apple interactive blue — primary */
+  --brand-2: 0 119 237;
   --saffron: 255 153 51;   /* mandated identity — decorative accent */
-  --green: 19 136 8;       /* mandated identity */
+  --green: 10 159 122;     /* teal — gradient partner to the blue */
   --gold: 231 196 107;
 
   /* 4-tier confidentiality (accessible label colours) */
@@ -40,20 +40,20 @@
 }
 
 [data-theme="dark"] {
-  --paper: 8 12 22;
-  --paper-2: 14 20 34;
-  --paper-3: 20 28 46;
-  --ink: 233 238 251;
-  --ink-muted: 167 178 199;
-  --ink-faint: 122 134 156;
-  --line: 39 50 72;
-  --line-soft: 26 34 52;
+  --paper: 0 0 0;          /* Apple systemBackground (dark) */
+  --paper-2: 28 28 30;     /* secondary */
+  --paper-3: 44 44 46;     /* tertiary */
+  --ink: 245 245 247;
+  --ink-muted: 152 152 157;
+  --ink-faint: 110 110 115;
+  --line: 56 56 58;
+  --line-soft: 44 44 46;
 
   --navy: 173 197 240;
-  --brand: 96 165 250;
-  --brand-2: 122 162 247;
+  --brand: 10 132 255;     /* Apple blue (dark) */
+  --brand-2: 64 156 255;
   --saffron: 255 173 92;
-  --green: 52 196 120;
+  --green: 45 212 167;     /* teal (dark) */
   --gold: 231 196 107;
 
   --cls-open: 52 196 120;
@@ -98,20 +98,23 @@
     color: rgb(var(--ink));
     font-family: theme("fontFamily.sans");
     font-size: 1.0625rem;
-    line-height: 1.65;
+    line-height: 1.55;
+    letter-spacing: -0.011em;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+    font-feature-settings: "kern" 1, "liga" 1;
   }
   h1, h2, h3, h4 {
     text-wrap: balance;
-    font-family: theme("fontFamily.serif");
-    font-weight: 500;
-    letter-spacing: -0.015em;
+    font-family: theme("fontFamily.sans");
+    font-weight: 600;
+    letter-spacing: -0.022em;
   }
   p { text-wrap: pretty; }
   ::selection {
-    background: rgb(var(--brand));
-    color: #fff;
+    background: rgb(var(--brand) / 0.22);
+    color: rgb(var(--ink));
   }
   :focus-visible {
     outline: 3px solid rgb(var(--focus));

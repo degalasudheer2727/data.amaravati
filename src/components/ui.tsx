@@ -23,15 +23,15 @@ export function SectionHead({
   return (
     <div className={cn("mb-8 max-w-prose2", className)}>
       <Eyebrow className="mb-3.5">{kicker}</Eyebrow>
-      <h2 className="text-balance text-[clamp(1.6rem,3.4vw,2.5rem)] leading-[1.08]">{title}</h2>
-      {intro && <p className="mt-4 text-ink-muted">{intro}</p>}
+      <h2 className="text-balance text-[clamp(1.7rem,3.6vw,2.7rem)] font-bold leading-[1.06] tracking-[-0.03em]">{title}</h2>
+      {intro && <p className="mt-4 text-[1.05rem] text-ink-muted">{intro}</p>}
     </div>
   );
 }
 
-/** Italic serif emphasis used in headings. */
+/** Accent emphasis used in headings (Apple: solid colour, not italics). */
 export function Em({ children }: { children: ReactNode }) {
-  return <em className="font-serif italic text-brand">{children}</em>;
+  return <em className="not-italic text-brand">{children}</em>;
 }
 
 /* ---------- classification badge ---------- */
@@ -70,13 +70,12 @@ export function ClassBadge({
 /* ---------- buttons & links ---------- */
 type Variant = "primary" | "ghost" | "subtle";
 const VARIANT: Record<Variant, string> = {
-  primary:
-    "bg-brand text-white border-transparent hover:bg-brand-2 shadow-[0_12px_30px_-14px_rgb(var(--brand)/0.6)]",
-  ghost: "border-line text-ink bg-paper hover:border-brand hover:text-brand",
+  primary: "bg-brand text-white border-transparent hover:bg-brand-2 hover:scale-[1.015]",
+  ghost: "border-line text-ink bg-paper/70 backdrop-blur hover:border-ink",
   subtle: "border-line-soft text-ink-muted bg-paper-2 hover:text-ink hover:border-line",
 };
 const BASE =
-  "inline-flex items-center justify-center gap-2 rounded-full border px-5 py-2.5 text-sm font-semibold transition-all duration-200 ease-gov focus-visible:outline-3 cursor-pointer disabled:opacity-50";
+  "inline-flex items-center justify-center gap-2 rounded-full border px-5 py-2.5 text-sm font-medium tracking-[-0.01em] transition-all duration-200 ease-gov focus-visible:outline-3 cursor-pointer disabled:opacity-50 active:scale-[.98]";
 
 export function Btn({
   variant = "primary",
@@ -126,7 +125,7 @@ export function Card({
   return (
     <Tag
       className={cn(
-        "rounded-card border border-line-soft bg-paper-2 p-6 shadow-card transition-all duration-200 ease-gov",
+        "rounded-card border border-line-soft bg-paper-2 p-6 shadow-card transition-all duration-300 ease-appleout",
         className,
       )}
     >
@@ -146,9 +145,9 @@ export function KpiStat({
 }) {
   return (
     <div className="bg-paper p-7">
-      <div className="font-serif text-[clamp(1.9rem,3.4vw,2.7rem)] leading-none text-ink tabular">
+      <div className="text-[clamp(2rem,3.6vw,2.9rem)] font-semibold leading-none tracking-[-0.03em] text-ink tabular">
         {value}
-        {unit && <span className="text-base text-brand">{unit}</span>}
+        {unit && <span className="text-base font-semibold text-brand">{unit}</span>}
       </div>
       <div className="mt-2.5 text-2xs font-medium uppercase tracking-wide text-ink-muted">
         {label}

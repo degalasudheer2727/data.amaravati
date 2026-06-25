@@ -63,6 +63,7 @@ const PATHS: Record<string, JSX.Element> = {
       <path d="M22 2l-7 20-4-9-9-4 20-7Z" />
     </>
   ),
+  check: <path d="M4 12.5l5 5 11-11" />,
 };
 
 export function Icon({

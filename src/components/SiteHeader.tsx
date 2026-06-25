@@ -55,7 +55,7 @@ export function SiteHeader({
         className={cn(
           "border-b transition-colors duration-300",
           scrolled
-            ? "border-line-soft bg-paper/85 backdrop-blur-md"
+            ? "border-line-soft bg-paper/70 backdrop-blur-xl backdrop-saturate-150"
             : "border-transparent bg-paper/0",
         )}
       >

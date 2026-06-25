@@ -5,8 +5,7 @@ import { SiteFooter } from "../components/SiteFooter";
 import { Disclaimer } from "../components/Disclaimer";
 import { Reveal } from "../components/Reveal";
 import { Icon } from "../components/Icon";
-import { BtnLink, Btn, Card, ClassBadge, Em, KpiStat, SectionHead } from "../components/ui";
-import AuroraHero from "../components/ui/digital-aurora";
+import { BtnLink, Btn, Card, ClassBadge, Em, Eyebrow, KpiStat, SectionHead } from "../components/ui";
 import { ChakraMark } from "../lib/brand";
 import { SUGGESTIONS } from "../features/assistant/engine";
 import { useSession } from "../features/auth/session";
@@ -108,7 +107,7 @@ function UserChip() {
 function PlatformInner() {
   return (
     <div className="bg-paper">
-      <SiteHeader links={NAV} rightSlot={<UserChip />} tone="overDark" />
+      <SiteHeader links={NAV} rightSlot={<UserChip />} tone="light" />
       <main id="main">
         <Hero />
         <Ticker />
@@ -129,28 +128,55 @@ function PlatformInner() {
   );
 }
 
-/* ---------- hero (interactive aurora) ---------- */
+/* ---------- hero (clean Apple-style, content-first) ---------- */
 function Hero() {
   return (
-    <AuroraHero
-      badgeLabel="Governed Data Platform"
-      badgeText="People's Capital"
-      title={
-        <>
-          One data platform for <span className="text-white/80">decisions, governance &amp; exchange.</span>
-        </>
-      }
-      description="data.amaravati turns open, internal, sensitive and confidential city data into the insight officials use to decide and make policy, the KPIs that govern every entity, and a CRDA-governed exchange between them."
-      ctaButtons={[
-        { text: "Open the Decision Cockpit", href: "#cockpit", primary: true },
-        { text: "Talk to AI", href: "/assistant" },
-      ]}
-      microDetails={[
-        "Open · Internal · Sensitive · Confidential",
-        "Consent-bound & audit-logged",
-        "CRDA-governed exchange",
-      ]}
-    />
+    <section className="relative overflow-hidden">
+      {/* soft Apple gradient backdrop */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_80%_8%,rgb(var(--brand)/0.12),transparent_52%),radial-gradient(90%_70%_at_8%_28%,rgb(var(--green)/0.10),transparent_56%)]"
+      />
+      <div className="wrap relative flex min-h-[88svh] flex-col justify-center pb-24 pt-36">
+        <Reveal>
+          <Eyebrow className="mb-5">
+            <span className="inline-flex h-1.5 w-1.5 rounded-full bg-green" />
+            Governed Data Platform · People&rsquo;s Capital
+          </Eyebrow>
+          <h1 className="max-w-[18ch] text-balance text-[clamp(2.6rem,6.4vw,5rem)] font-bold leading-[1.04] tracking-[-0.035em]">
+            One data platform for{" "}
+            <span className="bg-gradient-to-r from-green to-brand bg-clip-text text-transparent">
+              decisions, governance &amp; exchange.
+            </span>
+          </h1>
+          <p className="mt-6 max-w-prose2 text-[clamp(1.1rem,1.6vw,1.32rem)] leading-[1.5] text-ink-muted">
+            data.amaravati turns open, internal, sensitive and confidential city data into the
+            insight officials use to decide and make policy, the KPIs that govern every entity, and a
+            CRDA-governed exchange between them.
+          </p>
+          <div className="mt-9 flex flex-wrap gap-3.5">
+            <BtnLink to="#cockpit" className="px-6 py-3 text-[15px]">
+              Open the Decision Cockpit
+            </BtnLink>
+            <BtnLink to="/assistant" variant="ghost" className="px-6 py-3 text-[15px]">
+              Talk to AI
+            </BtnLink>
+          </div>
+          <div className="mt-10 flex flex-wrap gap-x-7 gap-y-2.5 text-[13px] text-ink-faint">
+            {[
+              "Open · Internal · Sensitive · Confidential",
+              "Consent-bound & audit-logged",
+              "CRDA-governed exchange",
+            ].map((m) => (
+              <span key={m} className="inline-flex items-center gap-2">
+                <Icon name="check" className="h-3.5 w-3.5 text-brand" />
+                {m}
+              </span>
+            ))}
+          </div>
+        </Reveal>
+      </div>
+    </section>
   );
 }
 

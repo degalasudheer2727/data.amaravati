@@ -48,12 +48,23 @@ export default {
         "accent-foreground": withVar("--ink"),
       },
       fontFamily: {
-        serif: ["'Newsreader Variable'", "Georgia", "'Times New Roman'", "serif"],
-        sans: [
-          "'Inter Variable'",
-          "Inter",
+        // Full Apple pass: the display ("serif") token now resolves to the SF
+        // Pro / system stack, so every legacy `font-serif` usage renders as SF.
+        serif: [
           "-apple-system",
           "BlinkMacSystemFont",
+          "'SF Pro Display'",
+          "'Inter Variable'",
+          "Inter",
+          "'Segoe UI'",
+          "sans-serif",
+        ],
+        sans: [
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "'SF Pro Text'",
+          "'Inter Variable'",
+          "Inter",
           "'Segoe UI'",
           "sans-serif",
         ],
@@ -74,17 +85,18 @@ export default {
         prose2: "68ch",
       },
       borderRadius: {
-        card: "14px",
+        card: "18px",
       },
       boxShadow: {
-        card: "0 1px 2px rgb(var(--ink) / 0.04), 0 18px 40px -28px rgb(var(--ink) / 0.18)",
-        lift: "0 24px 60px -30px rgb(var(--ink) / 0.28)",
+        card: "0 4px 16px rgb(var(--ink) / 0.06)",
+        lift: "0 18px 48px -16px rgb(var(--ink) / 0.16)",
       },
       letterSpacing: {
-        eyebrow: "0.22em",
+        eyebrow: "0.14em",
       },
       transitionTimingFunction: {
-        gov: "cubic-bezier(.2,.7,.2,1)",
+        gov: "cubic-bezier(.4,0,.2,1)",
+        appleout: "cubic-bezier(.16,1,.3,1)",
       },
       keyframes: {
         "fade-up": {
