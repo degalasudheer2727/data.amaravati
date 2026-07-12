@@ -32,14 +32,14 @@
     "framer-motion": "^12.40.0",
     "lucide-react": "^1.21.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
+    "react-dom": "^19.2.7",
     "react-router-dom": "^6.30.0",
     "three": "^0.169.0"
   },
   "devDependencies": {
     "@types/node": "^22.19.21",
     "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
+    "@types/react-dom": "^19.2.3",
     "@types/three": "^0.169.0",
     "@vitejs/plugin-react": "^4.3.4",
     "autoprefixer": "^10.4.20",
