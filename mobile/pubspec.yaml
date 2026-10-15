@@ -12,7 +12,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   webview_flutter: ^4.7.0          # embeds the live 3D digital-twin web experience (true hybrid)
   google_fonts: ^6.2.1
-  google_sign_in: ^6.2.1           # real Gmail SSO for the onboarding layer
+  google_sign_in: ^7.2.0           # real Gmail SSO for the onboarding layer
   intl: ^0.19.0
 
 dev_dependencies:
